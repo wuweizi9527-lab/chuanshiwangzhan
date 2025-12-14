@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>凡人神武 - 2025独家复古版</title>
+    <style>
+        /* ================= 全局重置与基础样式 ================= */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: "Microsoft YaHei", "SimSun", sans-serif;
+            background-color: #050505;
+            background-image: linear-gradient(to bottom, #1a0505, #000 30%);
+            color: #dcdcdc;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        a { text-decoration: none; color: inherit; transition: all 0.3s; }
+        ul { list-style: none; }
+        
+        /* 居中容器 */
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            background-color: rgba(20, 20, 20, 0.95);
+            border: 1px solid #444;
+            box-shadow: 0 0 50px rgba(184, 134, 11, 0.1);
+            position: relative;
+        }
+
+        /* ================= 头部 Banner 区域 ================= */
+        .header {
+            height: 300px;
+            background: url('https://dummyimage.com/1100x300/290505/ffd700.jpg&text=凡人神武+FAN+REN+SHEN+WU') no-repeat center center;
+            background-size: cover;
+            position: relative;
+            border-bottom: 4px solid #b8860b;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            text-shadow: 2px 2px 4px #000;
+        }
+        
+        /* 标题特效 */
+        .header h1 {
+            font-size: 60px;
+            color: #ffd700;
+            margin-bottom: 10px;
+            font-weight: 900;
+            background: linear-gradient(to bottom, #ffffcc, #ffd700, #b8860b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.5);
+            letter-spacing: 5px;
+        }
+
+        .header p {
+            font-size: 20px;
+            color: #fff;
+            background-color: rgba(0,0,0,0.6);
+            padding: 5px 20px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 1px solid #b8860b;
+        }
+
+        /* ================= 导航条 ================= */
+        .nav {
+            background: linear-gradient(to bottom, #4a0404, #290202);
+            border-bottom: 2px solid #5e4b1a;
+            display: flex;
+            justify-content: center;
+        }
+        .nav a {
+            display: block;
+            padding: 15px 40px;
+            color: #ffd700;
+            font-size: 16px;
+            font-weight: bold;
+            border-right: 1px solid #5e0e0e;
+            border-left: 1px solid #7a1515;
+        }
+        .nav a:hover {
+            background-color: #b8860b;
+            color: #000;
+            text-shadow: none;
+        }
+
+        /* ================= 滚动公告 ================= */
+        .marquee-box {
+            background-color: #000;
+            color: #ff4500;
+            padding: 10px;
+            border-bottom: 1px solid #333;
+            font-weight: bold;
+    
+        /* 核心布局：横向排列，垂直居中 */
+            display: flex;
+            align-items: center;
+            overflow: hidden; /* 防止内容溢出破坏布局 */
+        }
+
+        .marquee-box span {
+            color: #ffd700;
+            margin-right: 10px;
+    
+        /* 关键修复：防止“[最新公告]”被挤压换行 */
+            white-space: nowrap; 
+        }
+
+        /* 关键修复：让滚动文字自动填满右侧剩余空间 */
+        .marquee-box marquee {
+            flex: 1; 
+            margin: 0; /* 去掉默认边距 */
+        }
+
+        /* ================= 核心下载区 (参考网站风格) ================= */
+        .download-section {
+            padding: 30px;
+            text-align: center;
+            background-image: url('images/pattern.png'); /* 纹理背景 */
+        }
+        
+        .server-info {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        .server-info strong { color: #ff0000; font-size: 22px; }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        /* 炫酷下载按钮 */
+        .dl-btn {
+            display: inline-block;
+            width: 220px;
+            height: 60px;
+            line-height: 60px;
+            background: linear-gradient(to bottom, #2c7ef9, #0044cc);
+            border: 2px solid #66aaff;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 20px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px #000;
+            box-shadow: 0 5px 15px rgba(0, 100, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* 红色登录器按钮 */
+        .dl-btn.primary {
+            background: linear-gradient(to bottom, #ff3333, #aa0000);
+            border-color: #ff9999;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
+            animation: pulse 2s infinite; /* 呼吸动画 */
+        }
+
+        .dl-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.2);
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+        }
+
+        /* ================= 内容分栏：特色 & 装备 ================= */
+        .content-grid {
+            display: flex;
+            border-top: 3px solid #b8860b;
+        }
+
+        /* 左侧：版本详细介绍 */
+        .left-panel {
+            flex: 2;
+            padding: 20px;
+            background-color: #111;
+        }
+
+        /* 右侧：装备展示/客服 */
+        .right-panel {
+            flex: 1;
+            padding: 20px;
+            background-color: #0d0d0d;
+            border-left: 1px solid #333;
+        }
+
+        .section-title {
+            background: linear-gradient(to right, #8b0000, transparent);
+            color: #ffd700;
+            padding: 8px 15px;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            border-left: 5px solid #ffd700;
+        }
+
+        /* 特色列表样式 (模仿参考站) */
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #333;
+            color: #aaa;
+        }
+        .feature-list li strong { color: #d8bfd8; margin-right: 5px; } /* 淡紫色强调 */
+        .feature-list li em { color: #ffd700; font-style: normal; margin-right: 5px; } /* 金色强调 */
+        .feature-list li .highlight { color: #ff4500; font-weight: bold; }
+
+        /* 装备展示网格 */
+        .equip-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .equip-item {
+            background-color: #222;
+            border: 1px solid #444;
+            padding: 5px;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+        .equip-item:hover { border-color: #ffd700; }
+        .equip-item img { width: 100%; height: auto; }
+        .equip-item span { display: block; font-size: 12px; color: #888; margin-top: 5px; }
+
+        /* ================= 底部 ================= */
+        .footer {
+            background-color: #000;
+            border-top: 2px solid #b8860b;
+            padding: 20px;
+            text-align: center;
+            color: #555;
+            font-size: 12px;
+        }
+        .footer p { margin-bottom: 5px; }
+        
+        /* 辅助工具类 */
+        .text-red { color: #ff3333; }
+        .text-gold { color: #ffd700; }
+        .blink { animation: blinker 1s linear infinite; }
+        @keyframes blinker { 50% { opacity: 0; } }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>凡人神武</h1>
+        <p>2025 独家制作 · 纯净复古 · 散人天堂</p>
+    </div>
+
+    <div class="nav">
+        <a href="#">网站首页</a>
+        <a href="#">游戏下载</a>
+        <!-- <a href="#">账号注册</a> -->
+        <a href="#">游戏充值</a>
+        <!-- <a href="#">玩家论坛</a> -->
+        <!-- <a href="#">联系客服</a> -->
+    </div>
+
+    <div class="marquee-box">
+        <span>[最新公告]</span>
+        <marquee scrollamount="5">
+            欢迎来到凡人神武！本服纯净复古，封杀一切外挂！！骨灰玩家请放心游戏！！
+        </marquee>
+    </div>
+
+    <div class="download-section">
+        <div class="server-info">
+            <p>当前状态：<span class="text-gold blink">🔥 火爆开放中</span> &nbsp;|&nbsp; 
+               <!-- 新区时间：<strong>12月15日 19:00</strong> &nbsp;|&nbsp;  -->
+               版本类型：<span class="text-gold">纯净复古、神武版本</span>
+            </p>
+        </div>
+        
+        <div class="btn-group">
+            <a href="#" class="dl-btn primary">🚀 登录器下载(网通)</a>
+            <a href="#" class="dl-btn primary">🚀 登录器下载(电信)</a>
+            <a href="#" class="dl-btn primary">🚀 登录器下载(三网)</a>
+            <!-- <a href="#" class="dl-btn">📦 完整客户端下载</a> -->
+            
+        </div>
+        <div class="btn-group" style="margin-top: 20px;">
+            
+            <a href="#" class="dl-btn" style="background: linear-gradient(to bottom, #228b22, #006400); border-color:#32cd32;">💎 在线充值通道</a>
+        </div>
+        
+        <div style="margin-top: 20px; color: #888; font-size: 12px;">
+            <p>如果在Win10/Win11系统下无法运行，请右键登录器 -> 属性 -> 兼容性 -> 选择Win7模式。</p>
+            <p>本服承诺：所有装备游戏内皆可爆出，无暗坑，无比例！</p>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        
+        <div class="left-panel">
+            <div class="section-title">📜 凡人神武 · 版本特色</div>
+            <ul class="feature-list">
+                <!-- <li><em>【独家特色】</em> 独创<span class="text-gold">“全民VIP”</span>系统，配合凡人宝地地图，让提升更加便捷！</li> -->
+                <li><em>【版本特色】</em>  <span class="text-gold"></span>杜绝材料服，无盾牌、无羽翼、无面具、无组合、无碎片！</span></li>
+                <li><em>【装备保值】</em> 禁地以上装备可回收<img src="bao.png" alt="bao" style="width:25px; height:25px; vertical-align: middle; margin: 0 2px;">，极品可继承，打到一件直接起飞！</li>
+                <li><em>【怪物设置】</em> 全图BOSS定时刷新，<span class="text-red">所有BOSS</span>均可爆出<img src="bao.png" alt="bao" style="width:25px; height:25px; vertical-align: middle; margin: 0 2px;">。</li>
+                <li><em>【技能优化】</em> 完美还原当年传世技能手感。</li>
+                <li><em>【公平竞技】</em> 封挂力度MAX！采用服务端Lua脚本多重检测，杜绝任何加速。</li>
+                <li><em>【游戏优势】</em>  <span class="text-gold"></span>服务器签约5年，长久稳定，简单好玩！</span></li>              
+                <li><em>【散人福利】</em> 上线领取礼包，全服装备全靠打，散人友好。全民VIP<span class="text-gold">可白漂</span></li>
+            </ul>
+
+            <div class="section-title" style="margin-top: 30px;">🗺️ 地图与爆率说明</div>
+            <ul class="feature-list">
+                <li><strong>[新手]</strong> 矿区 -> 爆：<span class="highlight">基础技能书、30级装备</span> (难度：★)</li>
+                <li><strong>[进阶]</strong> 机关洞、蛇魔谷 -> 爆：<span class="highlight">裁决级武器、逆魔装备</span> (难度：★★)</li>
+                <li><strong>[挑战]</strong> 通天塔、铁血魔城 -> 爆：<span class="highlight">禁地套装、神武套装</span> (难度：★★★)</li>
+                <li><strong>[终极]</strong> 险恶地图 -> 爆：<span class="highlight text-gold">神武套装</span> (难度：★★★★★)</li>
+                <li><strong>[小技巧]</strong> <span class="text-gold">平时多去角斗场，金刚人刷新最多！</span> (难度：★★★)</li>
+
+            </ul>
+            <div class="section-title" style="margin-top: 30px;">📖 新区地图</div>
+            <ul class="feature-list">
+                <li><strong>[第1天晚上7点]</strong> 开放至<span class="text-gold">禁地</span></li>
+                <li><strong>[第2天晚上7点]</strong> 开放至<span class="text-gold">西域</span></li>
+                <li><strong>[第3天晚上7点]</strong> 开放至<span class="text-gold">三神殿</span></li>
+                <li><strong>[第4天晚上7点]</strong> 开放至<span class="text-gold">死水</span></li>
+                <li><strong>[第5天晚上7点]</strong> 开放至<span class="text-gold">铁血魔城-魔殿</span></li>
+                <li><strong>[第6天晚上7点]</strong> 开放至<span class="text-gold">天空之城</span></li>
+
+            </ul>
+            <div>
+                <img src="logo.png" alt="logo" style="width: 100%; height: auto; margin-top: 20px;">
+            </div>
+            
+        </div>
+
+        <div class="right-panel">
+            <div class="section-title">⚔️ 终极装备展示</div>
+            <div class="equip-grid">
+                <div class="equip-item">
+                    <img src="sznz.png" alt="圣战男战">
+                    <span>圣战男战</span>
+                </div>
+                <div class="equip-item">
+                    <img src="sznvz.png" alt="圣战女战">
+                    <span>圣战女战</span>
+                </div>
+                <div class="equip-item">
+                    <img src="sznf.png" alt="法神男法">
+                    <span class="text-red">法神男法</span>
+                </div>
+                <div class="equip-item">
+                    <img src="sznf.png" alt="法神女法">
+                    <span class="text-red">法神女法</span>
+                </div>
+                <div class="equip-item">
+                    <img src="sznd.png" alt="天尊男道">
+                    <span class="text-red">天尊男道</span>
+                </div>
+                <div class="equip-item">
+                    <img src="sznd.png" alt="天尊女道">
+                    <span class="text-red">天尊女道</span>
+                </div>
+                <div class="equip-item">
+                    <img src="swnz.png" alt="神武男战">
+                    <span class="text-red">神武男战</span>
+                </div>
+                <div class="equip-item">
+                    <img src="sznvz.png" alt="神武女战">
+                    <span class="text-red">神武女战</span>
+                </div>
+                <div class="equip-item">
+                    <img src="swnf.png" alt="幻魔男法">
+                    <span class="text-red">幻魔男法</span>
+                </div>
+                <div class="equip-item">
+                    <img src="swnvf.png" alt="幻魔女法">
+                    <span class="text-red">幻魔女法</span>
+                </div>
+                <div class="equip-item">
+                    <img src="swnd.png" alt="天玄男道">
+                    <span class="text-red">天玄男道</span>
+                </div>
+                <div class="equip-item">
+                    <img src="swnvd.png" alt="天玄女道">
+                    <span class="text-red">天玄女道</span>
+                </div>
+            </div>
+
+            <!-- <div class="section-title" style="margin-top: 30px;">☎️ 联系我们</div>
+            <div style="text-align: center; color: #ccc;">
+                <p style="font-size: 16px; margin-bottom: 10px;">官方QQ群</p>
+                <a href="#" style="display: inline-block; background: #0099ff; color: #fff; padding: 5px 15px; border-radius: 3px;">加入群聊: 55555555</a>
+                <p style="margin-top: 15px;">客服微信：FanRenGM</p>
+                <p>技术支持：彩虹引擎</p>
+            </div> -->
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <p>Copyright © 2025 凡人神武 . All Rights Reserved.</p>
+        <p>本游戏致力于打造最纯净的复古传奇世界体验，拒绝快餐，致敬经典。</p>
+        <p>抵制不良游戏 拒绝盗版游戏 注意自我保护 谨防受骗上当 适度游戏益脑 沉迷游戏伤身 合理安排时间 享受健康生活</p>
+    </div>
+
+</div>
+
+</body>
+</html>
