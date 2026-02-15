@@ -132,10 +132,51 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             transition: 0.3s;
             clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+            margin-bottom: 50px; /* 增加底部间距给歌词 */
         }
         .btn-dl:hover {
             transform: scale(1.05);
             background: #fff;
+        }
+
+        /* --- 歌词滚动显示区 --- */
+        .lyrics-wrapper {
+            width: 100%;
+            max-width: 600px;
+            height: 160px; /* 显示大约4-5行 */
+            margin: 0 auto 40px;
+            position: relative;
+            overflow: hidden;
+            /* 上下遮罩，形成淡入淡出效果 */
+            mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+            border-left: 2px solid rgba(255, 224, 130, 0.2);
+            border-right: 2px solid rgba(255, 224, 130, 0.2);
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+        .lyrics-container {
+            position: relative;
+            width: 100%;
+            text-align: center;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* 平滑滚动动画 */
+            padding: 70px 0; /* 这里的padding是为了让第一句和最后一句能滚到中间 */
+        }
+
+        .lrc-line {
+            font-size: 16px;
+            line-height: 32px;
+            color: rgba(255, 255, 255, 0.5); /* 未播放歌词颜色 */
+            transition: all 0.3s;
+            min-height: 32px;
+        }
+
+        .lrc-active {
+            color: var(--gold); /* 高亮颜色 */
+            font-size: 20px;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 224, 130, 0.8), 0 0 20px rgba(255, 42, 42, 0.5);
+            transform: scale(1.05);
         }
 
         /* --- 游戏特色 (并排卡片) --- */
@@ -259,8 +300,9 @@
             .hero h1 { font-size: 50px; }
             .features { flex-direction: column; }
             .img-frame img { height: auto; } 
-            /* 移动端音乐按钮稍微小一点 */
             .music-control { bottom: 10px; right: 10px; padding: 8px 12px; font-size: 12px; }
+            .lyrics-wrapper { height: 120px; max-width: 90%; }
+            .lrc-active { font-size: 18px; }
         }
     </style>
 </head>
@@ -287,6 +329,11 @@
         </div>
 
         <button class="btn-dl" onclick="alert('开始下载登录器...')">立即踏入玛法</button>
+
+        <div class="lyrics-wrapper">
+            <div class="lyrics-container" id="lyricsBox">
+                </div>
+        </div>
     </div>
 
     <div class="features">
@@ -340,7 +387,111 @@
         var text = document.getElementById("musicText");
         var isPlaying = false;
 
-        // 切换音乐状态的函数
+        // --- 歌词数据 (已解析为 JSON 格式) ---
+        // 格式：{ time: 秒数, text: "歌词内容" }
+        // 注意：将 SRT 格式的时间转换为了秒，例如 00:00:19,000 -> 19
+        const lyricsData = [
+            {time: 0, text: "风 吹过比奇的残垣"},
+            {time: 19, text: "血 在玛法大陆蔓延"},
+            {time: 25, text: "只要闭上眼 就能听见"},
+            {time: 28.5, text: "千军万马 在沙城下的呐喊"},
+            {time: 31.5, text: "那是青春未冷的誓言"},
+            {time: 34, text: "是木剑砍向稻草人的初见"},
+            {time: 38, text: "法神的群电 还在记忆里盘旋"},
+            {time: 41, text: "战圣的烈火 渴望再一次饮血"},
+            {time: 44, text: "道尊的冥王 镇压着深渊"},
+            {time: 47, text: "当魔王苏醒 当兽王踏碎荒原"},
+            {time: 50.5, text: "当冥王在黑暗中露出了笑脸"},
+            {time: 56, text: "三英雄的意志 此刻必须重现"},
+            {time: 62, text: "谁在等待 谁在徘徊"},
+            {time: 68.5, text: "号角已经吹响 这扇门为你打开"},
+            {time: 74.5, text: "别说什么成败 别谈什么意外"},
+            {time: 81.5, text: "在武易的世界 强者生，弱者汰"},
+            {time: 87.5, text: "掌天武易 我们要把这苍穹撕裂"},
+            {time: 93.5, text: "身披天麟圣衣 金甲光芒照亮了黑夜"},
+            {time: 100.5, text: "这是强者的王座 这是王者的世界"},
+            {time: 106.5, text: "只要兄弟并肩 就没有过不去的劫"},
+            {time: 112.5, text: "掌天武易 热血在这一刻最为暴烈"},
+            {time: 118.5, text: "指尖特戒闪烁 麻痹复活掌控了一切"},
+            {time: 125.5, text: "我要那沙城的旗帜 写上我们的名贴"},
+            {time: 132, text: "这一战 注定要让全服都妥协！"},
+            {time: 139.5, text: "不要问我 为何如此执着"},
+            {time: 144.5, text: "看那满地神装 是勇者最好的如歌"},
+            {time: 151.5, text: "从野外厮杀 到皇宫的争夺"},
+            {time: 154.5, text: "每一场PK 都是灵魂的焦灼"},
+            {time: 164, text: "既然来了 就别想轻易逃脱"},
+            {time: 167, text: "拿起你的圣魂 让恩仇在此刻定夺"},
+            {time: 171, text: "岁月带走了年少轻狂 但带不走这满腔滚烫"},
+            {time: 176, text: "这一路风霜 我们一起扛 一起闯 一起狂"},
+            {time: 188.5, text: "掌天武易！我们要把这苍穹撕裂！"},
+            {time: 194.5, text: "身披天麟圣衣 金甲光芒照亮了黑夜"},
+            {time: 201.5, text: "这是强者的王座 这是王者的世界"},
+            {time: 207.5, text: "只要兄弟并肩，就没有过不去的劫"},
+            {time: 213.5, text: "掌天武易 热血在这一刻最为暴烈"},
+            {time: 220, text: "指尖特戒闪烁 麻痹复活掌控了一切"},
+            {time: 226.5, text: "我要那沙城的旗帜 写上我们的名贴"},
+            {time: 233, text: "这一战 注定要让全服都妥协"},
+            {time: 239, text: "掌天武易 这一世 由我掌天"},
+            {time: 253, text: "字幕:掌天武易"}
+        ];
+
+        var lyricsBox = document.getElementById("lyricsBox");
+        var lineHeight = 32; // 对应 CSS .lrc-line 的 line-height
+
+        // 初始化歌词DOM
+        function initLyrics() {
+            lyricsBox.innerHTML = "";
+            lyricsData.forEach((item, index) => {
+                let p = document.createElement("div");
+                p.innerText = item.text;
+                p.className = "lrc-line";
+                p.dataset.index = index;
+                lyricsBox.appendChild(p);
+            });
+        }
+
+        // 核心同步逻辑
+        function syncLyrics() {
+            var currentTime = audio.currentTime;
+            // 找到当前时间对应的最后一行歌词
+            // 算法：找到第一个时间大于当前时间的歌词，那么它的前一个就是当前要唱的
+            let activeIndex = lyricsData.findIndex(item => item.time > currentTime);
+            
+            if (activeIndex === -1) {
+                // 如果没找到（说明已经唱到最后一句之后了），或者数组为空
+                activeIndex = lyricsData.length - 1;
+            } else {
+                activeIndex = activeIndex - 1;
+            }
+
+            // 防止刚开始播放时 index 为 -1
+            if (activeIndex < 0) activeIndex = 0;
+
+            // 移除旧的高亮，添加新的高亮
+            var lines = document.getElementsByClassName("lrc-line");
+            var currentActive = document.querySelector(".lrc-active");
+            
+            if (currentActive) {
+                currentActive.classList.remove("lrc-active");
+            }
+            if (lines[activeIndex]) {
+                lines[activeIndex].classList.add("lrc-active");
+                
+                // 计算滚动距离：让高亮行居中
+                // 偏移量 = (当前行索引 * 行高)
+                // 注意：CSS中 .lyrics-container 设置了 padding: 70px 0 
+                // 我们通过 transform translateY 向上移动
+                let translateY = -(activeIndex * lineHeight); 
+                lyricsBox.style.transform = `translateY(${translateY}px)`;
+            }
+        }
+
+        initLyrics();
+        // 监听音频时间更新
+        audio.addEventListener("timeupdate", syncLyrics);
+
+
+        // --- 原有的音乐控制逻辑 ---
         function toggleMusic() {
             if (isPlaying) {
                 audio.pause();
@@ -360,27 +511,21 @@
             }
         }
 
-        // 页面加载完成后尝试自动播放
         window.addEventListener('load', function() {
             var promise = audio.play();
-
             if (promise !== undefined) {
                 promise.then(_ => {
-                    // 自动播放成功
                     isPlaying = true;
                     icon.innerText = "💿";
                     icon.classList.add("spin");
                     text.innerText = "战歌奏响";
                 }).catch(error => {
-                    // 自动播放被浏览器拦截 (正常现象)
                     console.log("自动播放被拦截，等待用户交互。");
-                    
-                    // 添加一个一次性的全屏点击监听，只要用户点任何地方，音乐就开始
                     document.body.addEventListener('click', function() {
                         if(!isPlaying){
                             toggleMusic();
                         }
-                    }, { once: true }); // 只执行一次
+                    }, { once: true });
                 });
             }
         });
