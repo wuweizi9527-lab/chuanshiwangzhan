@@ -28,7 +28,7 @@
             overflow-x: hidden;
         }
 
-        /* 增加一个纹理层，防止红色太单调显得Low */
+        /* 增加一个纹理层，防止红色太单调 */
         body::before {
             content: "";
             position: fixed;
@@ -100,7 +100,7 @@
         
         /* 核心声明框 */
         .statement-box {
-            background: rgba(0, 0, 0, 0.2); /* 微微透黑，突出文字 */
+            background: rgba(0, 0, 0, 0.2);
             border: 2px solid var(--gold-dark);
             max-width: 800px;
             margin: 0 auto 50px;
@@ -121,33 +121,87 @@
             padding: 0 10px;
         }
 
-        .btn-dl {
-            background: var(--gold);
-            color: #8b0000;
-            padding: 15px 60px;
+        /* --- 核心操作按钮组 (新增) --- */
+        .action-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px; /* 按钮间距 */
+            margin-bottom: 50px;
+            flex-wrap: wrap; /* 移动端自动换行 */
+        }
+
+        .btn-main {
+            padding: 18px 50px;
             font-size: 24px;
             font-weight: bold;
-            border: none;
+            text-decoration: none;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            transition: 0.3s;
-            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-            margin-bottom: 50px; /* 增加底部间距给歌词 */
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            /* 经典的传奇切角风格 */
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            border: none;
+            font-family: 'Noto Serif SC', serif;
         }
+
+        /* 下载按钮：高亮主色 */
+        .btn-dl {
+            background: linear-gradient(135deg, #ffe082 0%, #d4af37 100%);
+            color: #8b0000;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+        }
+        /* 下载按钮悬停光效 */
         .btn-dl:hover {
-            transform: scale(1.05);
-            background: #fff;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(255, 224, 130, 0.4);
+            background: linear-gradient(135deg, #fff 0%, #ffe082 100%);
         }
+
+        /* 充值按钮：暗金红色，低调奢华 */
+        .btn-pay {
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--gold);
+            border: 2px solid var(--gold-dark);
+            /* 为了配合 clip-path，使用 outline 或 box-shadow 模拟边框效果会比较复杂，这里直接用背景色区分 */
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 5px 15px rgba(0,0,0,0.2);
+            padding: 16px 48px; /* 稍微小一点点边框 */
+        }
+        .btn-pay:hover {
+            background: rgba(100, 0, 0, 0.6);
+            transform: translateY(-3px);
+            box-shadow: inset 0 0 10px rgba(255, 224, 130, 0.2), 0 0 20px rgba(255, 42, 42, 0.4);
+            color: #fff;
+            border-color: var(--gold);
+        }
+
+        /* 按钮扫光动画 */
+        .btn-main::after {
+            content: "";
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: skewX(-20deg);
+            transition: 0.5s;
+        }
+        .btn-main:hover::after {
+            left: 150%;
+            transition: 0.7s ease-in-out;
+        }
+
 
         /* --- 歌词滚动显示区 --- */
         .lyrics-wrapper {
             width: 100%;
             max-width: 600px;
-            height: 160px; /* 显示大约4-5行 */
+            height: 160px;
             margin: 0 auto 40px;
             position: relative;
             overflow: hidden;
-            /* 上下遮罩，形成淡入淡出效果 */
             mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
             -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
             border-left: 2px solid rgba(255, 224, 130, 0.2);
@@ -159,20 +213,20 @@
             position: relative;
             width: 100%;
             text-align: center;
-            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* 平滑滚动动画 */
-            padding: 70px 0; /* 这里的padding是为了让第一句和最后一句能滚到中间 */
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            padding: 70px 0;
         }
 
         .lrc-line {
             font-size: 16px;
             line-height: 32px;
-            color: rgba(255, 255, 255, 0.5); /* 未播放歌词颜色 */
+            color: rgba(255, 255, 255, 0.5);
             transition: all 0.3s;
             min-height: 32px;
         }
 
         .lrc-active {
-            color: var(--gold); /* 高亮颜色 */
+            color: var(--gold);
             font-size: 20px;
             font-weight: bold;
             text-shadow: 0 0 10px rgba(255, 224, 130, 0.8), 0 0 20px rgba(255, 42, 42, 0.5);
@@ -190,7 +244,7 @@
         }
         .feature-item {
             flex: 1;
-            background: rgba(255, 255, 255, 0.1); /* 白透玻璃感，显干净 */
+            background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 224, 130, 0.3);
             padding: 25px;
             text-align: center;
@@ -226,27 +280,26 @@
         }
         
         .image-row {
-            display: flex;       /* Flex布局 */
-            flex-wrap: nowrap;   /* 【关键】强制不换行 */
-            gap: 20px;           /* 图片间距 */
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 20px;
             width: 100%;
-            align-items: flex-start; /* 顶部对齐，让不同高度的图片自然垂下 */
+            align-items: flex-start;
         }
         
         .img-frame {
-            flex: 1;             /* 平分宽度 */
+            flex: 1;
             border: 3px solid var(--gold-dark);
             padding: 5px;
             background: rgba(0,0,0,0.3);
-            /* 移除固定高度，改为自适应 */
             height: auto; 
             min-width: 0; 
         }
         
         .img-frame img {
-            width: 100%;         /* 撑满相框宽度 */
-            height: auto;        /* 【核心修改】高度自动 */
-            display: block;      /* 消除图片底部的微小空隙 */
+            width: 100%;
+            height: auto;
+            display: block;
             filter: brightness(1.1);
         }
         .img-caption {
@@ -289,7 +342,6 @@
             transform: scale(1.05);
             box-shadow: 0 0 15px var(--gold);
         }
-        /* 音乐图标旋转动画 */
         .spin {
             animation: spin 3s linear infinite;
         }
@@ -303,6 +355,10 @@
             .music-control { bottom: 10px; right: 10px; padding: 8px 12px; font-size: 12px; }
             .lyrics-wrapper { height: 120px; max-width: 90%; }
             .lrc-active { font-size: 18px; }
+            
+            /* 按钮适配 */
+            .action-group { flex-direction: column; gap: 15px; }
+            .btn-main { width: 80%; text-align: center; padding: 15px 0; font-size: 20px;}
         }
     </style>
 </head>
@@ -313,7 +369,8 @@
             <div class="logo">掌天武易</div>
             <div class="menu">
                 <a href="#">首页</a>
-                <a href="#">下载</a>
+                <a href="#" target="_blank">下载</a>
+                <a href="http://cqzfpay.com/game/Group/80FBD723CDB63F04" target="_blank">充值</a>
             </div>
         </div>
     </nav>
@@ -328,7 +385,15 @@
             <p style="margin-top: 10px; font-size: 0.9em; opacity: 0.8;">这是一场关于耐心与运气的较量，找回当年通宵守BOSS的纯粹快乐。</p>
         </div>
 
-        <button class="btn-dl" onclick="alert('开始下载登录器...')">立即踏入玛法</button>
+        <div class="action-group">
+            <a class="btn-main btn-dl" href="#" target="_blank">
+                立即踏入玛法
+            </a>
+            
+            <a href="http://cqzfpay.com/game/Group/80FBD723CDB63F04" target="_blank" class="btn-main btn-pay">
+                在线充值赞助
+            </a>
+        </div>
 
         <div class="lyrics-wrapper">
             <div class="lyrics-container" id="lyricsBox">
@@ -385,11 +450,9 @@
         var btn = document.getElementById("musicBtn");
         var icon = document.getElementById("musicIcon");
         var text = document.getElementById("musicText");
-        var isPlaying = false;
+        var isPlaying = false; // 标记当前是否在播放
 
-        // --- 歌词数据 (已解析为 JSON 格式) ---
-        // 格式：{ time: 秒数, text: "歌词内容" }
-        // 注意：将 SRT 格式的时间转换为了秒，例如 00:00:19,000 -> 19
+        // --- 歌词数据 ---
         const lyricsData = [
             {time: 0, text: "风 吹过比奇的残垣"},
             {time: 19, text: "血 在玛法大陆蔓延"},
@@ -436,9 +499,8 @@
         ];
 
         var lyricsBox = document.getElementById("lyricsBox");
-        var lineHeight = 32; // 对应 CSS .lrc-line 的 line-height
+        var lineHeight = 32;
 
-        // 初始化歌词DOM
         function initLyrics() {
             lyricsBox.innerHTML = "";
             lyricsData.forEach((item, index) => {
@@ -450,24 +512,18 @@
             });
         }
 
-        // 核心同步逻辑
         function syncLyrics() {
             var currentTime = audio.currentTime;
-            // 找到当前时间对应的最后一行歌词
-            // 算法：找到第一个时间大于当前时间的歌词，那么它的前一个就是当前要唱的
             let activeIndex = lyricsData.findIndex(item => item.time > currentTime);
             
             if (activeIndex === -1) {
-                // 如果没找到（说明已经唱到最后一句之后了），或者数组为空
                 activeIndex = lyricsData.length - 1;
             } else {
                 activeIndex = activeIndex - 1;
             }
 
-            // 防止刚开始播放时 index 为 -1
             if (activeIndex < 0) activeIndex = 0;
 
-            // 移除旧的高亮，添加新的高亮
             var lines = document.getElementsByClassName("lrc-line");
             var currentActive = document.querySelector(".lrc-active");
             
@@ -476,56 +532,70 @@
             }
             if (lines[activeIndex]) {
                 lines[activeIndex].classList.add("lrc-active");
-                
-                // 计算滚动距离：让高亮行居中
-                // 偏移量 = (当前行索引 * 行高)
-                // 注意：CSS中 .lyrics-container 设置了 padding: 70px 0 
-                // 我们通过 transform translateY 向上移动
+                // 让高亮行保持在中间 (70px 是容器 padding)
                 let translateY = -(activeIndex * lineHeight); 
                 lyricsBox.style.transform = `translateY(${translateY}px)`;
             }
         }
 
         initLyrics();
-        // 监听音频时间更新
         audio.addEventListener("timeupdate", syncLyrics);
 
+        // 更新UI状态的函数
+        function updateMusicUI(playing) {
+            if (playing) {
+                icon.innerText = "💿";
+                icon.classList.add("spin");
+                text.innerText = "战歌奏响";
+            } else {
+                icon.innerText = "🔇";
+                icon.classList.remove("spin");
+                text.innerText = "播放战歌";
+            }
+        }
 
-        // --- 原有的音乐控制逻辑 ---
+        // 切换播放/暂停
         function toggleMusic() {
             if (isPlaying) {
                 audio.pause();
                 isPlaying = false;
-                icon.innerText = "🔇";
-                icon.classList.remove("spin");
-                text.innerText = "播放战歌";
+                updateMusicUI(false);
             } else {
                 audio.play().then(() => {
                     isPlaying = true;
-                    icon.innerText = "💿";
-                    icon.classList.add("spin");
-                    text.innerText = "战歌奏响";
+                    updateMusicUI(true);
                 }).catch(e => {
-                    console.log("播放失败，可能需要用户交互");
+                    console.log("播放被浏览器拦截");
                 });
             }
         }
 
+        // --- 核心逻辑：自动播放与点击激活 ---
         window.addEventListener('load', function() {
+            // 1. 尝试直接播放
             var promise = audio.play();
+
             if (promise !== undefined) {
                 promise.then(_ => {
+                    // 成功：无需做任何事
                     isPlaying = true;
-                    icon.innerText = "💿";
-                    icon.classList.add("spin");
-                    text.innerText = "战歌奏响";
+                    updateMusicUI(true);
                 }).catch(error => {
-                    console.log("自动播放被拦截，等待用户交互。");
-                    document.body.addEventListener('click', function() {
-                        if(!isPlaying){
-                            toggleMusic();
+                    // 失败：说明被浏览器拦截了
+                    console.log("自动播放被拦截，启动【点击任意处播放】策略");
+                    
+                    // 2. 添加一个“一次性”的全局点击事件
+                    // 只要用户点页面任何地方，就触发播放，然后这个事件自我销毁
+                    document.addEventListener('click', function unlockAudio() {
+                        if (!isPlaying) {
+                            audio.play().then(() => {
+                                isPlaying = true;
+                                updateMusicUI(true);
+                            });
                         }
-                    }, { once: true });
+                        // 移除监听器，避免以后点击导致不必要的逻辑触发
+                        document.removeEventListener('click', unlockAudio);
+                    }, { once: true }); // {once:true} 也可以自动移除
                 });
             }
         });
