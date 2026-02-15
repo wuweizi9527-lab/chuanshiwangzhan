@@ -5,28 +5,9 @@
 <META http-equiv=Content-Type content="text/html; charset=gb2312">
 <STYLE type=text/css>
 /* 全局重置 */
-BODY { MARGIN: 0px; PADDING: 0px; BACKGROUND-COLOR: #000000; FONT-SIZE: 12px; COLOR: #00ff00; FONT-FAMILY: "宋体", Tahoma, Arial; }
+BODY { MARGIN: 0px; PADDING: 0px; BACKGROUND-COLOR: #000000; FONT-SIZE: 12px; COLOR: #00ff00; FONT-FAMILY: "宋体", Arial; }
 A:link, A:active, A:visited { COLOR: #00ff00; TEXT-DECORATION: none }
 A:hover { COLOR: #ffcc00; TEXT-DECORATION: underline }
-
-/* 关键样式：固定布局 */
-.fixed-table {
-    table-layout: fixed; /* 强制列宽固定 */
-    width: 100%;
-}
-
-.text-cell {
-    width: 50%;             /* 左右各一半 */
-    height: 36px;           /* 增加高度，容纳可能的两行文字 */
-    overflow: hidden;       /* 超出隐藏 */
-    white-space: normal;    /* 【关键修改】允许换行，显示全文字 */
-    word-break: break-all;  /* 允许在单词内换行，防止长英文撑开 */
-    vertical-align: middle; /* 垂直居中 */
-    padding-left: 2px;      /* 减少左边距，多留空间给文字 */
-    padding-right: 2px;
-    font-size: 11px;        /* 【关键修改】字号稍微改小到11px，更精致且能显示更多字 */
-    line-height: 13px;      /* 行间距紧凑一点 */
-}
 
 /* 字体颜色样式 */
 .style28 { COLOR: #ffffff }
@@ -35,6 +16,18 @@ A:hover { COLOR: #ffcc00; TEXT-DECORATION: underline }
 .STYLE43 { FONT-WEIGHT: bold; COLOR: #ffcc00 }
 .STYLE46 { FONT-WEIGHT: bold; COLOR: #FF0000 }
 .STYLE51 { color: #FF0000 }
+
+/* 单元格通用样式 */
+.text-cell {
+    font-size: 12px;        /* 恢复为12px，更清晰 */
+    line-height: 16px;      /* 行距适中，防止挤在一起 */
+    vertical-align: middle; /* 垂直居中 */
+    padding-left: 2px;
+    padding-right: 2px;
+    white-space: normal;    /* 允许自动换行，防止文字被切掉 */
+    word-break: break-all;
+}
+
 </STYLE>
 </HEAD>
 <BODY oncontextmenu="return false;" onselectstart="return false;" scroll=no>
@@ -47,20 +40,20 @@ A:hover { COLOR: #ffcc00; TEXT-DECORATION: underline }
 
     <TD width="403" height="226" valign="top" bgColor="#000000">
       
-      <TABLE class="fixed-table" border="0" cellPadding="0" cellSpacing="0">
+      <TABLE width="100%" height="190" border="0" cellPadding="0" cellSpacing="0" style="table-layout: fixed;">
         <TBODY>
         <TR>
-          <TD class="text-cell">
+          <TD class="text-cell" width="55%">
             <IMG src="Link/3.gif" width=6 height=6 align="absmiddle"> <SPAN class=style28>新区: <SPAN class=STYLE43>掌天武易 长期养老</SPAN></SPAN>
           </TD>
-          <TD class="text-cell">
+          <TD class="text-cell" width="45%">
             <IMG src="Link/3.gif" width=6 height=6 align="absmiddle"> 重回经典 燃烧激情 <IMG src="Link/New.gif" width=23 height=12 align="absmiddle">
           </TD>
         </TR>
         
         <TR>
           <TD class="text-cell">
-            <IMG src="Link/3.gif" width=6 height=6 align="absmiddle"> <SPAN class=STYLE40>比例: <SPAN class=STYLE46>1:3 不谈比例免开言</SPAN></SPAN>
+            <IMG src="Link/3.gif" width=6 height=6 align="absmiddle"> <SPAN class=STYLE40>比例:<SPAN class=STYLE46>1:3 不谈比例免开尊口</SPAN></SPAN>
           </TD>
           <TD class="text-cell">
             <IMG src="Link/3.gif" width=6 height=6 align="absmiddle"> <span class="STYLE41">长久稳定.公平公正</span> <IMG src="Link/New.gif" width=23 height=12 align="absmiddle">
@@ -96,10 +89,10 @@ A:hover { COLOR: #ffcc00; TEXT-DECORATION: underline }
         </TBODY>
       </TABLE>
 
-      <TABLE width="100%" border="0" cellPadding="0" cellSpacing="0" style="margin-top:2px; border-top:1px solid #333;">
+      <TABLE width="100%" border="0" cellPadding="0" cellSpacing="0" style="margin-top:0px; border-top:1px solid #333;">
           <TR>
-              <TD height="28" align="center" valign="middle">
-                <MARQUEE onmouseover=this.stop() onmouseout=this.start() scrollAmount=3 scrollDelay=4 width="95%" style="font-size:12px;">
+              <TD height="30" align="center" valign="middle">
+                <MARQUEE onmouseover=this.stop() onmouseout=this.start() scrollAmount=3 scrollDelay=4 width="95%" style="font-size:12px; color:#ffffff;">
                   <SPAN class=style29>【公告】:<SPAN class=style28>QQ千人交流群：1026232943 绝对公平 永不关闭 绝对人气 绝对激情......</SPAN></SPAN>
                 </MARQUEE>
               </TD>
