@@ -1,642 +1,1690 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>掌天武易 - 纯正复古 | 散人天堂</title>
-    <style>
-        /* --- 引入古风衬线字体 --- */
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;900&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>掌天武易 - 正版授权 · 纯正复古 | 散人天堂</title>
+<meta name="description" content="掌天武易 - 正版授权 1.76 纯复古传奇 · 散人天堂 · 装备保值">
+<style>
+/* ================================================================
+   掌天武易 · 官方正版网站 v3
+   融合官方信息门户架构：顶栏 / 导航 / 全屏Hero / 跑马灯 /
+   资讯中心(Tab) / 正版授权 / 职业展示(Tab) / 玩法特色(四宫格) /
+   游戏实景(灯箱) / 页脚 / 常驻盾标
+   ================================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=Cinzel:wght@500;600;700&display=swap');
 
-        :root {
-            /* 鲜红基调 */
-            --bg-top: #ff2a2a;     /* 顶部鲜亮红 */
-            --bg-bottom: #b30000;  /* 底部厚重红 */
-            --gold: #ffe082;       /* 浅香槟金 */
-            --gold-dark: #d4af37;  /* 暗金边框 */
-            --text-white: #fffdf5; /* 暖白文字 */
-        }
+:root {
+    --ink:      #160303;
+    --crimson:  #9c1212;
+    --blood:    #6e0707;
+    --gold:     #f2d98a;
+    --gold-2:   #d4af37;
+    --gold-3:   #9a7b1e;
+    --paper:    #fffdf5;
+    --serif:    'Noto Serif SC', "SimSun", serif;
+    --num:      'Cinzel', 'Times New Roman', serif;
+}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: var(--serif);
+    color: var(--paper);
+    background: var(--ink);
+    overflow-x: hidden;
+}
+::selection { background: rgba(212,175,55,.45); color: #fff; }
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #1d0303; }
+::-webkit-scrollbar-thumb { background: linear-gradient(180deg,#d4af37,#7a5c14); border-radius: 5px; }
 
-        body {
-            font-family: 'Noto Serif SC', "SimSun", serif;
-            color: var(--text-white);
-            /* 整体背景色：鲜红色渐变，模拟高级丹漆质感 */
-            background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
+a { color: inherit; }
+img { -webkit-user-drag: none; }
 
-        /* 增加一个纹理层，防止红色太单调 */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: radial-gradient(circle, transparent 20%, #000 150%); /* 四周暗角 */
-            opacity: 0.4;
-            pointer-events: none;
-            z-index: -1;
-        }
+/* ============ 金色粒子画布 ============ */
+#fx { position: fixed; inset: 0; z-index: 3; pointer-events: none; }
 
-        /* --- 导航栏 --- */
-        nav {
-            background: rgba(100, 0, 0, 0.4); /* 半透明深红 */
-            border-bottom: 1px solid var(--gold);
-            backdrop-filter: blur(5px);
-            padding: 20px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .nav-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
-        .logo {
-            font-size: 36px;
-            font-weight: 900;
-            color: var(--gold);
-            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
-        }
-        .menu a {
-            color: #fff;
-            text-decoration: none;
-            margin-left: 30px;
-            font-size: 18px;
-            border-bottom: 2px solid transparent;
-            transition: 0.3s;
-        }
-        .menu a:hover {
-            color: var(--gold);
-            border-bottom: 2px solid var(--gold);
-        }
+/* ============ 顶部金饰条 ============ */
+.gold-strip {
+    height: 8px; position: relative; z-index: 210;
+    background:
+        repeating-linear-gradient(90deg,
+            transparent 0 12px, rgba(212,175,55,.6) 12px 16px,
+            transparent 16px 30px, rgba(212,175,55,.3) 30px 34px, transparent 34px 48px),
+        linear-gradient(180deg, #4d0404, #240101);
+    border-bottom: 1px solid rgba(212,175,55,.55);
+}
 
-        /* --- 头部 Hero --- */
-        .hero {
-            text-align: center;
-            padding: 100px 20px 60px;
-        }
-        .hero h1 {
-            font-size: 80px;
-            margin-bottom: 20px;
-            background: linear-gradient(to bottom, #fff, var(--gold));
-            -webkit-background-clip: text;
-            color: transparent;
-            filter: drop-shadow(0 4px 0px #800000);
-            letter-spacing: 10px;
-        }
-        .hero p {
-            font-size: 24px;
-            color: var(--gold);
-            margin-bottom: 40px;
-            font-weight: bold;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-        }
-        
-        /* 核心声明框 */
-        .statement-box {
-            background: rgba(0, 0, 0, 0.2);
-            border: 2px solid var(--gold-dark);
-            max-width: 800px;
-            margin: 0 auto 50px;
-            padding: 30px;
-            border-radius: 4px;
-            position: relative;
-        }
-        /* 四角装饰 */
-        .statement-box::after {
-            content: "❖";
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: var(--gold);
-            font-size: 24px;
-            background: #a00000; /* 遮挡线条 */
-            padding: 0 10px;
-        }
+/* ============ 顶部信息栏（官方门户式） ============ */
+.topbar {
+    background: #0e0101;
+    border-bottom: 1px solid rgba(212,175,55,.22);
+    font-size: 12.5px; letter-spacing: 1.5px;
+}
+.topbar-inner {
+    max-width: 1280px; margin: 0 auto; padding: 8px 36px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    color: rgba(255,240,215,.62);
+}
+.topbar-links { display: flex; align-items: center; gap: 24px; }
+.topbar-links a { text-decoration: none; color: rgba(255,240,215,.72); transition: color .3s; display: flex; align-items: center; gap: 6px; }
+.topbar-links a:hover { color: var(--gold); }
+.topbar-links .dot { color: rgba(212,175,55,.5); }
+.topbar-slogan { white-space: nowrap; }
+@media (max-width: 768px) { .topbar-slogan { display: none; } .topbar-inner { padding: 7px 18px; } .topbar-links { gap: 16px; } }
 
-        /* --- 核心操作按钮组 (新增) --- */
-        .action-group {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 30px; /* 按钮间距 */
-            margin-bottom: 50px;
-            flex-wrap: wrap; /* 移动端自动换行 */
-        }
+/* ============ 导航栏（sticky） ============ */
+.nav {
+    position: sticky; top: 0; z-index: 200;
+    padding: 20px 0;
+    background: linear-gradient(180deg, rgba(12,0,0,.72), rgba(12,0,0,.18) 82%, transparent);
+    transition: padding .35s ease, background .35s ease, box-shadow .35s ease;
+}
+.nav.scrolled {
+    padding: 10px 0;
+    background: rgba(16,2,2,.96);
+    box-shadow: 0 12px 34px rgba(0,0,0,.55);
+    border-bottom: 1px solid rgba(212,175,55,.35);
+    backdrop-filter: blur(12px);
+}
+.nav-inner {
+    max-width: 1280px; margin: 0 auto; padding: 0 36px;
+    display: flex; align-items: center; justify-content: space-between; gap: 20px;
+}
+.brand { display: flex; align-items: center; gap: 16px; text-decoration: none; }
+.brand .brand-shield { width: 26px; height: 36px; flex: none; filter: drop-shadow(0 3px 6px rgba(0,0,0,.6)); }
+.brand-name { font-size: 27px; font-weight: 900; color: var(--gold); letter-spacing: 5px; text-shadow: 0 2px 8px rgba(0,0,0,.6); white-space: nowrap; }
+.brand-tag {
+    font-size: 10px; font-weight: 900; letter-spacing: 2px; color: #520505;
+    background: linear-gradient(135deg,#f7e3a5,#d4af37);
+    padding: 4px 9px; border-radius: 2px; white-space: nowrap;
+    box-shadow: 0 0 12px rgba(212,175,55,.5), inset 0 1px 0 rgba(255,255,255,.55);
+}
+.nav-links { display: flex; align-items: center; gap: 34px; }
+.nav-links a {
+    text-decoration: none; font-size: 15.5px; letter-spacing: 3px; color: rgba(255,246,230,.92);
+    padding: 6px 0; position: relative; transition: color .3s;
+}
+.nav-links a::after {
+    content: ""; position: absolute; left: 50%; right: 50%; bottom: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    transition: left .3s ease, right .3s ease;
+}
+.nav-links a:hover { color: var(--gold); text-shadow: 0 0 14px rgba(242,217,138,.55); }
+.nav-links a:hover::after { left: 0; right: 0; }
+.nav-cta {
+    text-decoration: none; font-size: 15px; font-weight: 700; letter-spacing: 3px;
+    color: #4d0404; background: linear-gradient(135deg,#f7e3a5,#d4af37 70%);
+    padding: 10px 26px; clip-path: polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
+    box-shadow: 0 6px 18px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.5);
+    transition: transform .3s, box-shadow .3s; white-space: nowrap;
+}
+.nav-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(212,175,55,.4); }
 
-        .btn-main {
-            padding: 18px 50px;
-            font-size: 24px;
-            font-weight: bold;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            /* 经典的传奇切角风格 */
-            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
-            display: inline-block;
-            position: relative;
-            overflow: hidden;
-            border: none;
-            font-family: 'Noto Serif SC', serif;
-        }
+/* ============ 全屏 Hero ============ */
+.hero {
+    position: relative; min-height: 92vh; min-height: 92svh;
+    display: flex; align-items: center; overflow: hidden;
+    padding: 70px 0 84px;
+}
+.hero-bg {
+    position: absolute; inset: -4%;
+    background: url('Images00.jpg') center / cover no-repeat;
+    animation: kenburns 36s ease-in-out infinite alternate;
+    filter: brightness(.72) saturate(1.15) contrast(1.05);
+    will-change: transform;
+}
+@keyframes kenburns { from { transform: scale(1) translateY(0); } to { transform: scale(1.15) translateY(-1.5%); } }
+.hero-mask {
+    position: absolute; inset: 0;
+    background:
+        linear-gradient(180deg, rgba(14,0,0,.78) 0%, rgba(60,4,4,.34) 38%, rgba(24,1,1,.62) 74%, var(--ink) 97%),
+        radial-gradient(ellipse at 50% 30%, transparent 40%, rgba(10,0,0,.55) 100%);
+}
+.hero-inner {
+    position: relative; z-index: 5;
+    max-width: 1280px; width: 100%; margin: 0 auto; padding: 0 40px;
+    display: grid; grid-template-columns: 1.12fr .88fr; gap: 56px; align-items: center;
+}
+.hero-eyebrow {
+    display: flex; align-items: center; gap: 16px;
+    font-family: var(--num); font-size: 13px; font-weight: 600;
+    letter-spacing: 6px; color: rgba(242,217,138,.82);
+    animation: fadeUp 1s .1s both;
+}
+.hero-eyebrow i { flex: none; width: 54px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-2)); font-style: normal; }
+.hero-eyebrow i:last-child { background: linear-gradient(90deg, var(--gold-2), transparent); }
+.hero-title {
+    margin: 22px 0 6px;
+    font-size: clamp(58px, 8.6vw, 112px); font-weight: 900;
+    letter-spacing: clamp(8px, 1.6vw, 20px); line-height: 1.06; white-space: nowrap;
+    background: linear-gradient(112deg, #9a7b1e 0%, #f2d98a 24%, #fffbe8 50%, #f2d98a 76%, #9a7b1e 100%);
+    background-size: 210% auto;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 6px 0 rgba(52,0,0,.9)) drop-shadow(0 18px 34px rgba(0,0,0,.6));
+    animation: shine 8s linear infinite, fadeUp 1s .2s both;
+}
+@keyframes shine { to { background-position: 210% center; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
+.hero-sub {
+    display: flex; align-items: baseline; gap: 14px;
+    margin-bottom: 34px;
+    animation: fadeUp 1s .32s both;
+}
+.hero-sub .zh { font-size: 22px; font-weight: 700; letter-spacing: 6px; color: var(--gold); text-shadow: 0 2px 10px rgba(0,0,0,.6); }
+.hero-sub .en { font-family: var(--num); font-size: 11px; letter-spacing: 4px; color: rgba(242,217,138,.55); }
+/* 服务器数据条 */
+.stat-bar {
+    display: flex; max-width: 560px;
+    border: 1px solid rgba(212,175,55,.5);
+    background: rgba(10,1,1,.6); backdrop-filter: blur(8px);
+    box-shadow: 0 18px 44px rgba(0,0,0,.45), inset 0 0 30px rgba(0,0,0,.4);
+    animation: fadeUp 1s .44s both;
+}
+.stat { flex: 1; padding: 16px 10px 14px; text-align: center; position: relative; }
+.stat + .stat::before { content: ""; position: absolute; left: 0; top: 22%; bottom: 22%; width: 1px; background: linear-gradient(180deg, transparent, rgba(212,175,55,.5), transparent); }
+.stat .num {
+    font-family: var(--num); font-size: clamp(22px, 2.6vw, 31px); font-weight: 700; color: var(--gold);
+    text-shadow: 0 0 18px rgba(212,175,55,.4); line-height: 1.1; font-variant-numeric: tabular-nums;
+}
+.stat .num .unit { font-size: .55em; margin-left: 2px; }
+.stat .lbl { margin-top: 7px; font-size: 11.5px; letter-spacing: 3px; color: rgba(255,236,205,.72); }
+.live-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #3ddc6e; box-shadow: 0 0 10px #3ddc6e; margin-right: 6px; vertical-align: 1px; animation: pulse 2s infinite; }
+@keyframes pulse { 50% { opacity: .55; box-shadow: 0 0 3px #3ddc6e; } }
+/* CTA */
+.cta-row { display: flex; gap: 22px; margin-top: 36px; flex-wrap: wrap; animation: fadeUp 1s .56s both; }
+.btn {
+    position: relative; overflow: hidden; display: inline-block;
+    font-family: var(--serif); font-weight: 700; font-size: 19px; letter-spacing: 3px;
+    text-decoration: none; cursor: pointer;
+    clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+    transition: transform .3s cubic-bezier(.25,.8,.25,1), box-shadow .3s, background .3s;
+}
+.btn-gold {
+    padding: 19px 46px; color: #520505;
+    background: linear-gradient(135deg,#f7e3a5 0%,#d4af37 58%,#c2982a 100%);
+    box-shadow: 0 12px 30px rgba(0,0,0,.5), 0 0 0 1px rgba(120,90,20,.4) inset;
+    text-shadow: 0 1px 0 rgba(255,255,255,.45);
+}
+.btn-gold:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 18px 40px rgba(212,175,55,.45), 0 0 0 1px rgba(120,90,20,.4) inset; }
+.btn-line {
+    padding: 17px 44px; color: var(--gold);
+    background: rgba(10,1,1,.5); border: 1px solid rgba(212,175,55,.75);
+    box-shadow: inset 0 0 24px rgba(0,0,0,.5);
+    backdrop-filter: blur(6px);
+}
+.btn-line:hover { transform: translateY(-3px); color: #fff; border-color: var(--gold); background: rgba(90,8,8,.55); box-shadow: inset 0 0 18px rgba(0,0,0,.4), 0 12px 30px rgba(180,30,30,.35); }
+.btn::after {
+    content: ""; position: absolute; top: 0; left: -110%; width: 46%; height: 100%;
+    background: linear-gradient(100deg, transparent, rgba(255,255,255,.5), transparent);
+    transform: skewX(-22deg); transition: left .65s ease;
+}
+.btn:hover::after { left: 160%; }
+/* 快捷链接胶囊 */
+.hero-chips { display: flex; gap: 12px; margin-top: 22px; flex-wrap: wrap; animation: fadeUp 1s .66s both; }
+.chip {
+    text-decoration: none; font-size: 12.5px; letter-spacing: 2px;
+    color: rgba(242,217,138,.9); border: 1px solid rgba(212,175,55,.4);
+    background: rgba(14,1,1,.55); padding: 8px 16px;
+    display: inline-flex; align-items: center; gap: 7px;
+    transition: background .3s, color .3s, border-color .3s, transform .3s;
+}
+.chip:hover { background: rgba(90,8,8,.7); color: #fff; border-color: var(--gold); transform: translateY(-2px); }
+/* 右：常驻大盾徽 */
+.hero-shield-wrap { position: relative; display: flex; justify-content: center; animation: fadeUp 1.2s .4s both; }
+.hero-shield-halo {
+    position: absolute; top: 50%; left: 50%; width: 130%; aspect-ratio: 1;
+    transform: translate(-50%,-50%);
+    background: radial-gradient(circle, rgba(212,175,55,.28) 0%, rgba(212,175,55,.08) 42%, transparent 66%);
+    animation: halo 4.5s ease-in-out infinite; pointer-events: none;
+}
+@keyframes halo { 50% { transform: translate(-50%,-50%) scale(1.14); opacity: .75; } }
+.hero-shield {
+    position: relative; width: min(330px, 100%); z-index: 2;
+    filter: drop-shadow(0 34px 50px rgba(0,0,0,.7));
+    animation: shieldFloat 6s ease-in-out infinite;
+}
+@keyframes shieldFloat { 50% { transform: translateY(-13px); } }
+.hero-shield-reflection {
+    width: min(330px, 100%); display: block; margin: 4px auto 0;
+    transform: scaleY(-1); opacity: .22;
+    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,.5), transparent 58%);
+    mask-image: linear-gradient(to top, rgba(0,0,0,.5), transparent 58%);
+    filter: blur(1px);
+}
+/* 滚动提示 */
+.scroll-hint {
+    position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%);
+    z-index: 6; text-decoration: none; text-align: center;
+    animation: fadeUp 1s .9s both;
+}
+.scroll-hint .mouse {
+    width: 25px; height: 40px; margin: 0 auto 8px;
+    border: 2px solid rgba(242,217,138,.75); border-radius: 14px; position: relative;
+}
+.scroll-hint .mouse::before {
+    content: ""; position: absolute; top: 7px; left: 50%; width: 3px; height: 7px;
+    margin-left: -1.5px; border-radius: 2px; background: var(--gold);
+    animation: wheel 1.8s ease-in-out infinite;
+}
+@keyframes wheel { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(13px); opacity: 0; } 100% { opacity: 0; } }
+.scroll-hint .txt { font-family: var(--num); font-size: 10px; letter-spacing: 5px; color: rgba(242,217,138,.7); }
 
-        /* 下载按钮：高亮主色 */
-        .btn-dl {
-            background: linear-gradient(135deg, #ffe082 0%, #d4af37 100%);
-            color: #8b0000;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
-            text-shadow: 0 1px 0 rgba(255,255,255,0.4);
-        }
-        /* 下载按钮悬停光效 */
-        .btn-dl:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 10px 25px rgba(255, 224, 130, 0.4);
-            background: linear-gradient(135deg, #fff 0%, #ffe082 100%);
-        }
+/* ============ 公告滚动条 ============ */
+.ticker {
+    position: relative; z-index: 20;
+    background: linear-gradient(180deg, rgba(30,2,2,.97), rgba(18,1,1,.97));
+    border-top: 1px solid rgba(212,175,55,.4); border-bottom: 1px solid rgba(212,175,55,.4);
+    display: flex; align-items: stretch;
+}
+.ticker-label {
+    flex: none; display: flex; align-items: center; gap: 9px; padding: 0 22px 0 26px;
+    font-size: 13.5px; font-weight: 900; letter-spacing: 4px; color: #3d0303;
+    background: linear-gradient(135deg,#f0d78a,#c9a233);
+    clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
+    padding-right: 34px;
+}
+.ticker-label::before { content: "📢"; font-size: 14px; }
+.ticker-track { flex: 1; overflow: hidden; display: flex; align-items: center; }
+.ticker-track .run {
+    flex: none; display: inline-flex; align-items: center; white-space: nowrap;
+    padding-right: 90px; animation: ticker 42s linear infinite;
+    font-size: 14px; letter-spacing: 1.5px; color: rgba(255,238,210,.9);
+}
+.ticker-track:hover .run { animation-play-state: paused; }
+.ticker-track .run em { font-style: normal; color: var(--gold); font-weight: 700; padding: 0 5px; }
+.ticker-track .run .sep { color: rgba(212,175,55,.8); padding: 0 16px; }
+@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-100%); } }
 
-        /* 充值按钮：暗金红色，低调奢华 */
-        .btn-pay {
-            background: rgba(0, 0, 0, 0.3);
-            color: var(--gold);
-            border: 2px solid var(--gold-dark);
-            /* 为了配合 clip-path，使用 outline 或 box-shadow 模拟边框效果会比较复杂，这里直接用背景色区分 */
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 5px 15px rgba(0,0,0,0.2);
-            padding: 16px 48px; /* 稍微小一点点边框 */
-        }
-        .btn-pay:hover {
-            background: rgba(100, 0, 0, 0.6);
-            transform: translateY(-3px);
-            box-shadow: inset 0 0 10px rgba(255, 224, 130, 0.2), 0 0 20px rgba(255, 42, 42, 0.4);
-            color: #fff;
-            border-color: var(--gold);
-        }
+/* ============ 通用章节 ============ */
+.section { position: relative; z-index: 4; padding: 104px 40px; }
+.section-inner { max-width: 1240px; margin: 0 auto; }
+.sec-head { text-align: center; margin-bottom: 60px; }
+.sec-head .kicker {
+    font-family: var(--num); font-size: 12px; font-weight: 600; letter-spacing: 8px;
+    color: rgba(212,175,55,.72); margin-bottom: 18px;
+}
+.sec-head h2 {
+    font-size: clamp(30px, 4vw, 42px); font-weight: 900; letter-spacing: 10px; text-indent: 10px;
+    color: var(--gold); text-shadow: 0 4px 18px rgba(0,0,0,.55);
+    display: flex; align-items: center; justify-content: center; gap: 24px;
+}
+.sec-head h2::before, .sec-head h2::after {
+    content: ""; height: 1px; width: clamp(50px, 8vw, 110px);
+    background: linear-gradient(90deg, transparent, rgba(212,175,55,.75));
+}
+.sec-head h2::after { background: linear-gradient(90deg, rgba(212,175,55,.75), transparent); }
+.sec-head .desc { margin-top: 18px; font-size: 15px; letter-spacing: 3px; color: rgba(255,240,215,.6); }
 
-        /* 按钮扫光动画 */
-        .btn-main::after {
-            content: "";
-            position: absolute;
-            top: 0; left: -100%;
-            width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transform: skewX(-20deg);
-            transition: 0.5s;
-        }
-        .btn-main:hover::after {
-            left: 150%;
-            transition: 0.7s ease-in-out;
-        }
+/* 渐显动画 */
+.reveal { opacity: 0; transform: translateY(38px); transition: opacity .95s ease, transform .95s ease; }
+.reveal.vis { opacity: 1; transform: none; }
+.rv-1 { transition-delay: .12s; } .rv-2 { transition-delay: .24s; } .rv-3 { transition-delay: .36s; }
 
+/* ============ 资讯中心（Tab 系统） ============ */
+.hub-section {
+    background:
+        linear-gradient(180deg, var(--ink) 0%, #1c0303 12%, #220404 88%, var(--ink) 100%);
+    border-bottom: 1px solid rgba(212,175,55,.14);
+}
+.hub-layout { display: grid; grid-template-columns: 1.05fr 1fr; gap: 44px; align-items: start; }
+/* 左：头条焦点图 */
+.headline {
+    position: relative; display: block; text-decoration: none; overflow: hidden;
+    border: 1px solid rgba(212,175,55,.45); background: #0c0000;
+    box-shadow: 0 26px 60px rgba(0,0,0,.55); transition: border-color .35s, box-shadow .35s;
+}
+.headline:hover { border-color: var(--gold); box-shadow: 0 26px 66px rgba(0,0,0,.6), 0 0 30px rgba(212,175,55,.15); }
+.headline .hl-img { position: relative; overflow: hidden; }
+.headline .hl-img img { width: 100%; display: block; aspect-ratio: 16/8.6; object-fit: cover; transition: transform .65s ease; filter: brightness(1.02); }
+.headline:hover .hl-img img { transform: scale(1.05); }
+.headline .hl-tag {
+    position: absolute; top: 16px; left: 16px; z-index: 2;
+    font-size: 11.5px; font-weight: 900; letter-spacing: 2px; color: #3d0303;
+    background: linear-gradient(135deg,#f0d78a,#c9a233); padding: 6px 12px;
+    clip-path: polygon(5px 0, 100% 0, calc(100% - 5px) 100%, 0 100%);
+}
+.headline .hl-body { padding: 24px 26px 22px; }
+.headline h3 { font-size: 21px; font-weight: 900; letter-spacing: 2px; color: var(--gold); margin-bottom: 12px; transition: text-shadow .3s; }
+.headline:hover h3 { text-shadow: 0 0 18px rgba(242,217,138,.4); }
+.headline p { font-size: 13.5px; line-height: 1.9; letter-spacing: .5px; color: rgba(255,242,222,.75); }
+.headline .hl-meta { display: flex; align-items: center; gap: 14px; margin-top: 16px; font-size: 12px; letter-spacing: 1px; color: rgba(212,175,55,.7); }
+.headline .hl-meta .more { margin-left: auto; color: rgba(242,217,138,.85); transition: color .3s; }
+.headline:hover .hl-meta .more { color: var(--gold); }
+/* 右：Tab 面板 */
+.hub-panel { border: 1px solid rgba(212,175,55,.35); background: rgba(24,2,2,.66); }
+.hub-tabs {
+    display: flex; border-bottom: 1px solid rgba(212,175,55,.3);
+    background: linear-gradient(180deg, rgba(40,3,3,.9), rgba(24,2,2,.7));
+}
+.hub-tab {
+    flex: 1; padding: 16px 6px; text-align: center; cursor: pointer;
+    font-size: 15.5px; font-weight: 700; letter-spacing: 4px;
+    color: rgba(255,246,230,.6); position: relative; transition: color .3s, background .3s;
+    user-select: none; background: none; border: none; font-family: var(--serif);
+}
+.hub-tab + .hub-tab { border-left: 1px solid rgba(212,175,55,.18); }
+.hub-tab::after {
+    content: ""; position: absolute; left: 18%; right: 18%; bottom: -1px; height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0; transition: opacity .3s;
+}
+.hub-tab:hover { color: rgba(242,217,138,.9); }
+.hub-tab.on { color: var(--gold); background: rgba(60,6,6,.5); text-shadow: 0 0 12px rgba(242,217,138,.35); }
+.hub-tab.on::after { opacity: 1; }
+.hub-pane { display: none; animation: paneIn .45s ease; }
+.hub-pane.on { display: block; }
+@keyframes paneIn { from { opacity: 0; transform: translateY(12px); } }
+.hub-item {
+    display: flex; align-items: center; gap: 14px;
+    padding: 17px 24px; border-bottom: 1px solid rgba(212,175,55,.12);
+    text-decoration: none; transition: background .3s, padding .3s;
+}
+.hub-item:last-child { border-bottom: none; }
+.hub-item:hover { background: rgba(64,6,6,.5); }
+.hub-item .hi-mark { flex: none; width: 5px; height: 5px; transform: rotate(45deg); background: rgba(212,175,55,.6); transition: background .3s, box-shadow .3s; }
+.hub-item:hover .hi-mark { background: var(--gold); box-shadow: 0 0 8px rgba(242,217,138,.8); }
+.hub-item .hi-ttl {
+    flex: 1; font-size: 14.5px; letter-spacing: 1px; color: rgba(255,246,230,.9);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    transition: color .3s;
+}
+.hub-item:hover .hi-ttl { color: var(--gold); }
+.hub-item .hi-date { flex: none; font-family: var(--num); font-size: 12.5px; color: rgba(212,175,55,.65); }
+.hub-more {
+    display: block; text-align: center; padding: 15px;
+    font-size: 13px; letter-spacing: 4px; color: rgba(242,217,138,.8);
+    text-decoration: none; background: rgba(40,3,3,.5); transition: background .3s, color .3s;
+}
+.hub-more:hover { background: rgba(80,8,8,.6); color: var(--gold); }
 
-        /* --- 歌词滚动显示区 --- */
-        .lyrics-wrapper {
-            width: 100%;
-            max-width: 600px;
-            height: 160px;
-            margin: 0 auto 40px;
-            position: relative;
-            overflow: hidden;
-            mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
-            border-left: 2px solid rgba(255, 224, 130, 0.2);
-            border-right: 2px solid rgba(255, 224, 130, 0.2);
-            background: rgba(0, 0, 0, 0.15);
-        }
+/* ============ 正版授权区 ============ */
+.license-section {
+    background:
+        radial-gradient(ellipse at 20% 8%, rgba(140,20,20,.4), transparent 55%),
+        radial-gradient(ellipse at 82% 90%, rgba(120,16,16,.35), transparent 55%),
+        linear-gradient(180deg, var(--ink), #240404 20%, #2a0505 80%, var(--ink));
+    border-top: 1px solid rgba(212,175,55,.2); border-bottom: 1px solid rgba(212,175,55,.2);
+}
+.license-grid { display: grid; grid-template-columns: .92fr 1.08fr; gap: 76px; align-items: center; }
+/* 左：盾徽荣誉台 */
+.badge-stage { position: relative; display: flex; flex-direction: column; align-items: center; padding: 30px 0; }
+.badge-stage::before {
+    content: ""; position: absolute; top: 46%; left: 50%; width: 620px; height: 620px;
+    transform: translate(-50%,-50%); pointer-events: none;
+    background:
+        repeating-conic-gradient(rgba(212,175,55,.05) 0 3deg, transparent 3deg 24deg),
+        radial-gradient(circle, rgba(212,175,55,.2) 0%, transparent 62%);
+    animation: stageSpin 60s linear infinite;
+}
+@keyframes stageSpin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+.badge-stage .big-shield {
+    width: min(300px, 80vw); position: relative; z-index: 2;
+    filter: drop-shadow(0 30px 46px rgba(0,0,0,.72));
+    animation: shieldFloat 6.5s ease-in-out infinite;
+}
+.badge-stage .big-shield-reflection {
+    width: min(300px, 80vw); display: block; margin: 6px auto 0; z-index: 1;
+    transform: scaleY(-1); opacity: .2; filter: blur(1.5px);
+    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,.55), transparent 56%);
+    mask-image: linear-gradient(to top, rgba(0,0,0,.55), transparent 56%);
+}
+.badge-caption {
+    position: relative; z-index: 2; margin-top: 30px; text-align: center;
+    font-size: 15px; letter-spacing: 6px; color: #ffe9c9; text-shadow: 0 0 14px rgba(212,175,55,.4);
+}
+.badge-caption .en { display: block; font-family: var(--num); font-size: 10px; letter-spacing: 5px; color: rgba(212,175,55,.65); margin-top: 9px; }
+/* 右：授权书 + 证书要点 */
+.cert-block .license-frame {
+    position: relative;
+    background: linear-gradient(160deg, #2c0505 0%, #170101 100%);
+    border: 1px solid rgba(212,175,55,.65);
+    padding: 24px;
+    box-shadow: 0 34px 80px rgba(0,0,0,.6), inset 0 0 55px rgba(0,0,0,.5);
+    transition: box-shadow .4s, border-color .4s;
+}
+.cert-block .license-frame:hover { border-color: var(--gold); box-shadow: 0 34px 90px rgba(0,0,0,.65), 0 0 50px rgba(212,175,55,.24), inset 0 0 55px rgba(0,0,0,.5); }
+.corner { position: absolute; width: 30px; height: 30px; border: 0 solid var(--gold); z-index: 3; }
+.corner.tl { top: -3px; left: -3px; border-top-width: 3px; border-left-width: 3px; }
+.corner.tr { top: -3px; right: -3px; border-top-width: 3px; border-right-width: 3px; }
+.corner.bl { bottom: -3px; left: -3px; border-bottom-width: 3px; border-left-width: 3px; }
+.corner.br { bottom: -3px; right: -3px; border-bottom-width: 3px; border-right-width: 3px; }
+.cert-tab {
+    position: absolute; top: -21px; left: 50%; transform: translateX(-50%);
+    background: linear-gradient(180deg,#f4dc93,#c9a233); color: #4d0303;
+    font-weight: 900; font-size: 16px; letter-spacing: 9px; text-indent: 9px;
+    padding: 8px 32px; border: 1px solid #8a6d1f;
+    box-shadow: 0 6px 16px rgba(0,0,0,.5); white-space: nowrap;
+}
+.license-display { border: 1px solid rgba(212,175,55,.42); padding: 10px; background: #0b0000; }
+.license-display img { width: 100%; display: block; }
+.license-seal {
+    position: absolute; right: -24px; bottom: -24px; width: 100px; height: 100px;
+    border-radius: 50%; transform: rotate(-13deg); z-index: 4;
+    background: radial-gradient(circle at 35% 30%, #d83434 0%, #991414 58%, #6d0606 100%);
+    border: 3px double #f2d98a;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    box-shadow: 0 12px 30px rgba(0,0,0,.6), 0 0 30px rgba(216,52,52,.4);
+}
+.license-seal::before { content: ""; position: absolute; inset: 5px; border: 1px solid rgba(242,217,138,.6); border-radius: 50%; }
+.license-seal .star { color: #ffe9a8; font-size: 14px; line-height: 1; }
+.license-seal .txt { font-size: 15px; font-weight: 900; color: #ffe9a8; letter-spacing: 4px; text-indent: 4px; line-height: 1.45; }
+/* 授权要点列表 */
+.cert-points { margin-top: 42px; display: grid; gap: 16px; }
+.cert-point {
+    display: flex; gap: 16px; align-items: flex-start;
+    padding: 17px 20px; background: rgba(22,2,2,.72);
+    border: 1px solid rgba(212,175,55,.28); border-left: 3px solid var(--gold-2);
+    transition: background .3s, transform .3s;
+}
+.cert-point:hover { background: rgba(52,5,5,.75); transform: translateX(6px); }
+.cert-point .pi {
+    flex: none; width: 40px; height: 40px; border-radius: 50%;
+    border: 1px solid rgba(212,175,55,.55); color: var(--gold);
+    display: flex; align-items: center; justify-content: center; font-size: 17px;
+    background: radial-gradient(circle at 50% 35%, rgba(212,175,55,.16), transparent 72%);
+}
+.cert-point h5 { font-size: 15.5px; letter-spacing: 3px; color: var(--gold); margin-bottom: 5px; }
+.cert-point p { font-size: 13px; line-height: 1.75; letter-spacing: .5px; color: rgba(255,240,215,.75); }
 
-        .lyrics-container {
-            position: relative;
-            width: 100%;
-            text-align: center;
-            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            padding: 70px 0;
-        }
+/* ============ 职业展示（Tab 流派系统） ============ */
+.classes-section {
+    background:
+        linear-gradient(180deg, var(--ink), #1e0303 15%, #1a0202 85%, var(--ink));
+}
+.cls-tabs { display: flex; justify-content: center; gap: 18px; margin-bottom: 54px; flex-wrap: wrap; }
+.cls-tab {
+    cursor: pointer; user-select: none;
+    display: flex; align-items: center; gap: 12px;
+    padding: 15px 44px; font-family: var(--serif);
+    font-size: 18px; font-weight: 900; letter-spacing: 6px;
+    color: rgba(255,246,230,.55); background: rgba(24,2,2,.6);
+    border: 1px solid rgba(212,175,55,.3);
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    transition: all .35s ease; position: relative;
+}
+.cls-tab svg { width: 22px; height: 22px; }
+.cls-tab:hover { color: rgba(242,217,138,.9); border-color: rgba(212,175,55,.55); }
+.cls-tab.on {
+    color: #4d0303; background: linear-gradient(135deg,#f7e3a5,#d4af37 70%);
+    border-color: transparent; box-shadow: 0 10px 26px rgba(212,175,55,.35);
+    text-shadow: 0 1px 0 rgba(255,255,255,.4);
+}
+.cls-tab.on svg { color: #4d0303; }
+.cls-pane { display: none; animation: paneIn .5s ease; }
+.cls-pane.on { display: block; }
+.flow-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.flow-card {
+    position: relative; overflow: hidden;
+    background: linear-gradient(165deg, rgba(66,5,5,.55), rgba(22,1,1,.45));
+    border: 1px solid rgba(212,175,55,.32);
+    padding: 40px 28px 36px; text-align: center;
+    transition: transform .4s ease, border-color .4s, box-shadow .4s;
+}
+.flow-card::before {
+    content: ""; position: absolute; inset: 11px;
+    border: 1px solid rgba(212,175,55,.15); pointer-events: none; transition: .4s;
+}
+.flow-card:hover { transform: translateY(-10px); border-color: var(--gold); box-shadow: 0 28px 56px rgba(0,0,0,.55), 0 0 30px rgba(212,175,55,.16); }
+.flow-card:hover::before { border-color: rgba(212,175,55,.4); }
+.flow-card .fc-name {
+    display: inline-block; font-size: 24px; font-weight: 900; letter-spacing: 5px;
+    color: var(--gold); margin-bottom: 6px; text-shadow: 0 3px 10px rgba(0,0,0,.5);
+}
+.flow-card .fc-role { font-size: 13px; letter-spacing: 3px; color: #ffd9a0; margin-bottom: 8px; }
+.flow-card .fc-en { font-family: var(--num); font-size: 10px; letter-spacing: 4px; color: rgba(212,175,55,.55); margin-bottom: 18px; }
+.flow-card .fc-rule { width: 44px; height: 2px; margin: 0 auto 18px; background: linear-gradient(90deg, transparent, var(--gold-2), transparent); }
+.flow-card p { font-size: 13.5px; line-height: 1.9; color: rgba(255,244,225,.78); letter-spacing: .5px; }
+.skill-chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 20px; }
+.skill-chips span {
+    font-size: 11.5px; letter-spacing: 2px; color: rgba(242,217,138,.95);
+    border: 1px solid rgba(212,175,55,.42); padding: 5px 12px;
+    background: rgba(20,1,1,.55); white-space: nowrap;
+}
 
-        .lrc-line {
-            font-size: 16px;
-            line-height: 32px;
-            color: rgba(255, 255, 255, 0.5);
-            transition: all 0.3s;
-            min-height: 32px;
-        }
+/* ============ 玩法特色（四宫格） ============ */
+.feat-section {
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(120,14,14,.3), transparent 60%),
+        linear-gradient(180deg, var(--ink), #200303 18%, #240404 82%, var(--ink));
+    border-top: 1px solid rgba(212,175,55,.16);
+}
+.feat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+.feat-card {
+    position: relative; overflow: hidden;
+    background: linear-gradient(165deg, rgba(62,4,4,.55), rgba(20,1,1,.45));
+    border: 1px solid rgba(212,175,55,.3);
+    padding: 44px 26px 40px; text-align: center;
+    transition: transform .4s ease, border-color .4s, box-shadow .4s;
+}
+.feat-card::before {
+    content: ""; position: absolute; inset: 10px;
+    border: 1px solid rgba(212,175,55,.14); pointer-events: none; transition: .4s;
+}
+.feat-card::after {
+    content: ""; position: absolute; top: -80%; left: 50%; width: 120%; aspect-ratio: .85;
+    transform: translateX(-50%); pointer-events: none;
+    background: radial-gradient(circle, rgba(212,175,55,.16), transparent 62%);
+    transition: top .5s ease;
+}
+.feat-card:hover { transform: translateY(-9px); border-color: var(--gold); box-shadow: 0 26px 54px rgba(0,0,0,.55), 0 0 28px rgba(212,175,55,.15); }
+.feat-card:hover::before { border-color: rgba(212,175,55,.38); }
+.feat-card:hover::after { top: -52%; }
+.feat-card .f-no {
+    font-family: var(--num); font-size: 44px; font-weight: 700; line-height: 1;
+    color: transparent; -webkit-text-stroke: 1.3px rgba(212,175,55,.5);
+    margin-bottom: 16px;
+}
+.feat-card .f-ico { width: 46px; height: 46px; margin: 0 auto 18px; color: var(--gold); filter: drop-shadow(0 4px 10px rgba(0,0,0,.5)); }
+.feat-card h3 { font-size: 21px; font-weight: 900; letter-spacing: 6px; color: var(--gold); margin-bottom: 6px; }
+.feat-card .f-en { font-family: var(--num); font-size: 10px; letter-spacing: 4px; color: rgba(212,175,55,.55); margin-bottom: 16px; }
+.feat-card .f-rule { width: 40px; height: 2px; margin: 0 auto 16px; background: linear-gradient(90deg, transparent, var(--gold-2), transparent); }
+.feat-card p { font-size: 13px; line-height: 1.85; color: rgba(255,244,225,.75); letter-spacing: .5px; }
 
-        .lrc-active {
-            color: var(--gold);
-            font-size: 20px;
-            font-weight: bold;
-            text-shadow: 0 0 10px rgba(255, 224, 130, 0.8), 0 0 20px rgba(255, 42, 42, 0.5);
-            transform: scale(1.05);
-        }
+/* ============ 游戏实景（灯箱画廊） ============ */
+.gallery-section {
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(120,14,14,.32), transparent 60%),
+        linear-gradient(180deg, var(--ink), #200303 18%, #240404 82%, var(--ink));
+    border-top: 1px solid rgba(212,175,55,.16);
+}
+.gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+.shot {
+    position: relative; overflow: hidden; cursor: zoom-in;
+    border: 1px solid rgba(212,175,55,.45); background: #0c0000;
+    box-shadow: 0 24px 56px rgba(0,0,0,.5); transition: border-color .35s, box-shadow .35s;
+}
+.shot:hover { border-color: var(--gold); box-shadow: 0 28px 66px rgba(0,0,0,.55), 0 0 28px rgba(212,175,55,.15); }
+.shot img { width: 100%; display: block; aspect-ratio: 4/3; object-fit: cover; transition: transform .65s ease; filter: brightness(1.04); }
+.shot:hover img { transform: scale(1.06); }
+.shot .veil {
+    position: absolute; left: 0; right: 0; bottom: 0; padding: 46px 22px 16px;
+    background: linear-gradient(180deg, transparent, rgba(10,0,0,.88));
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 10px;
+}
+.shot .veil .t { font-size: 16px; font-weight: 700; letter-spacing: 4px; color: var(--gold); }
+.shot .veil .zoom { font-family: var(--num); font-size: 10.5px; letter-spacing: 3px; color: rgba(255,236,205,.65); border: 1px solid rgba(212,175,55,.45); padding: 4px 10px; white-space: nowrap; background: rgba(14,1,1,.6); }
 
-        /* --- 游戏特色 (并排卡片) --- */
-        .features {
-            max-width: 1200px;
-            margin: 0 auto 60px;
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-            padding: 0 20px;
-        }
-        .feature-item {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 224, 130, 0.3);
-            padding: 25px;
-            text-align: center;
-            transition: 0.3s;
-        }
-        .feature-item:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: var(--gold);
-        }
-        .feature-item h3 {
-            color: var(--gold);
-            font-size: 22px;
-            margin-bottom: 15px;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-            padding-bottom: 10px;
-        }
-        .feature-item p {
-            font-size: 14px;
-            line-height: 1.6;
-        }
+/* 灯箱 */
+.lightbox {
+    position: fixed; inset: 0; z-index: 2000; display: none;
+    align-items: center; justify-content: center; flex-direction: column; gap: 18px;
+    background: rgba(6,0,0,.94); backdrop-filter: blur(10px);
+    animation: lbIn .3s ease;
+}
+.lightbox.open { display: flex; }
+@keyframes lbIn { from { opacity: 0; } }
+.lightbox img { max-width: 88vw; max-height: 78vh; border: 1px solid rgba(212,175,55,.6); box-shadow: 0 30px 90px rgba(0,0,0,.8); }
+.lightbox .lb-cap { font-size: 15px; letter-spacing: 5px; color: var(--gold); }
+.lightbox .lb-close {
+    position: absolute; top: 26px; right: 34px; width: 46px; height: 46px;
+    border: 1px solid rgba(212,175,55,.6); background: rgba(30,2,2,.7); color: var(--gold);
+    font-size: 22px; line-height: 1; cursor: pointer; transition: background .3s, transform .3s;
+    display: flex; align-items: center; justify-content: center;
+}
+.lightbox .lb-close:hover { background: rgba(120,10,10,.85); transform: rotate(90deg); }
 
-        /* --- 截图展示区 --- */
-        .gallery-section {
-            max-width: 1200px;
-            margin: 0 auto 80px;
-            padding: 0 20px;
-        }
-        .section-header {
-            text-align: center;
-            margin-bottom: 30px;
-            color: var(--gold);
-            font-size: 32px;
-        }
-        
-        .image-row {
-            display: flex;
-            flex-wrap: nowrap;
-            gap: 20px;
-            width: 100%;
-            align-items: flex-start;
-        }
-        
-        .img-frame {
-            flex: 1;
-            border: 3px solid var(--gold-dark);
-            padding: 5px;
-            background: rgba(0,0,0,0.3);
-            height: auto; 
-            min-width: 0; 
-        }
-        
-        .img-frame img {
-            width: 100%;
-            height: auto;
-            display: block;
-            filter: brightness(1.1);
-        }
-        .img-caption {
-            text-align: center;
-            padding: 10px 0 5px;
-            color: #ffcccc;
-            font-size: 14px;
-        }
+/* ============ 页脚 ============ */
+footer {
+    border-top: 1px solid rgba(212,175,55,.3);
+    background: linear-gradient(180deg, #1a0202, #0d0101);
+    padding: 66px 40px 150px; position: relative; z-index: 4;
+}
+.foot-inner { max-width: 1240px; margin: 0 auto; text-align: center; }
+.foot-shield { width: 52px; margin: 0 auto 18px; filter: drop-shadow(0 6px 14px rgba(0,0,0,.6)); opacity: .95; }
+.foot-brand { font-size: 20px; font-weight: 900; letter-spacing: 7px; color: var(--gold); margin-bottom: 20px; }
+.foot-links { display: flex; justify-content: center; gap: 34px; margin-bottom: 30px; flex-wrap: wrap; }
+.foot-links a { font-size: 13.5px; letter-spacing: 3px; color: rgba(255,240,215,.72); text-decoration: none; transition: color .3s; }
+.foot-links a:hover { color: var(--gold); }
+.foot-healthy {
+    font-size: 12px; letter-spacing: 2.5px; line-height: 2.2; color: rgba(255,240,215,.55);
+    padding: 18px 26px; border-top: 1px solid rgba(212,175,55,.18); border-bottom: 1px solid rgba(212,175,55,.18);
+    max-width: 760px; margin: 0 auto 24px;
+}
+.foot-cr { font-size: 11.5px; letter-spacing: 2px; color: rgba(255,240,215,.4); line-height: 2; }
+.foot-cr b { color: rgba(242,217,138,.75); font-weight: 700; }
 
-        footer {
-            text-align: center;
-            padding: 40px;
-            color: rgba(255,255,255,0.6);
-            font-size: 12px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
+/* ============ 左右悬浮广告 ============ */
+.floating-ad { position: fixed; top: 50%; transform: translateY(-50%); z-index: 60; transition: all .3s; }
+.floating-ad img { width: 230px; height: 192px; display: block; border: 2px solid var(--gold-3); box-shadow: 0 0 14px rgba(0,0,0,.85); }
+.floating-ad:hover { transform: translateY(-50%) scale(1.05); filter: brightness(1.15); }
+.ad-left { left: 10px; } .ad-right { right: 10px; }
 
-        /* --- 音乐控制按钮样式 --- */
-        .music-control {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid var(--gold);
-            color: var(--gold);
-            padding: 10px 15px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-family: 'Noto Serif SC', serif;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 0 10px rgba(255, 224, 130, 0.3);
-            transition: all 0.3s;
-        }
-        .music-control:hover {
-            background: rgba(80, 0, 0, 0.9);
-            transform: scale(1.05);
-            box-shadow: 0 0 15px var(--gold);
-        }
-        .spin {
-            animation: spin 3s linear infinite;
-        }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
+/* ============ 音乐控制（左下） ============ */
+.music-control {
+    position: fixed; left: 20px; bottom: 20px; z-index: 1200;
+    display: flex; align-items: center; gap: 9px; cursor: pointer;
+    background: rgba(12,1,1,.82); border: 1px solid rgba(212,175,55,.7);
+    color: var(--gold); padding: 10px 16px; border-radius: 34px;
+    font-family: var(--serif); font-size: 13.5px; letter-spacing: 1px;
+    box-shadow: 0 10px 26px rgba(0,0,0,.5), 0 0 14px rgba(212,175,55,.2);
+    backdrop-filter: blur(8px); transition: all .3s;
+}
+.music-control:hover { background: rgba(70,6,6,.92); transform: scale(1.05); box-shadow: 0 10px 26px rgba(0,0,0,.5), 0 0 20px var(--gold); }
+.spin { animation: spin 3s linear infinite; display: inline-block; }
+@keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* --- [新增] 左右悬浮广告样式 --- */
-        .floating-ad {
-            position: fixed;
-            top: 50%;
-            transform: translateY(-50%); /* 垂直居中 */
-            z-index: 999;
-            transition: all 0.3s;
-        }
-        .floating-ad img {
-            width: 240px; /* 保持原尺寸 */
-            height: 200px;
-            display: block;
-            /* 可选：给图片加个金边，更符合传奇风格 */
-            border: 2px solid var(--gold-dark);
-            box-shadow: 0 0 10px rgba(0,0,0,0.8);
-        }
-        .floating-ad:hover {
-            transform: translateY(-50%) scale(1.05); /* 悬停微放大 */
-            filter: brightness(1.2);
-        }
-        
-        /* 左侧位置 */
-        .ad-left { left: 10px; }
-        /* 右侧位置 */
-        .ad-right { right: 10px; }
+/* ============ 常驻正版授权盾标（右下，永远可见） ============ */
+.fixed-badge {
+    position: fixed; right: 26px; bottom: 26px; z-index: 1200;
+    text-decoration: none; display: block; line-height: 0;
+}
+.fixed-badge .fb-svg {
+    width: 96px; display: block;
+    filter: drop-shadow(0 14px 26px rgba(0,0,0,.7));
+    animation: fbFloat 3.8s ease-in-out infinite, fbGlow 3.8s ease-in-out infinite;
+    transition: transform .35s cubic-bezier(.25,.8,.25,1);
+}
+@keyframes fbFloat { 50% { transform: translateY(-7px); } }
+@keyframes fbGlow {
+    0%, 100% { filter: drop-shadow(0 14px 26px rgba(0,0,0,.7)) drop-shadow(0 0 9px rgba(212,175,55,.3)); }
+    50%      { filter: drop-shadow(0 14px 26px rgba(0,0,0,.7)) drop-shadow(0 0 26px rgba(212,175,55,.65)); }
+}
+.fixed-badge:hover .fb-svg { animation-play-state: paused; transform: scale(1.09); }
+.fixed-badge .fb-tip {
+    position: absolute; right: calc(100% + 14px); bottom: 30px; white-space: nowrap;
+    font-size: 11.5px; letter-spacing: 2px; color: var(--gold);
+    background: rgba(16,2,2,.92); border: 1px solid rgba(212,175,55,.5);
+    padding: 7px 13px; opacity: 0; transform: translateX(8px);
+    transition: opacity .3s, transform .3s; pointer-events: none; line-height: 1.5;
+}
+.fixed-badge:hover .fb-tip { opacity: 1; transform: translateX(0); }
 
-        /* 移动端适配 */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 50px; }
-            .features { flex-direction: column; }
-            .img-frame img { height: auto; } 
-            .music-control { bottom: 10px; right: 10px; padding: 8px 12px; font-size: 12px; }
-            .lyrics-wrapper { height: 120px; max-width: 90%; }
-            .lrc-active { font-size: 18px; }
-            
-            /* 按钮适配 */
-            .action-group { flex-direction: column; gap: 15px; }
-            .btn-main { width: 80%; text-align: center; padding: 15px 0; font-size: 20px;}
+/* ============ 歌词区 ============ */
+.lyrics-wrapper {
+    max-width: 620px; height: 150px; margin: 0 auto;
+    overflow: hidden; position: relative;
+    border: 1px solid rgba(212,175,55,.25);
+    background: rgba(12,1,1,.45);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 78%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 78%, transparent 100%);
+}
+.lyrics-container { text-align: center; padding: 60px 0; transition: transform .45s cubic-bezier(.25,.46,.45,.94); }
+.lrc-line { font-size: 15.5px; line-height: 30px; height: 30px; color: rgba(255,255,255,.42); transition: color .3s, transform .3s; }
+.lrc-active { color: var(--gold); font-size: 19px; font-weight: 700; text-shadow: 0 0 12px rgba(255,224,130,.75); transform: scale(1.04); }
+.bgm-credit { text-align: center; font-family: var(--num); font-size: 10px; letter-spacing: 4px; color: rgba(212,175,55,.4); margin-top: 12px; }
 
-            /* [新增] 屏幕太窄时隐藏悬浮广告，避免遮挡内容 */
-            .floating-ad { display: none; }
-        }
-    </style>
+/* ============ 响应式 ============ */
+@media (max-width: 1100px) {
+    .nav-links { gap: 22px; }
+    .nav-links a { font-size: 14px; letter-spacing: 2px; }
+    .feat-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 960px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 46px; text-align: center; }
+    .hero { padding-top: 46px; }
+    .hero-eyebrow { justify-content: center; }
+    .hero-sub { justify-content: center; }
+    .stat-bar { margin: 0 auto; }
+    .cta-row { justify-content: center; }
+    .hero-chips { justify-content: center; }
+    .hero-shield-wrap { max-width: 380px; margin: 0 auto; }
+    .hub-layout { grid-template-columns: 1fr; gap: 40px; }
+    .license-grid { grid-template-columns: 1fr; gap: 60px; }
+    .flow-grid { grid-template-columns: 1fr; }
+    .gallery-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+    .nav-inner { padding: 0 18px; gap: 12px; flex-wrap: wrap; }
+    .brand-name { font-size: 21px; letter-spacing: 3px; }
+    .brand-tag { display: none; }
+    .nav-links { gap: 14px; overflow-x: auto; }
+    .nav-links a { font-size: 13px; letter-spacing: 1px; margin: 0; }
+    .nav-cta { display: none; }
+    .section { padding: 72px 18px; }
+    .hero { padding: 36px 0 60px; min-height: auto; }
+    .hero-title { white-space: normal; }
+    .ticker-label { font-size: 11.5px; letter-spacing: 2px; padding-left: 14px; }
+    .ticker-track .run { font-size: 12px; }
+    .stat-bar { flex-wrap: wrap; }
+    .stat { min-width: 45%; }
+    .stat + .stat::before { display: none; }
+    .cta-row { gap: 14px; }
+    .btn { font-size: 16.5px; }
+    .btn-gold { padding: 15px 34px; } .btn-line { padding: 14px 32px; }
+    .floating-ad { display: none; }
+    .fixed-badge { right: 14px; bottom: 14px; }
+    .fixed-badge .fb-svg { width: 74px; }
+    .fixed-badge .fb-tip { display: none; }
+    .music-control { left: 12px; bottom: 12px; padding: 8px 12px; font-size: 12px; }
+    .scroll-hint { display: none; }
+    .hero-shield { width: min(240px, 66vw); }
+    .hero-shield-reflection, .badge-stage .big-shield-reflection { display: none; }
+    footer { padding: 54px 18px 120px; }
+    .shot .veil .zoom { display: none; }
+    .hub-item { padding: 15px 16px; }
+    .hub-item .hi-ttl { font-size: 13.5px; }
+    .cls-tab { padding: 12px 26px; font-size: 16px; letter-spacing: 4px; }
+    .feat-grid { grid-template-columns: 1fr; }
+    .headline .hl-body { padding: 18px 18px 16px; }
+    .headline h3 { font-size: 18px; }
+}
+</style>
 </head>
 <body>
 
-    <nav>
-        <div class="nav-content">
-            <div class="logo">掌天武易</div>
-            <div class="menu">
-                <a href="#">首页</a>
-                <a href="https://wwbcw.lanzouq.com/i5f4b3ijw5fi" target="_blank">下载</a>
-                <a href="http://g1.lnhaiqilai.com/group.html?g=f4ea2fc9" target="_blank">充值</a>
+<!-- ============ 正版授权盾徽（SVG 源定义，全站复用） ============ -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
+<defs>
+<symbol id="authShield" viewBox="0 0 300 400">
+    <defs>
+        <linearGradient id="gMetal" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0"    stop-color="#faf0cd"/>
+            <stop offset=".16"  stop-color="#eed489"/>
+            <stop offset=".42"  stop-color="#c49a2e"/>
+            <stop offset=".60"  stop-color="#f4dc93"/>
+            <stop offset=".82"  stop-color="#b8901f"/>
+            <stop offset="1"    stop-color="#87681a"/>
+        </linearGradient>
+        <radialGradient id="gFace" cx=".5" cy=".28" r="1.05">
+            <stop offset="0"   stop-color="#932020"/>
+            <stop offset=".5"  stop-color="#5e0808"/>
+            <stop offset="1"   stop-color="#340202"/>
+        </radialGradient>
+        <linearGradient id="gSheen" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0"   stop-color="rgba(255,242,205,.30)"/>
+            <stop offset=".34" stop-color="rgba(255,242,205,.04)"/>
+            <stop offset=".8"  stop-color="rgba(0,0,0,.22)"/>
+            <stop offset="1"   stop-color="rgba(0,0,0,.34)"/>
+        </linearGradient>
+        <radialGradient id="gSeal" cx=".38" cy=".32" r="1">
+            <stop offset="0"    stop-color="#e84545"/>
+            <stop offset=".55"  stop-color="#a51616"/>
+            <stop offset="1"    stop-color="#700a0a"/>
+        </radialGradient>
+        <pattern id="pTex" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="7" stroke="rgba(255,222,150,.06)" stroke-width="1"/>
+        </pattern>
+        <filter id="fEmboss" x="-25%" y="-25%" width="150%" height="150%">
+            <feDropShadow dx="0" dy="3" stdDeviation="1.6" flood-color="#240000" flood-opacity=".85"/>
+        </filter>
+        <path id="arcTop" d="M 66 68 Q 150 30 234 68" fill="none"/>
+    </defs>
+
+    <path d="M150 8 C 194 26 232 33 264 35 L 264 188 C 264 288 218 350 150 394 C 82 350 36 288 36 188 L 36 35 C 68 33 106 26 150 8 Z" fill="url(#gMetal)"/>
+    <path d="M150 8 C 194 26 232 33 264 35 L 264 188 C 264 288 218 350 150 394 C 82 350 36 288 36 188 L 36 35 C 68 33 106 26 150 8 Z" fill="none" stroke="#5c3f0a" stroke-width="1.2" opacity=".8"/>
+    <path d="M150 22 C 190 38 224 44 252 46 L 252 186 C 252 278 210 338 150 380 C 90 338 48 278 48 186 L 48 46 C 76 44 110 38 150 22 Z" fill="url(#gFace)"/>
+    <path d="M150 22 C 190 38 224 44 252 46 L 252 186 C 252 278 210 338 150 380 C 90 338 48 278 48 186 L 48 46 C 76 44 110 38 150 22 Z" fill="url(#pTex)"/>
+    <path d="M150 22 C 190 38 224 44 252 46 L 252 186 C 252 278 210 338 150 380 C 90 338 48 278 48 186 L 48 46 C 76 44 110 38 150 22 Z" fill="url(#gSheen)"/>
+    <path d="M150 22 C 190 38 224 44 252 46 L 252 186 C 252 278 210 338 150 380 C 90 338 48 278 48 186 L 48 46 C 76 44 110 38 150 22 Z" fill="none" stroke="rgba(250,240,205,.5)" stroke-width="1.6"/>
+
+    <text font-family="Cinzel, 'Times New Roman', serif" font-size="12.5" font-weight="700" letter-spacing="3.5" fill="#e6c86e">
+        <textPath href="#arcTop" startOffset="50%" text-anchor="middle">OFFICIALLY LICENSED</textPath>
+    </text>
+    <line x1="72" y1="80" x2="120" y2="80" stroke="#caa53d" stroke-width="1" opacity=".65"/>
+    <path d="M 150 74 L 156 80 L 150 86 L 144 80 Z" fill="#e8c96f"/>
+    <line x1="180" y1="80" x2="228" y2="80" stroke="#caa53d" stroke-width="1" opacity=".65"/>
+
+    <g filter="url(#fEmboss)" font-family="'Noto Serif SC', serif" font-weight="900" font-size="64" text-anchor="middle">
+        <text x="107" y="152" fill="url(#gMetal)" stroke="#5a3c08" stroke-width=".8">正</text>
+        <text x="193" y="152" fill="url(#gMetal)" stroke="#5a3c08" stroke-width=".8">版</text>
+        <text x="107" y="224" fill="url(#gMetal)" stroke="#5a3c08" stroke-width=".8">授</text>
+        <text x="193" y="224" fill="url(#gMetal)" stroke="#5a3c08" stroke-width=".8">权</text>
+    </g>
+    <path d="M 150 148 L 156 156 L 150 164 L 144 156 Z" fill="#e8c96f" opacity=".9"/>
+
+    <g fill="url(#gMetal)" opacity=".95">
+        <ellipse cx="74"  cy="262" rx="8" ry="3.4" transform="rotate(-58 74 262)"/>
+        <ellipse cx="68"  cy="250" rx="8" ry="3.4" transform="rotate(-46 68 250)"/>
+        <ellipse cx="64"  cy="237" rx="8" ry="3.4" transform="rotate(-32 64 237)"/>
+        <ellipse cx="62"  cy="224" rx="8" ry="3.4" transform="rotate(-18 62 224)"/>
+        <ellipse cx="62"  cy="210" rx="8" ry="3.4" transform="rotate(-4 62 210)"/>
+    </g>
+    <g fill="url(#gMetal)" opacity=".95">
+        <ellipse cx="226" cy="262" rx="8" ry="3.4" transform="rotate(58 226 262)"/>
+        <ellipse cx="232" cy="250" rx="8" ry="3.4" transform="rotate(46 232 250)"/>
+        <ellipse cx="236" cy="237" rx="8" ry="3.4" transform="rotate(32 236 237)"/>
+        <ellipse cx="238" cy="224" rx="8" ry="3.4" transform="rotate(18 238 224)"/>
+        <ellipse cx="238" cy="210" rx="8" ry="3.4" transform="rotate(4 238 210)"/>
+    </g>
+
+    <text x="150" y="286" text-anchor="middle" font-family="'Noto Serif SC', serif" font-weight="700" font-size="27" letter-spacing="9" fill="#f2d98a" filter="url(#fEmboss)">掌天武易</text>
+    <text x="150" y="312" text-anchor="middle" font-family="Cinzel, serif" font-size="10" letter-spacing="3" fill="rgba(230,200,110,.85)">MIR · CLASSIC 1.76 · OFFICIAL</text>
+
+    <g transform="rotate(-12 150 348)">
+        <circle cx="150" cy="348" r="31" fill="url(#gSeal)" stroke="#f2d98a" stroke-width="2"/>
+        <circle cx="150" cy="348" r="26.5" fill="none" stroke="rgba(242,217,138,.5)" stroke-width="1"/>
+        <circle cx="150" cy="348" r="29" fill="none" stroke="rgba(242,217,138,.35)" stroke-width="1.2" stroke-dasharray="2.6 3.4"/>
+        <text x="150" y="342" text-anchor="middle" font-size="12" fill="#ffe9a8">★</text>
+        <text x="152" y="360" text-anchor="middle" font-family="'Noto Serif SC', serif" font-weight="700" font-size="11.5" letter-spacing="2" fill="#ffe9a8">官方认证</text>
+    </g>
+</symbol>
+
+<!-- 职业图标：战士（交叉双剑） -->
+<symbol id="icWar" viewBox="0 0 48 48">
+    <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+        <path d="M9 39 L34 12"/><path d="M39 39 L14 12"/>
+        <path d="M30 7 L38 15" stroke-width="2"/><path d="M18 7 L10 15" stroke-width="2"/>
+        <path d="M32 8.5 L36 12.5" stroke-width="2.4"/>
+        <path d="M12 33 L19 40" stroke-width="3.4"/><path d="M36 33 L29 40" stroke-width="3.4"/>
+        <circle cx="9" cy="41" r="2" fill="currentColor" stroke="none"/>
+        <circle cx="39" cy="41" r="2" fill="currentColor" stroke="none"/>
+    </g>
+</symbol>
+<!-- 职业图标：法师（圣火） -->
+<symbol id="icMag" viewBox="0 0 48 48">
+    <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round">
+        <path d="M24 5 C 28 13 36 17 36 28 A 12 12 0 1 1 12 28 C 12 20 20 15 24 5 Z"/>
+        <path d="M24 21 C 26 25 29 26.5 29 31 A 5 5 0 1 1 19 31 C 19 27.5 22 26 24 21 Z" stroke-width="1.8" opacity=".85"/>
+    </g>
+</symbol>
+<!-- 职业图标：道士（阴阳） -->
+<symbol id="icTao" viewBox="0 0 48 48">
+    <g fill="none" stroke="currentColor" stroke-width="2.4">
+        <circle cx="24" cy="24" r="17"/>
+        <path d="M24 7 A 17 17 0 0 1 24 41 A 8.5 8.5 0 0 1 24 24 A 8.5 8.5 0 0 0 24 7 Z" fill="currentColor" stroke="none"/>
+        <circle cx="24" cy="15.5" r="2.2" fill="#2a0303" stroke="none"/>
+        <circle cx="24" cy="32.5" r="2.2" fill="currentColor" stroke="none"/>
+    </g>
+</symbol>
+<!-- 特色图标：剑（装备靠打） -->
+<symbol id="icSword" viewBox="0 0 48 48">
+    <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+        <path d="M14 34 L36 8 L40 12 L18 38"/>
+        <path d="M10 30 L18 38"/>
+        <path d="M12 40 L8 44"/>
+        <circle cx="34" cy="10" r="1.6" fill="currentColor" stroke="none"/>
+    </g>
+</symbol>
+<!-- 特色图标：太阳（散人天堂） -->
+<symbol id="icSun" viewBox="0 0 48 48">
+    <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+        <circle cx="24" cy="24" r="9"/>
+        <path d="M24 4 L24 10 M24 38 L24 44 M4 24 L10 24 M38 24 L44 24 M9.9 9.9 L14.1 14.1 M33.9 33.9 L38.1 38.1 M38.1 9.9 L33.9 14.1 M14.1 33.9 L9.9 38.1"/>
+    </g>
+</symbol>
+<!-- 特色图标：盾（长期养老） -->
+<symbol id="icShield" viewBox="0 0 48 48">
+    <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round">
+        <path d="M24 5 L39 10 C 39 28 33 38 24 43 C 15 38 9 28 9 10 Z"/>
+        <path d="M24 14 L28 24 L24 34 L20 24 Z"/>
+    </g>
+</symbol>
+<!-- 特色图标：天平（公平绿色） -->
+<symbol id="icScale" viewBox="0 0 48 48">
+    <g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+        <path d="M24 6 L24 40 M14 40 L34 40"/>
+        <path d="M8 14 L40 14"/>
+        <path d="M8 14 L2 26 A 6 6 0 0 0 14 26 Z"/>
+        <path d="M40 14 L34 26 A 6 6 0 0 0 46 26 Z"/>
+        <path d="M24 6 L8 14 M24 6 L40 14"/>
+    </g>
+</symbol>
+</defs>
+</svg>
+
+<!-- 金色粒子画布 -->
+<canvas id="fx"></canvas>
+
+<!-- 顶部金饰条 -->
+<div class="gold-strip"></div>
+
+<!-- ============ 顶部信息栏 ============ -->
+<div class="topbar">
+    <div class="topbar-inner">
+        <span class="topbar-slogan">掌天武易 · 正版授权运营 · 专注 1.76 纯复古</span>
+        <div class="topbar-links">
+            <a href="https://qm.qq.com/q/EEXCCmedLW" target="_blank">🛡 官方QQ群：1026232943</a>
+            <span class="dot">|</span>
+            <a href="http://g1.lnhaiqilai.com/group.html?g=f4ea2fc9" target="_blank">💰 我要充值</a>
+            <span class="dot">|</span>
+            <a href="javascript:void(0)" onclick="favorite()">⭐ 收藏本站</a>
+        </div>
+    </div>
+</div>
+
+<!-- ============ 导航 ============ -->
+<header class="nav" id="siteNav">
+    <div class="nav-inner">
+        <a class="brand" href="#home">
+            <svg class="brand-shield" viewBox="0 0 300 400"><use href="#authShield"/></svg>
+            <span class="brand-name">掌天武易</span>
+            <span class="brand-tag">正版授权</span>
+        </a>
+        <nav class="nav-links">
+            <a href="#home">首页</a>
+            <a href="#news">资讯中心</a>
+            <a href="#zhengban">正版授权</a>
+            <a href="#classes">职业展示</a>
+            <a href="#features">玩法特色</a>
+            <a href="#gallery">游戏实景</a>
+        </nav>
+        <a class="nav-cta" href="https://wwbcw.lanzouq.com/i5f4b3ijw5fi" target="_blank">下载登陆器</a>
+    </div>
+</header>
+
+<!-- ============ 全屏 Hero ============ -->
+<section class="hero" id="home">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-mask"></div>
+    <div class="hero-inner" id="heroInner">
+        <div class="hero-left">
+            <p class="hero-eyebrow"><i></i>OFFICIALLY LICENSED · CLASSIC 1.76<i></i></p>
+            <h1 class="hero-title">掌天武易</h1>
+            <div class="hero-sub">
+                <span class="zh">纯正复古 · 散人天堂 · 装备保值</span>
+                <span class="en">PURE CLASSIC · LEGEND REBORN</span>
             </div>
-        </div>
-    </nav>
-
-    <a href="http://g1.lnhaiqilai.com/group.html?g=f4ea2fc9" target="_blank" class="floating-ad ad-left">
-        <img src="2.gif" alt="充值赞助">
-    </a>
-    <a href="http://g1.lnhaiqilai.com/group.html?g=f4ea2fc9" target="_blank" class="floating-ad ad-right">
-        <img src="2.gif" alt="充值赞助">
-    </a>
-
-    <div class="hero">
-        <h1>掌天武易</h1>
-        <p>鲜红热血 · 纯正复古 · 装备保值</p>
-        
-        <div class="statement-box">
-            <h3 style="color: var(--gold); margin-bottom: 10px;">致敬经典，拒绝微变</h3>
-            <p>在这里，没有花哨的所谓“创新”。我们只还原法神、战圣、道尊三英雄抗击魔王、兽王、冥王的铁血岁月。</p>
-            <p style="margin-top: 10px; font-size: 0.9em; opacity: 0.8;">这是一场关于耐心与运气的较量，找回当年通宵守BOSS的纯粹快乐。</p>
-        </div>
-
-        <div class="action-group">
-            <a class="btn-main btn-dl" href="https://wwbcw.lanzouq.com/i5f4b3ijw5fi" target="_blank">
-                登陆器下载-立即踏入玛法
-            </a>
-            
-            <a href="http://g1.lnhaiqilai.com/group.html?g=f4ea2fc9" target="_blank" class="btn-main btn-pay">
-                在线充值赞助
-            </a>
-        </div>
-
-        <div class="lyrics-wrapper">
-            <div class="lyrics-container" id="lyricsBox">
+            <div class="stat-bar">
+                <div class="stat">
+                    <div class="num"><span class="live-dot"></span><span id="onlineNum">8,642</span></div>
+                    <div class="lbl">当前在线</div>
                 </div>
-        </div>
-    </div>
-
-    <div class="features">
-        <div class="feature-item">
-            <h3>神话起源</h3>
-            <p>重塑经典故事背景，从三英雄崛起，到法师、战士、道士流派的形成，每一处细节都充满神话色彩。</p>
-        </div>
-        <div class="feature-item">
-            <h3>天麟圣衣</h3>
-            <p>保留核心高阶玩法，寻找失落的天麟圣衣与特戒系统。极品装备全靠打，市场由玩家主导。</p>
-        </div>
-        <div class="feature-item">
-            <h3>视觉盛宴</h3>
-            <p>独特的视觉风格，不仅美观，更经过精细打磨。画面更新，流畅度提升，彻底告别老旧版本的卡顿。</p>
-        </div>
-    </div>
-
-    <div class="gallery-section">
-        <h2 class="section-header">✦ 游戏实景 ✦</h2>
-        <div class="image-row">
-            <div class="img-frame">
-                <img src="Images00.BMP" alt="玛法大陆" onerror="this.src='https://via.placeholder.com/600x400/800000/ffffff?text=背景图完整显示'">
-                <div class="img-caption">复古画面 · 原汁原味</div>
+                <div class="stat">
+                    <div class="num">12<span class="unit">组</span></div>
+                    <div class="lbl">开放服务器</div>
+                </div>
+                <div class="stat">
+                    <div class="num"><span id="runDays">900</span><span class="unit">天+</span></div>
+                    <div class="lbl">稳定运营</div>
+                </div>
             </div>
-            <div class="img-frame">
-                <img src="Images01.BMP" alt="玛法大陆" onerror="this.src='https://via.placeholder.com/600x400/b30000/ffffff?text=战斗图完整显示'">
-                <div class="img-caption">激情岁月 · 重拾当年</div>
+            <div class="cta-row">
+                <a class="btn btn-gold" href="https://wwbcw.lanzouq.com/i5f4b3ijw5fi" target="_blank">登陆器下载 · 踏入玛法</a>
+                <a class="btn btn-line" href="http://g1.lnhaiqilai.com/group.html?g=f4ea2fc9" target="_blank">在线充值赞助</a>
+            </div>
+            <div class="hero-chips">
+                <a class="chip" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank">🛡 官方玩家群</a>
+                <a class="chip" href="#news">📋 资讯公告</a>
+                <a class="chip" href="#features">✨ 玩法特色</a>
             </div>
         </div>
+        <div class="hero-shield-wrap">
+            <div class="hero-shield-halo"></div>
+            <svg class="hero-shield" viewBox="0 0 300 400"><use href="#authShield"/></svg>
+            <svg class="hero-shield-reflection" viewBox="0 0 300 400" aria-hidden="true"><use href="#authShield"/></svg>
+        </div>
     </div>
+    <a class="scroll-hint" href="#news">
+        <div class="mouse"></div>
+        <div class="txt">SCROLL</div>
+    </a>
+</section>
 
-    <footer>
-        <p>抵制不良游戏 拒绝盗版游戏 注意自我保护 谨防受骗上当</p>
-        <p>Copyright © 2026 掌天武易 | 专注于1.76纯复古版本</p>
-    </footer>
-
-    <audio id="bgMusic" loop>
-        <source src="掌天武易.mp3" type="audio/mpeg">
-        您的浏览器不支持音频播放。
-    </audio>
-
-    <div class="music-control" id="musicBtn" onclick="toggleMusic()">
-        <span id="musicIcon">🔇</span>
-        <span id="musicText">点击播放战歌</span>
+<!-- ============ 官方公告滚动条 ============ -->
+<div class="ticker">
+    <span class="ticker-label">官方公告</span>
+    <div class="ticker-track">
+        <span class="run">
+            新区<em>『掌天武易 · 长期养老』</em>火热开启<span class="sep">✦</span>充值比例<em> 1:3 </em>· 不谈比例免开尊口<span class="sep">✦</span>QQ千人交流群<em> 1026232943 </em>现已开放<span class="sep">✦</span>绝对公平 · 永不关闭 · 绝对人气 · 绝对激情<span class="sep">✦</span>警告：使用辅助一律封号<span class="sep">✦</span>安全无毒 · 误报请忽略
+        </span>
+        <span class="run">
+            新区<em>『掌天武易 · 长期养老』</em>火热开启<span class="sep">✦</span>充值比例<em> 1:3 </em>· 不谈比例免开尊口<span class="sep">✦</span>QQ千人交流群<em> 1026232943 </em>现已开放<span class="sep">✦</span>绝对公平 · 永不关闭 · 绝对人气 · 绝对激情<span class="sep">✦</span>警告：使用辅助一律封号<span class="sep">✦</span>安全无毒 · 误报请忽略
+        </span>
     </div>
+</div>
 
-    <script>
-        var audio = document.getElementById("bgMusic");
-        var btn = document.getElementById("musicBtn");
-        var icon = document.getElementById("musicIcon");
-        var text = document.getElementById("musicText");
-        var isPlaying = false; // 标记当前是否在播放
+<!-- ============ 资讯中心（Tab 系统） ============ -->
+<section class="section hub-section" id="news">
+    <div class="section-inner">
+        <div class="sec-head reveal">
+            <p class="kicker">NEWS &amp; GUIDES</p>
+            <h2>资讯中心</h2>
+            <p class="desc">全新版本 · 长久耐玩 · 第一手官方资讯</p>
+        </div>
+        <div class="hub-layout">
+            <!-- 左：头条焦点 -->
+            <a class="headline reveal" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank">
+                <div class="hl-img">
+                    <span class="hl-tag">头 条</span>
+                    <img src="Images00.jpg" alt="新区开启" loading="lazy">
+                </div>
+                <div class="hl-body">
+                    <h3>新区「掌天武易 · 长期养老」正式开启</h3>
+                    <p>长久养老服定位，充值比例 1:3。经典 1.76 纯复古版本，散人天堂，装备保值全靠打。绝对公平 · 永不关闭 · 绝对人气 · 绝对激情，欢迎各位兄弟归队玛法大陆！</p>
+                    <div class="hl-meta">
+                        <span>2026-09-03</span>
+                        <span>官方运营团队</span>
+                        <span class="more">阅读全文 →</span>
+                    </div>
+                </div>
+            </a>
+            <!-- 右：Tab 面板 -->
+            <div class="hub-panel reveal rv-1">
+                <div class="hub-tabs">
+                    <button class="hub-tab on" data-pane="paneGg">新闻公告</button>
+                    <button class="hub-tab" data-pane="paneGl">游戏攻略</button>
+                    <button class="hub-tab" data-pane="paneHd">游戏活动</button>
+                </div>
+                <div class="hub-pane on" id="paneGg">
+                    <a class="hub-item" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">新区「掌天武易 · 长期养老」正式开启，充值比例 1:3</span><span class="hi-date">09-03</span></a>
+                    <a class="hub-item" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">关于严厉打击使用辅助软件等非正常游戏行为的公告</span><span class="hi-date">09-01</span></a>
+                    <a class="hub-item" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">QQ千人交流群 1026232943 现已开放，欢迎归队</span><span class="hi-date">08-28</span></a>
+                    <a class="hub-item" href="http://g1.lnhaiqilai.com/group.html?g=f4ea2fc9" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">在线充值通道升级完毕，支付更快捷更安全</span><span class="hi-date">08-25</span></a>
+                    <a class="hub-item" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">合区账号变更公告 · 请及时查询并绑定账号信息</span><span class="hi-date">08-20</span></a>
+                    <a class="hub-item" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">关于防范线下交易诈骗的风险提示</span><span class="hi-date">08-15</span></a>
+                    <a class="hub-more" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank">更多资讯 +</a>
+                </div>
+                <div class="hub-pane" id="paneGl">
+                    <a class="hub-item" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">新手必看：1-40 级极速冲级路线规划</span><span class="hi-date">09-02</span></a>
+                    <a class="hub-item" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">特戒全解：麻痹 / 复活 / 护身戒指爆率一览</span><span class="hi-date">08-30</span></a>
+                    <a class="hub-item" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">天麟圣衣获取指南：四大圣地掉落详解</span><span class="hi-date">08-22</span></a>
+                    <a class="hub-item" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">战士 PK 教学：刺杀位与烈火时机详解</span><span class="hi-date">08-12</span></a>
+                    <a class="hub-item" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">法师升级攻略：烧猪点与冰咆哮群怪路线</span><span class="hi-date">08-05</span></a>
+                    <a class="hub-item" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">道士宝宝培养：神兽升级与忠诚度攻略</span><span class="hi-date">07-28</span></a>
+                    <a class="hub-more" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank">更多资讯 +</a>
+                </div>
+                <div class="hub-pane" id="paneHd">
+                    <a class="hub-item" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">每日活动：世界 BOSS 全天整点刷新</span><span class="hi-date">09-07</span></a>
+                    <a class="hub-item" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">每周活动：沙巴克攻城战周六晚八点开启</span><span class="hi-date">09-05</span></a>
+                    <a class="hub-item" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">节日活动：行会争霸赛报名进行中</span><span class="hi-date">09-03</span></a>
+                    <a class="hub-item" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">地下夺宝：双倍时段每晚开放</span><span class="hi-date">08-29</span></a>
+                    <a class="hub-item" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">怪物攻城：比奇城保卫战周末上演</span><span class="hi-date">08-26</span></a>
+                    <a class="hub-item" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">新服活动：开服七日豪礼天天领</span><span class="hi-date">08-19</span></a>
+                    <a class="hub-more" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank">更多资讯 +</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-        // --- 歌词数据 ---
-        const lyricsData = [
-            {time: 0, text: "风 吹过比奇的残垣"},
-            {time: 19, text: "血 在玛法大陆蔓延"},
-            {time: 25, text: "只要闭上眼 就能听见"},
-            {time: 28.5, text: "千军万马 在沙城下的呐喊"},
-            {time: 31.5, text: "那是青春未冷的誓言"},
-            {time: 34, text: "是木剑砍向稻草人的初见"},
-            {time: 38, text: "法神的群电 还在记忆里盘旋"},
-            {time: 41, text: "战圣的烈火 渴望再一次饮血"},
-            {time: 44, text: "道尊的冥王 镇压着深渊"},
-            {time: 47, text: "当魔王苏醒 当兽王踏碎荒原"},
-            {time: 50.5, text: "当冥王在黑暗中露出了笑脸"},
-            {time: 56, text: "三英雄的意志 此刻必须重现"},
-            {time: 62, text: "谁在等待 谁在徘徊"},
-            {time: 68.5, text: "号角已经吹响 这扇门为你打开"},
-            {time: 74.5, text: "别说什么成败 别谈什么意外"},
-            {time: 81.5, text: "在武易的世界 强者生，弱者汰"},
-            {time: 87.5, text: "掌天武易 我们要把这苍穹撕裂"},
-            {time: 93.5, text: "身披天麟圣衣 金甲光芒照亮了黑夜"},
-            {time: 100.5, text: "这是强者的王座 这是王者的世界"},
-            {time: 106.5, text: "只要兄弟并肩 就没有过不去的劫"},
-            {time: 112.5, text: "掌天武易 热血在这一刻最为暴烈"},
-            {time: 118.5, text: "指尖特戒闪烁 麻痹复活掌控了一切"},
-            {time: 125.5, text: "我要那沙城的旗帜 写上我们的名贴"},
-            {time: 132, text: "这一战 注定要让全服都妥协！"},
-            {time: 139.5, text: "不要问我 为何如此执着"},
-            {time: 144.5, text: "看那满地神装 是勇者最好的如歌"},
-            {time: 151.5, text: "从野外厮杀 到皇宫的争夺"},
-            {time: 154.5, text: "每一场PK 都是灵魂的焦灼"},
-            {time: 164, text: "既然来了 就别想轻易逃脱"},
-            {time: 167, text: "拿起你的圣魂 让恩仇在此刻定夺"},
-            {time: 171, text: "岁月带走了年少轻狂 但带不走这满腔滚烫"},
-            {time: 176, text: "这一路风霜 我们一起扛 一起闯 一起狂"},
-            {time: 188.5, text: "掌天武易！我们要把这苍穹撕裂！"},
-            {time: 194.5, text: "身披天麟圣衣 金甲光芒照亮了黑夜"},
-            {time: 201.5, text: "这是强者的王座 这是王者的世界"},
-            {time: 207.5, text: "只要兄弟并肩，就没有过不去的劫"},
-            {time: 213.5, text: "掌天武易 热血在这一刻最为暴烈"},
-            {time: 220, text: "指尖特戒闪烁 麻痹复活掌控了一切"},
-            {time: 226.5, text: "我要那沙城的旗帜 写上我们的名贴"},
-            {time: 233, text: "这一战 注定要让全服都妥协"},
-            {time: 239, text: "掌天武易 这一世 由我掌天"},
-            {time: 253, text: "字幕:掌天武易"}
-        ];
+<!-- ============ 正版授权区 ============ -->
+<section class="section license-section" id="zhengban">
+    <div class="section-inner">
+        <div class="sec-head reveal">
+            <p class="kicker">OFFICIALLY LICENSED</p>
+            <h2>正版授权 · 官方认证</h2>
+            <p class="desc">正版授权运营 · 未经授权仿冒必究</p>
+        </div>
+        <div class="license-grid">
+            <!-- 左：徽盾荣誉台 -->
+            <div class="badge-stage reveal">
+                <svg class="big-shield" viewBox="0 0 300 400"><use href="#authShield"/></svg>
+                <svg class="big-shield-reflection" viewBox="0 0 300 400" aria-hidden="true"><use href="#authShield"/></svg>
+                <div class="badge-caption">
+                    官方认证 · 掌天传奇
+                    <span class="en">OFFICIAL AUTHORIZED SHIELD</span>
+                </div>
+            </div>
+            <!-- 右：授权书 + 要点 -->
+            <div class="cert-block reveal rv-1">
+                <div class="license-frame">
+                    <span class="cert-tab">授 权 书</span>
+                    <span class="corner tl"></span><span class="corner tr"></span>
+                    <span class="corner bl"></span><span class="corner br"></span>
+                    <!-- 正版授权书展示位：拿到正式授权书大图后，替换下方 img 的 src 即可 -->
+                    <div class="license-display">
+                        <img src="zhengban.png" alt="正版授权书" loading="lazy">
+                    </div>
+                    <div class="license-seal" aria-hidden="true">
+                        <span class="star">★</span>
+                        <span class="txt">正版<br>授权</span>
+                    </div>
+                </div>
+                <div class="cert-points">
+                    <div class="cert-point">
+                        <span class="pi">✦</span>
+                        <div>
+                            <h5>正版授权运营</h5>
+                            <p>本作经正版授权合规运营，授权书公示如上，版本长期稳定，绝非短期快餐服。</p>
+                        </div>
+                    </div>
+                    <div class="cert-point">
+                        <span class="pi">🛡</span>
+                        <div>
+                            <h5>公平绿色环境</h5>
+                            <p>严厉打击辅助外挂，一经查实一律封号；无商城卖装备，极品全靠打，市场由玩家主导。</p>
+                        </div>
+                    </div>
+                    <div class="cert-point">
+                        <span class="pi">⚙</span>
+                        <div>
+                            <h5>长期稳定保障</h5>
+                            <p>专业团队全天候运维，数据多重备份，长久养老服定位，兄弟们放心安家。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-        var lyricsBox = document.getElementById("lyricsBox");
-        var lineHeight = 32;
+<!-- ============ 职业展示（Tab 流派系统） ============ -->
+<section class="section classes-section" id="classes">
+    <div class="section-inner">
+        <div class="sec-head reveal">
+            <p class="kicker">THREE CLASSES</p>
+            <h2>职业展示</h2>
+            <p class="desc">战 · 法 · 道，三职业九流派 · 铁三角永不落幕</p>
+        </div>
+        <div class="cls-tabs reveal">
+            <button class="cls-tab on" data-pane="clsWar"><svg viewBox="0 0 48 48"><use href="#icWar"/></svg>战 士</button>
+            <button class="cls-tab" data-pane="clsMag"><svg viewBox="0 0 48 48"><use href="#icMag"/></svg>法 师</button>
+            <button class="cls-tab" data-pane="clsTao"><svg viewBox="0 0 48 48"><use href="#icTao"/></svg>道 士</button>
+        </div>
 
-        function initLyrics() {
-            lyricsBox.innerHTML = "";
-            lyricsData.forEach((item, index) => {
-                let p = document.createElement("div");
-                p.innerText = item.text;
-                p.className = "lrc-line";
-                p.dataset.index = index;
-                lyricsBox.appendChild(p);
-            });
+        <!-- 战士 -->
+        <div class="cls-pane on" id="clsWar">
+            <div class="flow-grid">
+                <div class="flow-card">
+                    <div class="fc-name">【战狂】</div>
+                    <div class="fc-role">烈火爆发流 · 近战收割者</div>
+                    <div class="fc-en">BERSERKER</div>
+                    <div class="fc-rule"></div>
+                    <p>极致爆发的近战之王。烈火剑法与刺杀剑术的组合拳，追求一刀入魂的斩杀快感，PK 场上最令人胆寒的收割者。</p>
+                    <div class="skill-chips"><span>烈火剑法</span><span>刺杀剑术</span><span>攻杀剑法</span></div>
+                </div>
+                <div class="flow-card">
+                    <div class="fc-name">【铁御】</div>
+                    <div class="fc-role">野蛮冲撞流 · 团队壁垒</div>
+                    <div class="fc-en">IRON GUARD</div>
+                    <div class="fc-rule"></div>
+                    <p>攻防一体的钢铁壁垒。高血高防硬抗一切伤害，野蛮冲撞为队友开路，沙巴克城头永远的第一道防线。</p>
+                    <div class="skill-chips"><span>野蛮冲撞</span><span>半月弯刀</span><span>狮吼功</span></div>
+                </div>
+                <div class="flow-card">
+                    <div class="fc-name">【血煞】</div>
+                    <div class="fc-role">逐日续航流 · 越战越勇</div>
+                    <div class="fc-en">BLOOD FIEND</div>
+                    <div class="fc-rule"></div>
+                    <p>以战养战的血性狂人。逐日剑法远程补刀，配合吸血属性持续作战，群战中的永动机，越战越勇永不退缩。</p>
+                    <div class="skill-chips"><span>逐日剑法</span><span>半月弯刀</span><span>基础剑术</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 法师 -->
+        <div class="cls-pane" id="clsMag">
+            <div class="flow-grid">
+                <div class="flow-card">
+                    <div class="fc-name">【雷帝】</div>
+                    <div class="fc-role">雷电爆发流 · 单点炮台</div>
+                    <div class="fc-en">THUNDER EMPEROR</div>
+                    <div class="fc-rule"></div>
+                    <p>掌控雷电之力的雷罚化身。雷电术锁定目标疯狂输出，圣言术克制不死系，Boss 战与单挑的核心输出炮台。</p>
+                    <div class="skill-chips"><span>雷电术</span><span>圣言术</span><span>疾光电影</span></div>
+                </div>
+                <div class="flow-card">
+                    <div class="fc-name">【炎魔】</div>
+                    <div class="fc-role">火墙控制流 · 战术大师</div>
+                    <div class="fc-en">FLAME LORD</div>
+                    <div class="fc-rule"></div>
+                    <p>操控火焰元素的战术大师。火墙封锁走位，爆裂火焰区域压制，团战中的禁区制造者，让敌人寸步难行。</p>
+                    <div class="skill-chips"><span>火墙术</span><span>爆裂火焰</span><span>地狱火</span></div>
+                </div>
+                <div class="flow-card">
+                    <div class="fc-name">【冰魄】</div>
+                    <div class="fc-role">冰咆哮范围流 · 群怪之王</div>
+                    <div class="fc-en">FROST SOUL</div>
+                    <div class="fc-rule"></div>
+                    <p>冰雪覆盖范围的绝对压制。冰咆哮大范围减速与伤害，抗魔加身防御拉满，群怪收割机，练级打宝效率之王。</p>
+                    <div class="skill-chips"><span>冰咆哮</span><span>魔法盾</span><span>抗拒火环</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 道士 -->
+        <div class="cls-pane" id="clsTao">
+            <div class="flow-grid">
+                <div class="flow-card">
+                    <div class="fc-name">【真君】</div>
+                    <div class="fc-role">火符输出流 · 唯物毒瘤</div>
+                    <div class="fc-en">TRUE LORD</div>
+                    <div class="fc-rule"></div>
+                    <p>专注自我修炼的输出大师。灵魂火符配合施毒术双毒齐下，磨死一切回复流，单挑 Boss 的不二人选。</p>
+                    <div class="skill-chips"><span>灵魂火符</span><span>施毒术</span><span>幽冥火咒</span></div>
+                </div>
+                <div class="flow-card">
+                    <div class="fc-name">【通冥】</div>
+                    <div class="fc-role">召唤兽流派 · 人宠合击</div>
+                    <div class="fc-en">BEAST TAMER</div>
+                    <div class="fc-rule"></div>
+                    <p>召唤兽养成的顶点。召唤神兽与强化骷髅并肩作战，人宠合击二打一，挂机打宝样样精通，散人首选流派。</p>
+                    <div class="skill-chips"><span>召唤神兽</span><span>召唤骷髅</span><span>噬血术</span></div>
+                </div>
+                <div class="flow-card">
+                    <div class="fc-name">【圣手】</div>
+                    <div class="fc-role">群体治疗流 · 定海神针</div>
+                    <div class="fc-en">HOLY HEALER</div>
+                    <div class="fc-rule"></div>
+                    <p>妙手回春的高阶医者。群体治疗与幽灵盾双Buff加持，行会战的定海神针，团队永动机，人缘之王。</p>
+                    <div class="skill-chips"><span>群体治疗</span><span>幽灵盾</span><span>神圣战甲</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ 玩法特色（四宫格） ============ -->
+<section class="section feat-section" id="features">
+    <div class="section-inner">
+        <div class="sec-head reveal">
+            <p class="kicker">GAME FEATURES</p>
+            <h2>玩法特色</h2>
+            <p class="desc">传承经典 · 突破创新</p>
+        </div>
+        <div class="feat-grid">
+            <div class="feat-card reveal">
+                <div class="f-no">01</div>
+                <svg class="f-ico" viewBox="0 0 48 48"><use href="#icSword"/></svg>
+                <h3>装备靠打</h3>
+                <div class="f-en">LOOT BASED</div>
+                <div class="f-rule"></div>
+                <p>极品装备不进商城、全靠掉落，市场自由交易、玩家定价，屠龙裁决谁与争锋。</p>
+            </div>
+            <div class="feat-card reveal rv-1">
+                <div class="f-no">02</div>
+                <svg class="f-ico" viewBox="0 0 48 48"><use href="#icSun"/></svg>
+                <h3>散人天堂</h3>
+                <div class="f-en">CASUAL PARADISE</div>
+                <div class="f-rule"></div>
+                <p>无需大投入也能玩得爽，日常任务、挂机收益、福利活动一应俱全，轻松体验。</p>
+            </div>
+            <div class="feat-card reveal rv-2">
+                <div class="f-no">03</div>
+                <svg class="f-ico" viewBox="0 0 48 48"><use href="#icShield"/></svg>
+                <h3>长期养老</h3>
+                <div class="f-en">LONG TERM</div>
+                <div class="f-rule"></div>
+                <p>长久运营承诺，合区有序开展、数据多重备份，养老无忧，兄弟们放心安家。</p>
+            </div>
+            <div class="feat-card reveal rv-3">
+                <div class="f-no">04</div>
+                <svg class="f-ico" viewBox="0 0 48 48"><use href="#icScale"/></svg>
+                <h3>公平绿色</h3>
+                <div class="f-en">FAIR PLAY</div>
+                <div class="f-rule"></div>
+                <p>严厉打击辅助外挂，一经查实一律封号；无商城卖装，绝对公平 · 绝对人气。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ 游戏实景（灯箱画廊） ============ -->
+<section class="section gallery-section" id="gallery">
+    <div class="section-inner">
+        <div class="sec-head reveal">
+            <p class="kicker">IN-GAME SCENERY</p>
+            <h2>游戏实景</h2>
+            <p class="desc">特色系统 · 再续激情 · 点击图片查看大图</p>
+        </div>
+        <div class="gallery-grid">
+            <figure class="shot reveal" data-lightbox="Images00.jpg" data-cap="玛法大陆 · 复古画面 原汁原味">
+                <img src="Images00.jpg" alt="玛法大陆实景" loading="lazy">
+                <figcaption class="veil">
+                    <span class="t">玛法大陆 · 复古画面</span>
+                    <span class="zoom">点击放大 +</span>
+                </figcaption>
+            </figure>
+            <figure class="shot reveal rv-1" data-lightbox="Images01.jpg" data-cap="热血战场 · 激情岁月 重拾当年">
+                <img src="Images01.jpg" alt="热血战场" loading="lazy">
+                <figcaption class="veil">
+                    <span class="t">热血战场 · 激情岁月</span>
+                    <span class="zoom">点击放大 +</span>
+                </figcaption>
+            </figure>
+        </div>
+
+        <!-- 主题曲歌词区 -->
+        <div style="margin-top:78px">
+            <div class="lyrics-wrapper">
+                <div class="lyrics-container" id="lyricsBox"></div>
+            </div>
+            <p class="bgm-credit">THEME SONG · 掌天武易 · BGM PLAYER</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============ 页脚 ============ -->
+<footer>
+    <div class="foot-inner">
+        <svg class="foot-shield" viewBox="0 0 300 400"><use href="#authShield"/></svg>
+        <div class="foot-brand">掌天武易</div>
+        <div class="foot-links">
+            <a href="#home">返回首页</a>
+            <a href="#news">资讯中心</a>
+            <a href="#zhengban">正版授权</a>
+            <a href="https://wwbcw.lanzouq.com/i5f4b3ijw5fi" target="_blank">下载游戏</a>
+            <a href="http://g1.lnhaiqilai.com/group.html?g=f4ea2fc9" target="_blank">在线充值</a>
+            <a href="https://qm.qq.com/q/EEXCCmedLW" target="_blank">联系我们</a>
+        </div>
+        <p class="foot-healthy">
+            抵制不良游戏，拒绝盗版游戏，注意自我保护，谨防受骗上当。<br>
+            适度游戏益脑，沉迷游戏伤身，合理安排时间，享受健康生活。
+        </p>
+        <p class="foot-cr">
+            <b>掌天武易 · 正版授权运营</b> · 专注于 1.76 纯复古版本<br>
+            Copyright © 2026 掌天武易 All Rights Reserved
+        </p>
+    </div>
+</footer>
+
+
+<!-- 音乐控制（左下） -->
+<div class="music-control" id="musicBtn" onclick="toggleMusic()">
+    <span id="musicIcon">🔇</span>
+    <span id="musicText">播放主题曲</span>
+</div>
+
+<!-- 常驻正版授权盾标（右下，永远可见，点击查看授权书） -->
+<a href="#zhengban" class="fixed-badge" title="正版授权 · 点击查看授权书">
+    <span class="fb-tip">官方正版授权<br>点击查看授权书</span>
+    <svg class="fb-svg" viewBox="0 0 300 400"><use href="#authShield"/></svg>
+</a>
+
+<!-- 灯箱 -->
+<div class="lightbox" id="lightbox">
+    <button class="lb-close" id="lbClose" aria-label="关闭">×</button>
+    <img id="lbImg" src="" alt="游戏截图大图">
+    <p class="lb-cap" id="lbCap"></p>
+</div>
+
+<audio id="bgMusic" loop>
+    <source src="掌天武易.mp3" type="audio/mpeg">
+    您的浏览器不支持音频播放。
+</audio>
+
+<script>
+/* ================================================================
+   动效脚本：粒子系统 / 导航状态 / 视差 / 在线人数 / 渐显 /
+             灯箱 / Tab 系统 / 歌词 / 音乐控制
+   ================================================================ */
+
+/* ---------- 1. 金色粒子系统（Canvas 余烬上浮） ---------- */
+(function () {
+    var cv = document.getElementById('fx');
+    var ctx = cv.getContext('2d');
+    var W, H, parts = [], N = 55;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function resize() {
+        W = cv.width = window.innerWidth;
+        H = cv.height = window.innerHeight;
+    }
+    function make(init) {
+        return {
+            x: Math.random() * W,
+            y: init ? Math.random() * H : H + 12,
+            r: .7 + Math.random() * 1.7,
+            vy: .28 + Math.random() * .8,
+            vx: (Math.random() - .5) * .32,
+            ph: Math.random() * Math.PI * 2,
+            sp: .005 + Math.random() * .012,
+            a: .18 + Math.random() * .5
+        };
+    }
+    function tick() {
+        ctx.clearRect(0, 0, W, H);
+        for (var i = 0; i < parts.length; i++) {
+            var p = parts[i];
+            p.ph += p.sp;
+            p.y -= p.vy;
+            p.x += p.vx + Math.sin(p.ph) * .22;
+            if (p.y < -14) parts[i] = make(false);
+            var tw = .55 + .45 * Math.sin(p.ph * 2.4);
+            ctx.globalAlpha = p.a * tw;
+            ctx.fillStyle = '#f7dd87';
+            ctx.shadowColor = 'rgba(247,221,135,.9)';
+            ctx.shadowBlur = 9;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fill();
         }
+        ctx.globalAlpha = 1;
+        requestAnimationFrame(tick);
+    }
+    resize();
+    window.addEventListener('resize', resize);
+    if (!reduce) {
+        for (var i = 0; i < N; i++) parts.push(make(true));
+        tick();
+    }
+})();
 
-        function syncLyrics() {
-            var currentTime = audio.currentTime;
-            let activeIndex = lyricsData.findIndex(item => item.time > currentTime);
-            
-            if (activeIndex === -1) {
-                activeIndex = lyricsData.length - 1;
-            } else {
-                activeIndex = activeIndex - 1;
-            }
-
-            if (activeIndex < 0) activeIndex = 0;
-
-            var lines = document.getElementsByClassName("lrc-line");
-            var currentActive = document.querySelector(".lrc-active");
-            
-            if (currentActive) {
-                currentActive.classList.remove("lrc-active");
-            }
-            if (lines[activeIndex]) {
-                lines[activeIndex].classList.add("lrc-active");
-                // 让高亮行保持在中间 (70px 是容器 padding)
-                let translateY = -(activeIndex * lineHeight); 
-                lyricsBox.style.transform = `translateY(${translateY}px)`;
-            }
+/* ---------- 2. 导航滚动态 + Hero 视差 ---------- */
+(function () {
+    var nav = document.getElementById('siteNav');
+    var heroBg = document.getElementById('heroBg');
+    var heroInner = document.getElementById('heroInner');
+    var ticking = false;
+    function onScroll() {
+        var y = window.scrollY || 0;
+        nav.classList.toggle('scrolled', y > 70);
+        if (y < window.innerHeight) {
+            heroBg.style.transform = 'translateY(' + y * 0.22 + 'px)';
+            heroInner.style.transform = 'translateY(' + y * 0.1 + 'px)';
+            heroInner.style.opacity = 1 - Math.min(y / (window.innerHeight * .85), .85);
         }
+        ticking = false;
+    }
+    window.addEventListener('scroll', function () {
+        if (!ticking) { requestAnimationFrame(onScroll); ticking = true; }
+    }, { passive: true });
+    onScroll();
+})();
 
-        initLyrics();
-        audio.addEventListener("timeupdate", syncLyrics);
-
-        // 更新UI状态的函数
-        function updateMusicUI(playing) {
-            if (playing) {
-                icon.innerText = "💿";
-                icon.classList.add("spin");
-                text.innerText = "战歌奏响";
-            } else {
-                icon.innerText = "🔇";
-                icon.classList.remove("spin");
-                text.innerText = "播放战歌";
-            }
-        }
-
-        // 切换播放/暂停
-        function toggleMusic() {
-            if (isPlaying) {
-                audio.pause();
-                isPlaying = false;
-                updateMusicUI(false);
-            } else {
-                audio.play().then(() => {
-                    isPlaying = true;
-                    updateMusicUI(true);
-                }).catch(e => {
-                    console.log("播放被浏览器拦截");
-                });
-            }
-        }
-
-        // --- 核心逻辑：自动播放与点击激活 ---
-        window.addEventListener('load', function() {
-            // 1. 尝试直接播放
-            var promise = audio.play();
-
-            if (promise !== undefined) {
-                promise.then(_ => {
-                    // 成功：无需做任何事
-                    isPlaying = true;
-                    updateMusicUI(true);
-                }).catch(error => {
-                    // 失败：说明被浏览器拦截了
-                    console.log("自动播放被拦截，启动【点击任意处播放】策略");
-                    
-                    // 2. 添加一个“一次性”的全局点击事件
-                    // 只要用户点页面任何地方，就触发播放，然后这个事件自我销毁
-                    document.addEventListener('click', function unlockAudio() {
-                        if (!isPlaying) {
-                            audio.play().then(() => {
-                                isPlaying = true;
-                                updateMusicUI(true);
-                            });
-                        }
-                        // 移除监听器，避免以后点击导致不必要的逻辑触发
-                        document.removeEventListener('click', unlockAudio);
-                    }, { once: true }); // {once:true} 也可以自动移除
-                });
-            }
+/* ---------- 3. 滚动渐显（IntersectionObserver） ---------- */
+(function () {
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+        els.forEach(function (el) { el.classList.add('vis'); });
+        return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+            if (en.isIntersecting) { en.target.classList.add('vis'); io.unobserve(en.target); }
         });
-    </script>
-    <script type='text/javascript'>var path = '%3Cscript type=\'text/javascript\' src=\'https://vip.xlrzf.com/api/Record/FlowRecord?uid=92224358&g=f4ea2fc9&reffer=' + escape(document.referrer) +'&url='+ unescape(document.location.href) + '\'%3E%3C/script%3E'; document.write(unescape(path));</script>     
+    }, { threshold: 0.13, rootMargin: '0px 0px -6% 0px' });
+    els.forEach(function (el) { io.observe(el); });
+})();
+
+/* ---------- 4. 在线人数滚动 & 运营天数 ---------- */
+(function () {
+    var el = document.getElementById('onlineNum');
+    var online = 8642 + Math.floor(Math.random() * 200);
+    var days = Math.max(1, Math.floor((Date.now() - new Date('2024-01-18').getTime()) / 864e5));
+    var daysEl = document.getElementById('runDays');
+    if (daysEl) daysEl.textContent = Math.floor(days / 100) * 100;
+    function flash() {
+        el.style.transition = 'text-shadow .3s';
+        el.style.textShadow = '0 0 22px rgba(242,217,138,.95)';
+        setTimeout(function () { el.style.textShadow = '0 0 18px rgba(212,175,55,.4)'; }, 400);
+    }
+    setInterval(function () {
+        online += Math.round((Math.random() - .44) * 36);
+        if (online < 8100) online = 8100 + Math.floor(Math.random() * 90);
+        if (online > 9800) online = 9600;
+        el.textContent = online.toLocaleString();
+        flash();
+    }, 4200);
+})();
+
+/* ---------- 5. 截图灯箱 ---------- */
+(function () {
+    var lb = document.getElementById('lightbox');
+    var lbImg = document.getElementById('lbImg');
+    var lbCap = document.getElementById('lbCap');
+    function open(src, cap) {
+        lbImg.src = src; lbCap.textContent = cap || '';
+        lb.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    function close() {
+        lb.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    document.querySelectorAll('[data-lightbox]').forEach(function (el) {
+        el.addEventListener('click', function () {
+            open(el.getAttribute('data-lightbox'), el.getAttribute('data-cap'));
+        });
+    });
+    document.getElementById('lbClose').addEventListener('click', close);
+    lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+})();
+
+/* ---------- 6. Tab 系统（资讯中心 + 职业展示） ---------- */
+(function () {
+    function bindTabs(tabSel, paneAttr) {
+        document.querySelectorAll(tabSel).forEach(function (tab) {
+            tab.addEventListener('click', function () {
+                var group = tab.parentElement;
+                group.querySelectorAll(tabSel).forEach(function (t) { t.classList.remove('on'); });
+                tab.classList.add('on');
+                var scope = group.closest('.section-inner') || document;
+                scope.querySelectorAll('.hub-pane, .cls-pane').forEach(function (p) {
+                    if (p.parentElement.closest('.section-inner') === scope) p.classList.remove('on');
+                });
+                var target = document.getElementById(tab.getAttribute(paneAttr));
+                if (target) target.classList.add('on');
+            });
+        });
+    }
+    bindTabs('.hub-tab', 'data-pane');
+    bindTabs('.cls-tab', 'data-pane');
+})();
+
+/* ---------- 7. 收藏本站 ---------- */
+function favorite() {
+    var title = document.title;
+    var url = window.location.href;
+    try {
+        if (window.sidebar && window.sidebar.addPanel) {
+            window.sidebar.addPanel(title, url, '');
+        } else if (window.external && window.external.AddFavorite) {
+            window.external.AddFavorite(url, title);
+        } else {
+            alert('请使用 Ctrl+D 将本站加入收藏夹');
+        }
+    } catch (e) {
+        alert('请使用 Ctrl+D 将本站加入收藏夹');
+    }
+}
+
+/* ---------- 8. 音乐控制 & 歌词同步 ---------- */
+var audio = document.getElementById("bgMusic");
+var btn = document.getElementById("musicBtn");
+var icon = document.getElementById("musicIcon");
+var text = document.getElementById("musicText");
+var isPlaying = false;
+
+// --- 歌词数据 ---
+var lyricsData = [
+    {time: 0, text: "风 吹过比奇的残垣"},
+    {time: 19, text: "血 在玛法大陆蔓延"},
+    {time: 25, text: "只要闭上眼 就能听见"},
+    {time: 28.5, text: "千军万马 在沙城下的呐喊"},
+    {time: 31.5, text: "那是青春未冷的誓言"},
+    {time: 34, text: "是木剑砍向稻草人的初见"},
+    {time: 38, text: "法神的群电 还在记忆里盘旋"},
+    {time: 41, text: "战圣的烈火 渴望再一次饮血"},
+    {time: 44, text: "道尊的冥王 镇压着深渊"},
+    {time: 47, text: "当魔王苏醒 当兽王踏碎荒原"},
+    {time: 50.5, text: "当冥王在黑暗中露出了笑脸"},
+    {time: 56, text: "三英雄的意志 此刻必须重现"},
+    {time: 62, text: "谁在等待 谁在徘徊"},
+    {time: 68.5, text: "号角已经吹响 这扇门为你打开"},
+    {time: 74.5, text: "别说什么成败 别谈什么意外"},
+    {time: 81.5, text: "在武易的世界 强者生，弱者汰"},
+    {time: 87.5, text: "掌天武易 我们要把这苍穹撕裂"},
+    {time: 93.5, text: "身披天麟圣衣 金甲光芒照亮了黑夜"},
+    {time: 100.5, text: "这是强者的王座 这是王者的世界"},
+    {time: 106.5, text: "只要兄弟并肩 就没有过不去的劫"},
+    {time: 112.5, text: "掌天武易 热血在这一刻最为暴烈"},
+    {time: 118.5, text: "指尖特戒闪烁 麻痹复活掌控了一切"},
+    {time: 125.5, text: "我要那沙城的旗帜 写上我们的名贴"},
+    {time: 132, text: "这一战 注定要让全服都妥协！"},
+    {time: 139.5, text: "不要问我 为何如此执着"},
+    {time: 144.5, text: "看那满地神装 是勇者最好的如歌"},
+    {time: 151.5, text: "从野外厮杀 到皇宫的争夺"},
+    {time: 154.5, text: "每一场PK 都是灵魂的焦灼"},
+    {time: 164, text: "既然来了 就别想轻易逃脱"},
+    {time: 167, text: "拿起你的圣魂 让恩仇在此刻定夺"},
+    {time: 171, text: "岁月带走了年少轻狂 但带不走这满腔滚烫"},
+    {time: 176, text: "这一路风霜 我们一起扛 一起闯 一起狂"},
+    {time: 188.5, text: "掌天武易！我们要把这苍穹撕裂！"},
+    {time: 194.5, text: "身披天麟圣衣 金甲光芒照亮了黑夜"},
+    {time: 201.5, text: "这是强者的王座 这是王者的世界"},
+    {time: 207.5, text: "只要兄弟并肩，就没有过不去的劫"},
+    {time: 213.5, text: "掌天武易 热血在这一刻最为暴烈"},
+    {time: 220, text: "指尖特戒闪烁 麻痹复活掌控了一切"},
+    {time: 226.5, text: "我要那沙城的旗帜 写上我们的名贴"},
+    {time: 233, text: "这一战 注定要让全服都妥协"},
+    {time: 239, text: "掌天武易 这一世 由我掌天"},
+    {time: 253, text: "字幕:掌天武易"}
+];
+
+var lyricsBox = document.getElementById("lyricsBox");
+var lineHeight = 30;
+
+function initLyrics() {
+    lyricsBox.innerHTML = "";
+    lyricsData.forEach(function (item, index) {
+        var p = document.createElement("div");
+        p.innerText = item.text;
+        p.className = "lrc-line";
+        lyricsBox.appendChild(p);
+    });
+}
+
+function syncLyrics() {
+    var currentTime = audio.currentTime;
+    var activeIndex = lyricsData.findIndex(function (item) { return item.time > currentTime; });
+    if (activeIndex === -1) activeIndex = lyricsData.length - 1;
+    else activeIndex = activeIndex - 1;
+    if (activeIndex < 0) activeIndex = 0;
+
+    var lines = document.getElementsByClassName("lrc-line");
+    var currentActive = document.querySelector(".lrc-active");
+    if (currentActive) currentActive.classList.remove("lrc-active");
+    if (lines[activeIndex]) {
+        lines[activeIndex].classList.add("lrc-active");
+        lyricsBox.style.transform = "translateY(" + (-(activeIndex * lineHeight)) + "px)";
+    }
+}
+initLyrics();
+audio.addEventListener("timeupdate", syncLyrics);
+
+function updateMusicUI(playing) {
+    if (playing) {
+        icon.innerText = "💿";
+        icon.classList.add("spin");
+        text.innerText = "主题曲奏响";
+    } else {
+        icon.innerText = "🔇";
+        icon.classList.remove("spin");
+        text.innerText = "播放主题曲";
+    }
+}
+
+function toggleMusic() {
+    if (isPlaying) {
+        audio.pause();
+        isPlaying = false;
+        updateMusicUI(false);
+    } else {
+        audio.play().then(function () {
+            isPlaying = true;
+            updateMusicUI(true);
+        }).catch(function () {
+            console.log("播放被浏览器拦截");
+        });
+    }
+}
+
+// 自动播放：失败则启用「首次点击任意处解锁」策略
+window.addEventListener('load', function () {
+    var promise = audio.play();
+    if (promise !== undefined) {
+        promise.then(function () {
+            isPlaying = true;
+            updateMusicUI(true);
+        }).catch(function () {
+            document.addEventListener('click', function unlockAudio() {
+                if (!isPlaying) {
+                    audio.play().then(function () {
+                        isPlaying = true;
+                        updateMusicUI(true);
+                    });
+                }
+                document.removeEventListener('click', unlockAudio);
+            }, { once: true });
+        });
+    }
+});
+</script>
+<script type='text/javascript'>var path = '%3Cscript type=\'text/javascript\' src=\'https://vip.xlrzf.com/api/Record/FlowRecord?uid=92224358&g=f4ea2fc9&reffer=' + escape(document.referrer) +'&url='+ unescape(document.location.href) + '\'%3E%3C/script%3E'; document.write(unescape(path));</script>
 
 </body>
 </html>
