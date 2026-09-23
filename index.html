@@ -122,58 +122,39 @@ img { -webkit-user-drag: none; }
 }
 .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(212,175,55,.4); }
 
-/* ============ 全屏 Hero ============ */
-.hero {
-    position: relative; min-height: 92vh; min-height: 92svh;
-    display: flex; align-items: center; overflow: hidden;
-    padding: 70px 0 84px;
+/* ============ 全屏 Hero（横幅主视觉） ============ */
+.hero { position: relative; background: var(--ink); }
+/* 横幅容器：宽度自适应 + aspect-ratio 与图片 1998x528 精确等比，不受滚动条宽度影响 */
+.hero-banner {
+    position: relative;
+    aspect-ratio: 1998 / 528;
+    max-height: 720px;
+    overflow: hidden;
 }
 .hero-bg {
-    position: absolute; inset: -4%;
-    background: url('Images00.jpg') center / cover no-repeat;
-    animation: kenburns 36s ease-in-out infinite alternate;
-    filter: brightness(.72) saturate(1.15) contrast(1.05);
-    will-change: transform;
+    position: absolute; inset: 0;
+    background: url('ztwy.jfif') left center / cover no-repeat;
+    filter: brightness(.82) saturate(1.08) contrast(1.05);
 }
-@keyframes kenburns { from { transform: scale(1) translateY(0); } to { transform: scale(1.15) translateY(-1.5%); } }
 .hero-mask {
     position: absolute; inset: 0;
     background:
-        linear-gradient(180deg, rgba(14,0,0,.78) 0%, rgba(60,4,4,.34) 38%, rgba(24,1,1,.62) 74%, var(--ink) 97%),
-        radial-gradient(ellipse at 50% 30%, transparent 40%, rgba(10,0,0,.55) 100%);
+        linear-gradient(180deg, rgba(14,0,0,.52) 0%, rgba(46,3,3,.10) 22%, rgba(24,1,1,.06) 48%, rgba(12,0,0,.30) 64%, rgba(10,0,0,.55) 78%, rgba(8,0,0,.82) 90%, var(--ink) 97%, var(--ink) 100%),
+        radial-gradient(ellipse at 50% 28%, transparent 46%, rgba(10,0,0,.40) 100%);
+    pointer-events: none;
 }
-.hero-inner {
+/* 横幅下方信息条 */
+.hero-bar {
     position: relative; z-index: 5;
-    max-width: 1280px; width: 100%; margin: 0 auto; padding: 0 40px;
-    display: grid; grid-template-columns: 1.12fr .88fr; gap: 56px; align-items: center;
+    max-width: 1280px; width: 100%; margin: 0 auto;
+    padding: 26px 40px 32px;
+    display: flex; align-items: flex-end; gap: 26px 30px; flex-wrap: wrap;
 }
-.hero-eyebrow {
-    display: flex; align-items: center; gap: 16px;
-    font-family: var(--num); font-size: 13px; font-weight: 600;
-    letter-spacing: 6px; color: rgba(242,217,138,.82);
-    animation: fadeUp 1s .1s both;
+.visually-hidden {
+    position: absolute; width: 1px; height: 1px; margin: -1px;
+    clip: rect(0 0 0 0); overflow: hidden; white-space: nowrap;
 }
-.hero-eyebrow i { flex: none; width: 54px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-2)); font-style: normal; }
-.hero-eyebrow i:last-child { background: linear-gradient(90deg, var(--gold-2), transparent); }
-.hero-title {
-    margin: 22px 0 6px;
-    font-size: clamp(58px, 8.6vw, 112px); font-weight: 900;
-    letter-spacing: clamp(8px, 1.6vw, 20px); line-height: 1.06; white-space: nowrap;
-    background: linear-gradient(112deg, #9a7b1e 0%, #f2d98a 24%, #fffbe8 50%, #f2d98a 76%, #9a7b1e 100%);
-    background-size: 210% auto;
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-    filter: drop-shadow(0 6px 0 rgba(52,0,0,.9)) drop-shadow(0 18px 34px rgba(0,0,0,.6));
-    animation: shine 8s linear infinite, fadeUp 1s .2s both;
-}
-@keyframes shine { to { background-position: 210% center; } }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
-.hero-sub {
-    display: flex; align-items: baseline; gap: 14px;
-    margin-bottom: 34px;
-    animation: fadeUp 1s .32s both;
-}
-.hero-sub .zh { font-size: 22px; font-weight: 700; letter-spacing: 6px; color: var(--gold); text-shadow: 0 2px 10px rgba(0,0,0,.6); }
-.hero-sub .en { font-family: var(--num); font-size: 11px; letter-spacing: 4px; color: rgba(242,217,138,.55); }
 /* 服务器数据条 */
 .stat-bar {
     display: flex; max-width: 560px;
@@ -193,7 +174,7 @@ img { -webkit-user-drag: none; }
 .live-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #3ddc6e; box-shadow: 0 0 10px #3ddc6e; margin-right: 6px; vertical-align: 1px; animation: pulse 2s infinite; }
 @keyframes pulse { 50% { opacity: .55; box-shadow: 0 0 3px #3ddc6e; } }
 /* CTA */
-.cta-row { display: flex; gap: 22px; margin-top: 36px; flex-wrap: wrap; animation: fadeUp 1s .56s both; }
+.cta-row { display: flex; gap: 22px; flex-wrap: wrap; animation: fadeUp 1s .56s both; }
 .btn {
     position: relative; overflow: hidden; display: inline-block;
     font-family: var(--serif); font-weight: 700; font-size: 19px; letter-spacing: 3px;
@@ -222,7 +203,7 @@ img { -webkit-user-drag: none; }
 }
 .btn:hover::after { left: 160%; }
 /* 快捷链接胶囊 */
-.hero-chips { display: flex; gap: 12px; margin-top: 22px; flex-wrap: wrap; animation: fadeUp 1s .66s both; }
+.hero-chips { display: flex; gap: 12px; flex-wrap: wrap; animation: fadeUp 1s .66s both; }
 .chip {
     text-decoration: none; font-size: 12.5px; letter-spacing: 2px;
     color: rgba(242,217,138,.9); border: 1px solid rgba(212,175,55,.4);
@@ -253,23 +234,6 @@ img { -webkit-user-drag: none; }
     mask-image: linear-gradient(to top, rgba(0,0,0,.5), transparent 58%);
     filter: blur(1px);
 }
-/* 滚动提示 */
-.scroll-hint {
-    position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%);
-    z-index: 6; text-decoration: none; text-align: center;
-    animation: fadeUp 1s .9s both;
-}
-.scroll-hint .mouse {
-    width: 25px; height: 40px; margin: 0 auto 8px;
-    border: 2px solid rgba(242,217,138,.75); border-radius: 14px; position: relative;
-}
-.scroll-hint .mouse::before {
-    content: ""; position: absolute; top: 7px; left: 50%; width: 3px; height: 7px;
-    margin-left: -1.5px; border-radius: 2px; background: var(--gold);
-    animation: wheel 1.8s ease-in-out infinite;
-}
-@keyframes wheel { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(13px); opacity: 0; } 100% { opacity: 0; } }
-.scroll-hint .txt { font-family: var(--num); font-size: 10px; letter-spacing: 5px; color: rgba(242,217,138,.7); }
 
 /* ============ 公告滚动条 ============ */
 .ticker {
@@ -712,14 +676,10 @@ footer {
     .feat-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 960px) {
-    .hero-inner { grid-template-columns: 1fr; gap: 46px; text-align: center; }
-    .hero { padding-top: 46px; }
-    .hero-eyebrow { justify-content: center; }
-    .hero-sub { justify-content: center; }
+    .hero-bar { justify-content: center; text-align: center; }
     .stat-bar { margin: 0 auto; }
     .cta-row { justify-content: center; }
     .hero-chips { justify-content: center; }
-    .hero-shield-wrap { max-width: 380px; margin: 0 auto; }
     .hub-layout { grid-template-columns: 1fr; gap: 40px; }
     .license-grid { grid-template-columns: 1fr; gap: 60px; }
     .flow-grid { grid-template-columns: 1fr; }
@@ -733,24 +693,21 @@ footer {
     .nav-links a { font-size: 13px; letter-spacing: 1px; margin: 0; }
     .nav-cta { display: none; }
     .section { padding: 72px 18px; }
-    .hero { padding: 36px 0 60px; min-height: auto; }
-    .hero-title { white-space: normal; }
+    .hero-banner { aspect-ratio: auto; height: clamp(190px, 52vw, 300px); }
+    .hero-bar { padding: 18px 18px 22px; gap: 18px; }
     .ticker-label { font-size: 11.5px; letter-spacing: 2px; padding-left: 14px; }
     .ticker-track .run { font-size: 12px; }
-    .stat-bar { flex-wrap: wrap; }
+    .stat-bar { flex-wrap: wrap; max-width: 100%; }
     .stat { min-width: 45%; }
     .stat + .stat::before { display: none; }
     .cta-row { gap: 14px; }
     .btn { font-size: 16.5px; }
     .btn-gold { padding: 15px 34px; } .btn-line { padding: 14px 32px; }
-    .floating-ad { display: none; }
     .fixed-badge { right: 14px; bottom: 14px; }
     .fixed-badge .fb-svg { width: 74px; }
     .fixed-badge .fb-tip { display: none; }
     .music-control { left: 12px; bottom: 12px; padding: 8px 12px; font-size: 12px; }
-    .scroll-hint { display: none; }
-    .hero-shield { width: min(240px, 66vw); }
-    .hero-shield-reflection, .badge-stage .big-shield-reflection { display: none; }
+    .badge-stage .big-shield-reflection { display: none; }
     footer { padding: 54px 18px 120px; }
     .shot .veil .zoom { display: none; }
     .hub-item { padding: 15px 16px; }
@@ -956,50 +913,36 @@ footer {
 
 <!-- ============ 全屏 Hero ============ -->
 <section class="hero" id="home">
-    <div class="hero-bg" id="heroBg"></div>
-    <div class="hero-mask"></div>
-    <div class="hero-inner" id="heroInner">
-        <div class="hero-left">
-            <p class="hero-eyebrow"><i></i>OFFICIALLY LICENSED · CLASSIC 1.76<i></i></p>
-            <h1 class="hero-title">掌天武易</h1>
-            <div class="hero-sub">
-                <span class="zh">纯正复古 · 散人天堂 · 装备保值</span>
-                <span class="en">PURE CLASSIC · LEGEND REBORN</span>
+    <div class="hero-banner">
+        <div class="hero-bg" id="heroBg"></div>
+        <div class="hero-mask"></div>
+    </div>
+    <h1 class="visually-hidden">掌天武易 - 经典复古传奇 2000龙版</h1>
+    <div class="hero-bar" id="heroInner">
+        <div class="stat-bar">
+            <div class="stat">
+                <div class="num"><span class="live-dot"></span><span id="onlineNum">8,642</span></div>
+                <div class="lbl">当前在线</div>
             </div>
-            <div class="stat-bar">
-                <div class="stat">
-                    <div class="num"><span class="live-dot"></span><span id="onlineNum">8,642</span></div>
-                    <div class="lbl">当前在线</div>
-                </div>
-                <div class="stat">
-                    <div class="num">12<span class="unit">组</span></div>
-                    <div class="lbl">开放服务器</div>
-                </div>
-                <div class="stat">
-                    <div class="num"><span id="runDays">900</span><span class="unit">天+</span></div>
-                    <div class="lbl">稳定运营</div>
-                </div>
+            <div class="stat">
+                <div class="num">12<span class="unit">组</span></div>
+                <div class="lbl">开放服务器</div>
             </div>
-            <div class="cta-row">
-                <a class="btn btn-gold" href="https://wwbcw.lanzouq.com/i5f4b3ijw5fi" target="_blank">登陆器下载 · 踏入玛法</a>
-                <a class="btn btn-line" href="http://g1.lnhaiqilai.com/group.html?g=f4ea2fc9" target="_blank">在线充值赞助</a>
-            </div>
-            <div class="hero-chips">
-                <a class="chip" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank">🛡 官方玩家群</a>
-                <a class="chip" href="#news">📋 资讯公告</a>
-                <a class="chip" href="#features">✨ 玩法特色</a>
+            <div class="stat">
+                <div class="num"><span id="runDays">900</span><span class="unit">天+</span></div>
+                <div class="lbl">稳定运营</div>
             </div>
         </div>
-        <div class="hero-shield-wrap">
-            <div class="hero-shield-halo"></div>
-            <svg class="hero-shield" viewBox="0 0 300 400"><use href="#authShield"/></svg>
-            <svg class="hero-shield-reflection" viewBox="0 0 300 400" aria-hidden="true"><use href="#authShield"/></svg>
+        <div class="cta-row">
+            <a class="btn btn-gold" href="https://wwbcw.lanzouq.com/i5f4b3ijw5fi" target="_blank">登陆器下载 · 踏入玛法</a>
+            <a class="btn btn-line" href="http://g1.lnhaiqilai.com/group.html?g=f4ea2fc9" target="_blank">在线充值赞助</a>
+        </div>
+        <div class="hero-chips">
+            <a class="chip" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank">🛡 官方玩家群</a>
+            <a class="chip" href="#news">📋 资讯公告</a>
+            <a class="chip" href="#features">✨ 玩法特色</a>
         </div>
     </div>
-    <a class="scroll-hint" href="#news">
-        <div class="mouse"></div>
-        <div class="txt">SCROLL</div>
-    </a>
 </section>
 
 <!-- ============ 官方公告滚动条 ============ -->
@@ -1432,20 +1375,12 @@ footer {
     }
 })();
 
-/* ---------- 2. 导航滚动态 + Hero 视差 ---------- */
+/* ---------- 2. 导航滚动态 ---------- */
 (function () {
     var nav = document.getElementById('siteNav');
-    var heroBg = document.getElementById('heroBg');
-    var heroInner = document.getElementById('heroInner');
     var ticking = false;
     function onScroll() {
-        var y = window.scrollY || 0;
-        nav.classList.toggle('scrolled', y > 70);
-        if (y < window.innerHeight) {
-            heroBg.style.transform = 'translateY(' + y * 0.22 + 'px)';
-            heroInner.style.transform = 'translateY(' + y * 0.1 + 'px)';
-            heroInner.style.opacity = 1 - Math.min(y / (window.innerHeight * .85), .85);
-        }
+        nav.classList.toggle('scrolled', (window.scrollY || 0) > 70);
         ticking = false;
     }
     window.addEventListener('scroll', function () {
