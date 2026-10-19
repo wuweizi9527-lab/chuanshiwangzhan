@@ -1315,7 +1315,7 @@ footer {
     <p class="lb-cap" id="lbCap"></p>
 </div>
 
-<audio id="bgMusic" loop preload="none">
+<audio id="bgMusic" loop preload="metadata">
     <source src="掌天武易.mp3" type="audio/mpeg">
     您的浏览器不支持音频播放。
 </audio>
@@ -1573,7 +1573,13 @@ function syncLyrics() {
 initLyrics();
 audio.addEventListener("timeupdate", syncLyrics);
 
-function updateMusicUI(playing) {
+function updateMusicUI(playing, loading) {
+    if (loading) {
+        icon.innerText = "💿";
+        icon.classList.add("spin");
+        text.innerText = "音乐缓冲中…";
+        return;
+    }
     if (playing) {
         icon.innerText = "💿";
         icon.classList.add("spin");
@@ -1600,25 +1606,35 @@ function toggleMusic() {
     }
 }
 
-// 自动播放：失败则启用「首次点击任意处解锁」策略
-window.addEventListener('load', function () {
+/* 自动播放触发策略
+   原逻辑要等 load 事件才挂监听：一旦第三方资源或字体拖住 load，
+   用户此前的点击会全部丢失，表现为「点哪儿都不响」。
+   改为：脚本就绪即刻挂载交互解锁，让首次点击必定生效。 */
+function startMusic() {
+    if (isPlaying) return;
+    updateMusicUI(false, true);
     var promise = audio.play();
-    if (promise !== undefined) {
+    if (promise !== undefined && promise.then) {
         promise.then(function () {
             isPlaying = true;
             updateMusicUI(true);
         }).catch(function () {
-            document.addEventListener('click', function unlockAudio() {
-                if (!isPlaying) {
-                    audio.play().then(function () {
-                        isPlaying = true;
-                        updateMusicUI(true);
-                    });
-                }
-                document.removeEventListener('click', unlockAudio);
-            }, { once: true });
+            updateMusicUI(false);
         });
+    } else {
+        updateMusicUI(false);
     }
+}
+
+['click', 'touchend', 'keydown'].forEach(function (ev) {
+    document.addEventListener(ev, function onceUnlock() {
+        document.removeEventListener(ev, onceUnlock);
+        startMusic();
+    }, { once: true, passive: true });
+});
+
+window.addEventListener('load', function () {
+    startMusic();
 });
 </script>
 <script>
