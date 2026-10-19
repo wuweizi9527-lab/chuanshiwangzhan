@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>掌天武易 - 正版授权 · 纯正复古 | 散人天堂</title>
 <meta name="description" content="掌天武易 - 正版授权 1.76 纯复古传奇 · 散人天堂 · 装备保值">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=Cinzel:wght@500;600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=Cinzel:wght@500;600;700&display=swap"></noscript>
 <style>
 /* ================================================================
    掌天武易 · 官方正版网站 v3
@@ -12,7 +14,7 @@
    资讯中心(Tab) / 正版授权 / 职业展示(Tab) / 玩法特色(四宫格) /
    游戏实景(灯箱) / 页脚 / 常驻盾标
    ================================================================ */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=Cinzel:wght@500;600;700&display=swap');
+/* 字体已改为 head 中非阻塞加载，避免国内连不上 Google Fonts 时阻塞首屏渲染 */
 
 :root {
     --ink:      #160303;
@@ -971,7 +973,7 @@ footer {
             <a class="headline reveal" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank">
                 <div class="hl-img">
                     <span class="hl-tag">头 条</span>
-                    <img src="Images00.jpg" alt="新区开启" loading="lazy">
+                    <img src="Images00.webp" alt="新区开启" loading="lazy">
                 </div>
                 <div class="hl-body">
                     <h3>新区「掌天武易 · 长期养老」正式开启</h3>
@@ -1048,7 +1050,7 @@ footer {
                     <span class="corner bl"></span><span class="corner br"></span>
                     <!-- 正版授权书展示位：拿到正式授权书大图后，替换下方 img 的 src 即可 -->
                     <div class="license-display">
-                        <img src="zhengban.png" alt="正版授权书" loading="lazy">
+                        <img src="zhengban.webp" alt="正版授权书" loading="lazy">
                     </div>
                     <div class="license-seal" aria-hidden="true">
                         <span class="star">★</span>
@@ -1243,15 +1245,15 @@ footer {
             <p class="desc">特色系统 · 再续激情 · 点击图片查看大图</p>
         </div>
         <div class="gallery-grid">
-            <figure class="shot reveal" data-lightbox="Images00.jpg" data-cap="玛法大陆 · 复古画面 原汁原味">
-                <img src="Images00.jpg" alt="玛法大陆实景" loading="lazy">
+            <figure class="shot reveal" data-lightbox="Images00.webp" data-cap="玛法大陆 · 复古画面 原汁原味">
+                <img src="Images00.webp" alt="玛法大陆实景" loading="lazy">
                 <figcaption class="veil">
                     <span class="t">玛法大陆 · 复古画面</span>
                     <span class="zoom">点击放大 +</span>
                 </figcaption>
             </figure>
-            <figure class="shot reveal rv-1" data-lightbox="Images01.jpg" data-cap="热血战场 · 激情岁月 重拾当年">
-                <img src="Images01.jpg" alt="热血战场" loading="lazy">
+            <figure class="shot reveal rv-1" data-lightbox="Images01.webp" data-cap="热血战场 · 激情岁月 重拾当年">
+                <img src="Images01.webp" alt="热血战场" loading="lazy">
                 <figcaption class="veil">
                     <span class="t">热血战场 · 激情岁月</span>
                     <span class="zoom">点击放大 +</span>
@@ -1313,7 +1315,7 @@ footer {
     <p class="lb-cap" id="lbCap"></p>
 </div>
 
-<audio id="bgMusic" loop>
+<audio id="bgMusic" loop preload="none">
     <source src="掌天武易.mp3" type="audio/mpeg">
     您的浏览器不支持音频播放。
 </audio>
@@ -1619,7 +1621,16 @@ window.addEventListener('load', function () {
     }
 });
 </script>
-<script type='text/javascript'>var path = '%3Cscript type=\'text/javascript\' src=\'https://vip.xlrzf.com/api/Record/FlowRecord?uid=92224358&g=f4ea2fc9&reffer=' + escape(document.referrer) +'&url='+ unescape(document.location.href) + '\'%3E%3C/script%3E'; document.write(unescape(path));</script>
+<script>
+window.addEventListener('load', function () {
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://vip.xlrzf.com/api/Record/FlowRecord?uid=92224358&g=f4ea2fc9&reffer='
+        + encodeURIComponent(document.referrer)
+        + '&url=' + encodeURIComponent(document.location.href);
+    document.body.appendChild(s);
+});
+</script>
 
 </body>
 </html>
