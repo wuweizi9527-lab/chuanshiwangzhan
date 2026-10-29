@@ -719,6 +719,16 @@ footer {
     .headline .hl-body { padding: 18px 18px 16px; }
     .headline h3 { font-size: 18px; }
 }
+
+    /* ---------- 暂未开放提示浮层 ---------- */
+    .soon-toast{position:fixed;left:50%;bottom:104px;transform:translate(-50%,18px);z-index:9999;
+        background:linear-gradient(180deg,#2a0808,#160303);border:1px solid var(--gold-2);
+        box-shadow:0 10px 30px rgba(0,0,0,.55),inset 0 0 0 1px rgba(242,217,138,.14);
+        color:var(--gold);font-family:var(--serif);font-size:15px;letter-spacing:.06em;
+        padding:14px 28px;border-radius:3px;white-space:nowrap;opacity:0;pointer-events:none;
+        transition:opacity .28s ease,transform .28s ease}
+    .soon-toast.show{opacity:1;transform:translate(-50%,0)}
+    @media(max-width:520px){.soon-toast{font-size:13px;padding:12px 18px;bottom:88px}}
 </style>
 </head>
 <body>
@@ -886,7 +896,7 @@ footer {
         <div class="topbar-links">
             <a href="https://qm.qq.com/q/EEXCCmedLW" target="_blank">🛡 官方QQ群：1026232943</a>
             <span class="dot">|</span>
-            <a href="#home" target="_blank">💰 我要充值</a>
+            <a class="pay-soon" href="javascript:void(0)" title="暂未开放，敬请期待" aria-disabled="true">💰 我要充值</a>
             <span class="dot">|</span>
             <a href="javascript:void(0)" onclick="favorite()">⭐ 收藏本站</a>
         </div>
@@ -909,7 +919,7 @@ footer {
             <a href="#features">玩法特色</a>
             <a href="#gallery">游戏实景</a>
         </nav>
-        <a class="nav-cta" href="https://wwaxo.lanzouu.com/iv1194akokba" target="_blank">下载登陆器</a>
+        <a class="nav-cta" href="javascript:void(0)" title="敬请期待，即将开放" aria-disabled="true" style="cursor:default">即将开放下载</a>
     </div>
 </header>
 
@@ -936,8 +946,8 @@ footer {
             </div>
         </div>
         <div class="cta-row">
-            <a class="btn btn-gold" href="https://wwaxo.lanzouu.com/iv1194akokba" target="_blank">登陆器下载 · 踏入玛法</a>
-            <a class="btn btn-line" href="#home" target="_blank">在线充值赞助</a>
+            <a class="btn btn-gold" href="javascript:void(0)" title="敬请期待，即将开放" aria-disabled="true" style="cursor:default">即将开放下载</a>
+            <a class="btn btn-line pay-soon" href="javascript:void(0)" title="暂未开放，敬请期待" aria-disabled="true">在线充值赞助</a>
         </div>
         <div class="hero-chips">
             <a class="chip" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank">🛡 官方玩家群</a>
@@ -996,7 +1006,7 @@ footer {
                     <a class="hub-item" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">新区「掌天武易 · 长期养老」正式开启，充值比例 1:3</span><span class="hi-date">09-03</span></a>
                     <a class="hub-item" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">关于严厉打击使用辅助软件等非正常游戏行为的公告</span><span class="hi-date">09-01</span></a>
                     <a class="hub-item" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">QQ千人交流群 1026232943 现已开放，欢迎归队</span><span class="hi-date">08-28</span></a>
-                    <a class="hub-item" href="#home" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">在线充值通道升级完毕，支付更快捷更安全</span><span class="hi-date">08-25</span></a>
+                    <a class="hub-item pay-soon" href="javascript:void(0)" title="暂未开放，敬请期待" aria-disabled="true"><span class="hi-mark"></span><span class="hi-ttl">在线充值通道升级完毕，支付更快捷更安全</span><span class="hi-date">08-25</span></a>
                     <a class="hub-item" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">合区账号变更公告 · 请及时查询并绑定账号信息</span><span class="hi-date">08-20</span></a>
                     <a class="hub-item" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">关于防范线下交易诈骗的风险提示</span><span class="hi-date">08-15</span></a>
                     <a class="hub-more" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank">更多资讯 +</a>
@@ -1280,8 +1290,8 @@ footer {
             <a href="#home">返回首页</a>
             <a href="#news">资讯中心</a>
             <a href="#zhengban">正版授权</a>
-            <a href="https://wwaxo.lanzouu.com/iv1194akokba" target="_blank">下载游戏</a>
-            <a href="#home" target="_blank">在线充值</a>
+            <a href="javascript:void(0)" title="敬请期待，即将开放" aria-disabled="true" style="cursor:default">即将开放下载</a>
+            <a class="pay-soon" href="javascript:void(0)" title="暂未开放，敬请期待" aria-disabled="true">在线充值</a>
             <a href="https://qm.qq.com/q/EEXCCmedLW" target="_blank">联系我们</a>
         </div>
         <p class="foot-healthy">
@@ -1488,6 +1498,36 @@ function favorite() {
         alert('请使用 Ctrl+D 将本站加入收藏夹');
     }
 }
+
+
+/* ---------- 7.5 暂未开放提示 ---------- */
+var soonTimer = null;
+function showSoon(msg){
+    var el = document.getElementById("soonToast");
+    if(!el){
+        el = document.createElement("div");
+        el.id = "soonToast";
+        el.className = "soon-toast";
+        document.body.appendChild(el);
+    }
+    el.textContent = msg || "在线充值暂未开放 · 敬请期待";
+    void el.offsetWidth;               /* 强制重排，保证连续点击也能重播动画 */
+    el.classList.add("show");
+    clearTimeout(soonTimer);
+    soonTimer = setTimeout(function(){ el.classList.remove("show"); }, 2600);
+}
+/* 事件委托：任何带 .pay-soon 的元素被点击都只弹提示，不跳转 */
+document.addEventListener("click", function(e){
+    var t = e.target;
+    while(t && t !== document){
+        if(t.classList && t.classList.contains("pay-soon")){
+            e.preventDefault();
+            showSoon(t.getAttribute("data-soon"));
+            return;
+        }
+        t = t.parentNode;
+    }
+});
 
 /* ---------- 8. 音乐控制 & 歌词同步 ---------- */
 var audio = document.getElementById("bgMusic");
