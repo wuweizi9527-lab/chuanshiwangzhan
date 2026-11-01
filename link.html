@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>登录器公告</title>
 <style>
-/* 全局：铺满登录器公告小窗口(537x340)，无滚动条、无溢出 */
+/* 全局：适配登录器公告小窗口(537x340)，无滚动条、无溢出 */
 html, body {
     margin: 0;
     padding: 0;
@@ -15,7 +15,7 @@ html, body {
 }
 body {
     background-color: #000000;
-    font-size: 12px;
+    font-size: 16px;
     color: #00ff00;
     font-family: "宋体", Arial;
 }
@@ -31,7 +31,7 @@ a:hover { color: #ffcc00; text-decoration: underline; }
 .STYLE46 { font-weight: bold; color: #FF0000; }
 .STYLE51 { color: #FF0000; }
 
-/* 外框：左侧立绘 + 右侧信息，列宽用百分比自适应 */
+/* 外框：左侧立绘 + 右侧公告清单 */
 .wrap {
     width: 100%;
     height: 330px;
@@ -40,64 +40,53 @@ a:hover { color: #ffcc00; text-decoration: underline; }
     background-color: #000000;
 }
 .wrap > tbody > tr > td { padding: 0; }
+
+/* 立绘：按 424x632 原始比例，占 41% 宽即可撑满 330px 高 */
 .pic {
-    width: 40%;
+    width: 186px;
     text-align: center;
-    vertical-align: middle;
+    vertical-align: top;
+    padding: 0;
 }
+/* 立绘 941x1672：按 330px 高换算 = 186px 宽，严格等比、不裁切 */
 .pic img {
     display: block;
-    width: 100%;
-    height: auto;
+    width: 186px;
+    height: 330px;
 }
+
+/* 右侧：10 条公告单列排布，行高固定不依赖百分比高度传递 */
 .info {
     vertical-align: top;
-    padding: 0 2px 0 3px;
+    padding: 0 4px 0 6px;
 }
-
-/* 右侧：内容区 + 底部跑马灯，垂直撑满 */
-.inner {
+.list {
     width: 100%;
-    height: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
-}
-.inner > tbody > tr > td { padding: 0; }
-.t-mq { height: 26px; border-top: 1px solid #333333; }
-
-/* 10 条公告：两列五排。
-   用 auto 布局让列宽按实际文字宽度自适应，保证任何一行都不会被截断 */
-.grid {
-    width: 100%;
-    height: 100%;
     border-collapse: collapse;
     table-layout: auto;
 }
-.grid > tbody > tr > td { padding: 0; }
-.c1 { padding-right: 3px; }
-
-.cell {
-    font-size: 11px;
-    letter-spacing: -1px;
-    line-height: 1;
+.row {
+    height: 30px;
+    line-height: 30px;
+    font-size: 16px;
     white-space: nowrap;
-    overflow: hidden;
     vertical-align: middle;
     padding: 0;
 }
-/* 内容较长、容易顶到边缘的行：字号已统一变小，此处保留类目便于后续微调 */
-.long-text {
-    font-size: 11px;
-    font-family: Tahoma, "宋体";
-    letter-spacing: -1px;
-}
-.cell img.bullet { width: 6px; height: 6px; vertical-align: middle; margin-right: 2px; }
-.cell img.tag   { width: 23px; height: 12px; vertical-align: middle; margin-left: 3px; }
+.row img.bullet { width: 8px; height: 8px; vertical-align: middle; margin-right: 4px; }
+.row img.tag   { width: 28px; height: 15px; vertical-align: middle; margin-left: 4px; }
 
 /* 跑马灯 */
+.t-mq {
+    height: 30px;
+    line-height: 30px;
+    border-top: 1px solid #333333;
+    text-align: center;
+}
 marquee {
-    width: 96%;
-    font-size: 12px;
+    width: 100%;
+    font-size: 16px;
+    line-height: 30px;
     color: #ffffff;
 }
 </style>
@@ -110,61 +99,41 @@ marquee {
     <td class="pic"><img src="Link/222333.jpg" border="0" alt=""></td>
 
     <td class="info">
-      <table class="inner">
+      <table class="list">
         <tbody>
         <tr>
-          <td>
-            <table class="grid">
-              <tbody>
-              <tr>
-                <td class="c1 cell">
-                  <img class="bullet" src="Link/3.gif" alt=""> <span class="style28">新区:<span class="STYLE43">掌天武易 长期养老</span></span>
-                </td>
-                <td class="c2 cell">
-                  <img class="bullet" src="Link/3.gif" alt=""> 重回经典 燃烧激情 <img class="tag" src="Link/New.gif" alt="">
-                </td>
-              </tr>
-              <tr>
-                <td class="c1 cell long-text">
-                  <img class="bullet" src="Link/3.gif" alt=""> <span class="STYLE40">比例:<span class="STYLE46">1:3 不谈比例免开尊口</span></span>
-                </td>
-                <td class="c2 cell">
-                  <img class="bullet" src="Link/3.gif" alt=""> <span class="STYLE41">长久稳定.公平公正</span> <img class="tag" src="Link/New.gif" alt="">
-                </td>
-              </tr>
-              <tr>
-                <td class="c1 cell">
-                  <img class="bullet" src="Link/3.gif" alt=""> <font color="#FFFFFF">2026年 </font><font color="#FF00FF">长久耐玩 绝对独家</font>
-                </td>
-                <td class="c2 cell long-text">
-                  <img class="bullet" src="Link/3.gif" alt=""> 警告:使用辅助一律封号<img class="tag" src="Link/New.gif" alt="">
-                </td>
-              </tr>
-              <tr>
-                <td class="c1 cell long-text">
-                  <img class="bullet" src="Link/3.gif" alt=""> <a target="_blank" href="http://g1.lnhaiqilai.com/group.html?g=f4ea2fc9">点击进入在线充值元宝</a><img class="tag" src="Link/New.gif" alt="">
-                </td>
-                <td class="c2 cell long-text">
-                  <img class="bullet" src="Link/3.gif" alt=""> <span class="STYLE51"><a href="https://qm.qq.com/q/EEXCCmedLW" target="blank">合区账号变更点击查询-QQ群</a></span><img class="tag" src="Link/New.gif" alt="">
-                </td>
-              </tr>
-              <tr>
-                <td class="c1 cell">
-                  <img class="bullet" src="Link/3.gif" alt=""> QQ群:1026232943 <span class="STYLE51">防骗</span>
-                </td>
-                <td class="c2 cell">
-                  <img class="bullet" src="Link/3.gif" alt=""> 安全无毒 误报请忽略<img class="tag" src="Link/New.gif" alt="">
-                </td>
-              </tr>
-              </tbody>
-            </table>
-          </td>
+          <td class="row"><img class="bullet" src="Link/3.gif" alt=""> <span class="style28">新区:<span class="STYLE43">掌天武易 长期养老</span></span></td>
+        </tr>
+        <tr>
+          <td class="row"><img class="bullet" src="Link/3.gif" alt=""> <span class="STYLE40">比例:<span class="STYLE46">1:3 不谈比例免开尊口</span></span></td>
+        </tr>
+        <tr>
+          <td class="row"><img class="bullet" src="Link/3.gif" alt=""> <font color="#FFFFFF">2026年 </font><font color="#FF00FF">长久耐玩 绝对独家</font></td>
+        </tr>
+        <tr>
+          <td class="row"><img class="bullet" src="Link/3.gif" alt=""> <a target="_blank" href="http://g1.lnhaiqilai.com/group.html?g=f4ea2fc9">点击进入在线充值元宝</a><img class="tag" src="Link/New.gif" alt=""></td>
+        </tr>
+        <tr>
+          <td class="row"><img class="bullet" src="Link/3.gif" alt=""> QQ群:1026232943 <span class="STYLE51">防骗</span></td>
+        </tr>
+        <tr>
+          <td class="row"><img class="bullet" src="Link/3.gif" alt=""> 重回经典 燃烧激情 <img class="tag" src="Link/New.gif" alt=""></td>
+        </tr>
+        <tr>
+          <td class="row"><img class="bullet" src="Link/3.gif" alt=""> <span class="STYLE41">长久稳定.公平公正</span> <img class="tag" src="Link/New.gif" alt=""></td>
+        </tr>
+        <tr>
+          <td class="row"><img class="bullet" src="Link/3.gif" alt=""> 警告:使用辅助一律封号<img class="tag" src="Link/New.gif" alt=""></td>
+        </tr>
+        <tr>
+          <td class="row"><img class="bullet" src="Link/3.gif" alt=""> <span class="STYLE51"><a href="https://qm.qq.com/q/EEXCCmedLW" target="blank">合区账号变更点击查询-QQ群</a></span><img class="tag" src="Link/New.gif" alt=""></td>
+        </tr>
+        <tr>
+          <td class="row"><img class="bullet" src="Link/3.gif" alt=""> 安全无毒 误报请忽略<img class="tag" src="Link/New.gif" alt=""></td>
         </tr>
         <tr class="t-mq">
           <td align="center" valign="middle">
-            <marquee onmouseover="this.stop()" onmouseout="this.start()" scrollamount="3" scrolldelay="4">
-              <span class="style29">【公告】:<span class="style28">QQ千人交流群：1026232943 绝对公平 永不关闭 绝对人气 绝对激情......</span></span>
-            </marquee>
+            <marquee onmouseover="this.stop()" onmouseout="this.start()" scrollamount="3" scrolldelay="4"><span class="style29">【公告】:<span class="style28">QQ千人交流群：1026232943 绝对公平 永不关闭 绝对人气 绝对激情......</span></span></marquee>
           </td>
         </tr>
         </tbody>
