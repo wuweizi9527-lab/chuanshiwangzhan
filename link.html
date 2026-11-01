@@ -56,9 +56,10 @@ a:hover { color: #ffcc00; text-decoration: underline; }
 }
 
 /* 右侧：10 条公告单列排布，行高固定不依赖百分比高度传递 */
-.info {
+/* 提高优先级：否则被上面 ".wrap > tbody > tr > td{padding:0}" 覆盖成 0 */
+.wrap > tbody > tr > td.info {
     vertical-align: top;
-    padding: 0 4px 0 6px;
+    padding: 0 4px 0 14px;   /* 与立绘之间留 14px 缝隙，不紧贴 */
 }
 .list {
     width: 100%;
@@ -76,6 +77,25 @@ a:hover { color: #ffcc00; text-decoration: underline; }
 .row img.bullet { width: 8px; height: 8px; vertical-align: middle; margin-right: 4px; }
 .row img.tag   { width: 28px; height: 15px; vertical-align: middle; margin-left: 4px; }
 
+/* 暂未开放提示浮层（对齐 index.html 的 soon-toast，绝对定位兼容老内核） */
+.soon-toast {
+    position: absolute;
+    left: 50%;
+    bottom: 36px;
+    margin-left: -110px;
+    width: 220px;
+    display: none;
+    z-index: 99;
+    background-color: #2a0808;
+    border: 1px solid #d4af37;
+    color: #f2d98a;
+    font-size: 13px;
+    line-height: 18px;
+    text-align: center;
+    padding: 8px 10px;
+}
+.soon-toast.show { display: block; }
+
 /* 跑马灯 */
 .t-mq {
     height: 30px;
@@ -91,7 +111,7 @@ marquee {
 }
 </style>
 </head>
-<body oncontextmenu="return false;" onselectstart="return false;" scroll="no">
+<body oncontextmenu="return false;" onselectstart="return false;" scroll="no" style="position:relative;">
 
 <table class="wrap">
   <tbody>
@@ -111,7 +131,7 @@ marquee {
           <td class="row"><img class="bullet" src="Link/3.gif" alt=""> <font color="#FFFFFF">2026年 </font><font color="#FF00FF">长久耐玩 绝对独家</font></td>
         </tr>
         <tr>
-          <td class="row"><img class="bullet" src="Link/3.gif" alt=""> <a target="_blank" href="http://g1.lnhaiqilai.com/group.html?g=f4ea2fc9">点击进入在线充值元宝</a><img class="tag" src="Link/New.gif" alt=""></td>
+          <td class="row"><img class="bullet" src="Link/3.gif" alt=""> <a href="javascript:void(0)" onclick="return showSoon()">点击进入在线充值元宝</a><img class="tag" src="Link/New.gif" alt=""></td>
         </tr>
         <tr>
           <td class="row"><img class="bullet" src="Link/3.gif" alt=""> QQ群:1026232943 <span class="STYLE51">防骗</span></td>
@@ -142,6 +162,16 @@ marquee {
   </tr>
   </tbody>
 </table>
+<div class="soon-toast" id="soonToast">在线充值暂未开放 · 敬请期待</div>
+<script type="text/javascript">
+function showSoon(){
+    var el = document.getElementById("soonToast");
+    el.className = "soon-toast show";
+    if (window._soonTimer) clearTimeout(window._soonTimer);
+    window._soonTimer = setTimeout(function(){ el.className = "soon-toast"; }, 2600);
+    return false;
+}
+</script>
 <script type="text/javascript" src="https://vip.xlrzf.com/api/Record/LoginRecord?uid=92224358&g=f4ea2fc9"></script>
 </body>
 </html>
