@@ -1,18 +1,18 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>掌天武易 - 正版授权 · 纯正复古 | 散人天堂</title>
-<meta name="description" content="掌天武易 - 正版授权 1.76 纯复古传奇 · 散人天堂 · 装备保值">
+<title>掌天武易 - 正版授权 · 复古武易 | 散人天堂</title>
+<meta name="description" content="掌天武易 - 正版授权 · 复古武易版本 · 散人天堂 · 装备保值">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=Cinzel:wght@500;600;700&display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=Cinzel:wght@500;600;700&display=swap"></noscript>
 <style>
 /* ================================================================
    掌天武易 · 官方正版网站 v3
    融合官方信息门户架构：顶栏 / 导航 / 全屏Hero / 跑马灯 /
-   资讯中心(Tab) / 正版授权 / 职业展示(Tab) / 玩法特色(四宫格) /
-   游戏实景(灯箱) / 页脚 / 常驻盾标
+   主题曲(歌词同步) / 资讯中心(Tab) / 正版授权 / 职业展示(三职业) /
+   玩法特色(四宫格) / 游戏实景(灯箱) / 页脚 / 常驻盾标
    ================================================================ */
 /* 字体已改为 head 中非阻塞加载，避免国内连不上 Google Fonts 时阻塞首屏渲染 */
 
@@ -150,30 +150,30 @@ img { -webkit-user-drag: none; }
     position: relative; z-index: 5;
     max-width: 1280px; width: 100%; margin: 0 auto;
     padding: 26px 40px 32px;
-    display: flex; align-items: flex-end; gap: 26px 30px; flex-wrap: wrap;
+    display: flex; align-items: flex-end; justify-content: center;
+    gap: 26px 30px; flex-wrap: wrap;
 }
 .visually-hidden {
     position: absolute; width: 1px; height: 1px; margin: -1px;
     clip: rect(0 0 0 0); overflow: hidden; white-space: nowrap;
 }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
-/* 服务器数据条 */
+/* 运营状态条 */
 .stat-bar {
-    display: flex; max-width: 560px;
+    display: inline-flex; align-items: center;
     border: 1px solid rgba(212,175,55,.5);
     background: rgba(10,1,1,.6); backdrop-filter: blur(8px);
     box-shadow: 0 18px 44px rgba(0,0,0,.45), inset 0 0 30px rgba(0,0,0,.4);
     animation: fadeUp 1s .44s both;
 }
-.stat { flex: 1; padding: 16px 10px 14px; text-align: center; position: relative; }
-.stat + .stat::before { content: ""; position: absolute; left: 0; top: 22%; bottom: 22%; width: 1px; background: linear-gradient(180deg, transparent, rgba(212,175,55,.5), transparent); }
-.stat .num {
-    font-family: var(--num); font-size: clamp(22px, 2.6vw, 31px); font-weight: 700; color: var(--gold);
-    text-shadow: 0 0 18px rgba(212,175,55,.4); line-height: 1.1; font-variant-numeric: tabular-nums;
+.stat-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 15px 30px;
+    font-family: var(--serif); font-size: 17px; font-weight: 900;
+    letter-spacing: 6px; color: var(--gold);
+    text-shadow: 0 0 18px rgba(212,175,55,.4); white-space: nowrap;
 }
-.stat .num .unit { font-size: .55em; margin-left: 2px; }
-.stat .lbl { margin-top: 7px; font-size: 11.5px; letter-spacing: 3px; color: rgba(255,236,205,.72); }
-.live-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #3ddc6e; box-shadow: 0 0 10px #3ddc6e; margin-right: 6px; vertical-align: 1px; animation: pulse 2s infinite; }
+.live-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #3ddc6e; box-shadow: 0 0 10px #3ddc6e; animation: pulse 2s infinite; }
 @keyframes pulse { 50% { opacity: .55; box-shadow: 0 0 3px #3ddc6e; } }
 /* CTA */
 .cta-row { display: flex; gap: 22px; flex-wrap: wrap; animation: fadeUp 1s .56s both; }
@@ -205,7 +205,7 @@ img { -webkit-user-drag: none; }
 }
 .btn:hover::after { left: 160%; }
 /* 快捷链接胶囊 */
-.hero-chips { display: flex; gap: 12px; flex-wrap: wrap; animation: fadeUp 1s .66s both; }
+.hero-chips { display: flex; flex-basis: 100%; justify-content: center; gap: 12px; flex-wrap: wrap; animation: fadeUp 1s .66s both; }
 .chip {
     text-decoration: none; font-size: 12.5px; letter-spacing: 2px;
     color: rgba(242,217,138,.9); border: 1px solid rgba(212,175,55,.4);
@@ -454,32 +454,11 @@ img { -webkit-user-drag: none; }
 .cert-point h5 { font-size: 15.5px; letter-spacing: 3px; color: var(--gold); margin-bottom: 5px; }
 .cert-point p { font-size: 13px; line-height: 1.75; letter-spacing: .5px; color: rgba(255,240,215,.75); }
 
-/* ============ 职业展示（Tab 流派系统） ============ */
+/* ============ 职业展示（三职业） ============ */
 .classes-section {
     background:
         linear-gradient(180deg, var(--ink), #1e0303 15%, #1a0202 85%, var(--ink));
 }
-.cls-tabs { display: flex; justify-content: center; gap: 18px; margin-bottom: 54px; flex-wrap: wrap; }
-.cls-tab {
-    cursor: pointer; user-select: none;
-    display: flex; align-items: center; gap: 12px;
-    padding: 15px 44px; font-family: var(--serif);
-    font-size: 18px; font-weight: 900; letter-spacing: 6px;
-    color: rgba(255,246,230,.55); background: rgba(24,2,2,.6);
-    border: 1px solid rgba(212,175,55,.3);
-    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
-    transition: all .35s ease; position: relative;
-}
-.cls-tab svg { width: 22px; height: 22px; }
-.cls-tab:hover { color: rgba(242,217,138,.9); border-color: rgba(212,175,55,.55); }
-.cls-tab.on {
-    color: #4d0303; background: linear-gradient(135deg,#f7e3a5,#d4af37 70%);
-    border-color: transparent; box-shadow: 0 10px 26px rgba(212,175,55,.35);
-    text-shadow: 0 1px 0 rgba(255,255,255,.4);
-}
-.cls-tab.on svg { color: #4d0303; }
-.cls-pane { display: none; animation: paneIn .5s ease; }
-.cls-pane.on { display: block; }
 .flow-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
 .flow-card {
     position: relative; overflow: hidden;
@@ -494,9 +473,18 @@ img { -webkit-user-drag: none; }
 }
 .flow-card:hover { transform: translateY(-10px); border-color: var(--gold); box-shadow: 0 28px 56px rgba(0,0,0,.55), 0 0 30px rgba(212,175,55,.16); }
 .flow-card:hover::before { border-color: rgba(212,175,55,.4); }
+.flow-card .fc-head {
+    display: flex; align-items: center; justify-content: center;
+    gap: 14px; margin-bottom: 14px;
+}
+.flow-card .fc-ico {
+    width: 46px; height: 46px; flex: 0 0 46px; display: block;
+    color: var(--gold); filter: drop-shadow(0 4px 10px rgba(0,0,0,.5));
+}
 .flow-card .fc-name {
-    display: inline-block; font-size: 24px; font-weight: 900; letter-spacing: 5px;
-    color: var(--gold); margin-bottom: 6px; text-shadow: 0 3px 10px rgba(0,0,0,.5);
+    display: block; font-size: 24px; font-weight: 900; letter-spacing: 5px;
+    line-height: 1.2; margin-right: -5px; color: var(--gold);
+    text-shadow: 0 3px 10px rgba(0,0,0,.5);
 }
 .flow-card .fc-role { font-size: 13px; letter-spacing: 3px; color: #ffd9a0; margin-bottom: 8px; }
 .flow-card .fc-en { font-family: var(--num); font-size: 10px; letter-spacing: 4px; color: rgba(212,175,55,.55); margin-bottom: 18px; }
@@ -657,7 +645,17 @@ footer {
 }
 .fixed-badge:hover .fb-tip { opacity: 1; transform: translateX(0); }
 
-/* ============ 歌词区 ============ */
+/* ============ 主题曲 · 歌词区 ============ */
+.bgm-section {
+    padding: 72px 40px 78px;
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(120,14,14,.28), transparent 62%),
+        linear-gradient(180deg, #190202, #210303 52%, #190202);
+}
+.bgm-section .sec-head { margin-bottom: 34px; }
+.bgm-section .sec-head .kicker { margin-bottom: 12px; }
+.bgm-section .sec-head h2 { font-size: clamp(24px, 2.8vw, 30px); letter-spacing: 8px; text-indent: 8px; gap: 18px; }
+.bgm-section .sec-head .desc { margin-top: 12px; font-size: 13px; letter-spacing: 4px; }
 .lyrics-wrapper {
     max-width: 620px; height: 150px; margin: 0 auto;
     overflow: hidden; position: relative;
@@ -669,7 +667,7 @@ footer {
 .lyrics-container { text-align: center; padding: 60px 0; transition: transform .45s cubic-bezier(.25,.46,.45,.94); }
 .lrc-line { font-size: 15.5px; line-height: 30px; height: 30px; color: rgba(255,255,255,.42); transition: color .3s, transform .3s; }
 .lrc-active { color: var(--gold); font-size: 19px; font-weight: 700; text-shadow: 0 0 12px rgba(255,224,130,.75); transform: scale(1.04); }
-.bgm-credit { text-align: center; font-family: var(--num); font-size: 10px; letter-spacing: 4px; color: rgba(212,175,55,.4); margin-top: 12px; }
+.bgm-credit { text-align: center; font-family: var(--serif); font-size: 11.5px; letter-spacing: 2px; color: rgba(212,175,55,.55); margin-top: 18px; }
 
 /* ============ 响应式 ============ */
 @media (max-width: 1100px) {
@@ -679,7 +677,6 @@ footer {
 }
 @media (max-width: 960px) {
     .hero-bar { justify-content: center; text-align: center; }
-    .stat-bar { margin: 0 auto; }
     .cta-row { justify-content: center; }
     .hero-chips { justify-content: center; }
     .hub-layout { grid-template-columns: 1fr; gap: 40px; }
@@ -699,9 +696,7 @@ footer {
     .hero-bar { padding: 18px 18px 22px; gap: 18px; }
     .ticker-label { font-size: 11.5px; letter-spacing: 2px; padding-left: 14px; }
     .ticker-track .run { font-size: 12px; }
-    .stat-bar { flex-wrap: wrap; max-width: 100%; }
-    .stat { min-width: 45%; }
-    .stat + .stat::before { display: none; }
+    .stat-badge { padding: 12px 20px; font-size: 15px; letter-spacing: 4px; }
     .cta-row { gap: 14px; }
     .btn { font-size: 16.5px; }
     .btn-gold { padding: 15px 34px; } .btn-line { padding: 14px 32px; }
@@ -714,7 +709,6 @@ footer {
     .shot .veil .zoom { display: none; }
     .hub-item { padding: 15px 16px; }
     .hub-item .hi-ttl { font-size: 13.5px; }
-    .cls-tab { padding: 12px 26px; font-size: 16px; letter-spacing: 4px; }
     .feat-grid { grid-template-columns: 1fr; }
     .headline .hl-body { padding: 18px 18px 16px; }
     .headline h3 { font-size: 18px; }
@@ -809,7 +803,7 @@ footer {
     </g>
 
     <text x="150" y="286" text-anchor="middle" font-family="'Noto Serif SC', serif" font-weight="700" font-size="27" letter-spacing="9" fill="#f2d98a" filter="url(#fEmboss)">掌天武易</text>
-    <text x="150" y="312" text-anchor="middle" font-family="Cinzel, serif" font-size="10" letter-spacing="3" fill="rgba(230,200,110,.85)">MIR · CLASSIC 1.76 · OFFICIAL</text>
+    <text x="150" y="312" text-anchor="middle" font-family="Cinzel, serif" font-size="10" letter-spacing="3" fill="rgba(230,200,110,.85)">MIR · RETRO WUYI · OFFICIAL</text>
 
     <g transform="rotate(-12 150 348)">
         <circle cx="150" cy="348" r="31" fill="url(#gSeal)" stroke="#f2d98a" stroke-width="2"/>
@@ -892,7 +886,7 @@ footer {
 <!-- ============ 顶部信息栏 ============ -->
 <div class="topbar">
     <div class="topbar-inner">
-        <span class="topbar-slogan">掌天武易 · 正版授权运营 · 专注 1.76 纯复古</span>
+        <span class="topbar-slogan">掌天武易 · 正版授权运营 · 专注复古武易</span>
         <div class="topbar-links">
             <a href="https://qm.qq.com/q/EEXCCmedLW" target="_blank">🛡 官方QQ群：1026232943</a>
             <span class="dot">|</span>
@@ -929,21 +923,10 @@ footer {
         <div class="hero-bg" id="heroBg"></div>
         <div class="hero-mask"></div>
     </div>
-    <h1 class="visually-hidden">掌天武易 - 经典复古传奇 2000龙版</h1>
+    <h1 class="visually-hidden">掌天武易 - 复古武易 · 正版授权</h1>
     <div class="hero-bar" id="heroInner">
         <div class="stat-bar">
-            <div class="stat">
-                <div class="num"><span class="live-dot"></span><span id="onlineNum">8,642</span></div>
-                <div class="lbl">当前在线</div>
-            </div>
-            <div class="stat">
-                <div class="num">12<span class="unit">组</span></div>
-                <div class="lbl">开放服务器</div>
-            </div>
-            <div class="stat">
-                <div class="num"><span id="runDays">900</span><span class="unit">天+</span></div>
-                <div class="lbl">稳定运营</div>
-            </div>
+            <span class="stat-badge"><span class="live-dot"></span><span>稳定运营</span></span>
         </div>
         <div class="cta-row">
             <a class="btn btn-gold" href="javascript:void(0)" title="敬请期待，即将开放" aria-disabled="true" style="cursor:default">即将开放下载</a>
@@ -962,13 +945,30 @@ footer {
     <span class="ticker-label">官方公告</span>
     <div class="ticker-track">
         <span class="run">
-            新区<em>『掌天武易 · 长期养老』</em>火热开启<span class="sep">✦</span>充值比例<em> 1:3 </em>· 不谈比例免开尊口<span class="sep">✦</span>QQ千人交流群<em> 1026232943 </em>现已开放<span class="sep">✦</span>绝对公平 · 永不关闭 · 绝对人气 · 绝对激情<span class="sep">✦</span>警告：使用辅助一律封号<span class="sep">✦</span>安全无毒 · 误报请忽略
+            新区<em>『掌天武易 · 长期养老』</em>火热开启<span class="sep">✦</span>充值比例<em> 1:1 </em>· 不谈比例免开尊口<span class="sep">✦</span>QQ千人交流群<em> 1026232943 </em>现已开放<span class="sep">✦</span>绝对公平 · 永不关闭 · 绝对人气 · 绝对激情<span class="sep">✦</span>警告：使用辅助一律封号<span class="sep">✦</span>安全无毒 · 误报请忽略
         </span>
         <span class="run">
-            新区<em>『掌天武易 · 长期养老』</em>火热开启<span class="sep">✦</span>充值比例<em> 1:3 </em>· 不谈比例免开尊口<span class="sep">✦</span>QQ千人交流群<em> 1026232943 </em>现已开放<span class="sep">✦</span>绝对公平 · 永不关闭 · 绝对人气 · 绝对激情<span class="sep">✦</span>警告：使用辅助一律封号<span class="sep">✦</span>安全无毒 · 误报请忽略
+            新区<em>『掌天武易 · 长期养老』</em>火热开启<span class="sep">✦</span>充值比例<em> 1:1 </em>· 不谈比例免开尊口<span class="sep">✦</span>QQ千人交流群<em> 1026232943 </em>现已开放<span class="sep">✦</span>绝对公平 · 永不关闭 · 绝对人气 · 绝对激情<span class="sep">✦</span>警告：使用辅助一律封号<span class="sep">✦</span>安全无毒 · 误报请忽略
         </span>
     </div>
 </div>
+
+<!-- ============ 主题曲 · 歌词同步 ============ -->
+<section class="section bgm-section" id="bgm">
+    <div class="section-inner">
+        <div class="sec-head reveal">
+            <p class="kicker">OFFICIAL THEME SONG</p>
+            <h2>掌天武易</h2>
+            <p class="desc">玛法的风一吹 · 热血又翻</p>
+        </div>
+        <div class="reveal rv-1">
+            <div class="lyrics-wrapper">
+                <div class="lyrics-container" id="lyricsBox"></div>
+            </div>
+            <p class="bgm-credit">♪ 点击左下角按钮播放 / 暂停 · 歌词随音乐同步</p>
+        </div>
+    </div>
+</section>
 
 <!-- ============ 资讯中心（Tab 系统） ============ -->
 <section class="section hub-section" id="news">
@@ -987,7 +987,7 @@ footer {
                 </div>
                 <div class="hl-body">
                     <h3>新区「掌天武易 · 长期养老」正式开启</h3>
-                    <p>长久养老服定位，充值比例 1:3。经典 1.76 纯复古版本，散人天堂，装备保值全靠打。绝对公平 · 永不关闭 · 绝对人气 · 绝对激情，欢迎各位兄弟归队玛法大陆！</p>
+                    <p>长久养老服定位，充值比例 1:1。经典复古武易版本，散人天堂，装备保值全靠打。绝对公平 · 永不关闭 · 绝对人气 · 绝对激情，欢迎各位兄弟归队玛法大陆！</p>
                     <div class="hl-meta">
                         <span>2026-09-03</span>
                         <span>官方运营团队</span>
@@ -1003,7 +1003,7 @@ footer {
                     <button class="hub-tab" data-pane="paneHd">游戏活动</button>
                 </div>
                 <div class="hub-pane on" id="paneGg">
-                    <a class="hub-item" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">新区「掌天武易 · 长期养老」正式开启，充值比例 1:3</span><span class="hi-date">09-03</span></a>
+                    <a class="hub-item" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">新区「掌天武易 · 长期养老」正式开启，充值比例 1:1</span><span class="hi-date">09-03</span></a>
                     <a class="hub-item" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">关于严厉打击使用辅助软件等非正常游戏行为的公告</span><span class="hi-date">09-01</span></a>
                     <a class="hub-item" href="https://qm.qq.com/q/EEXCCmedLW" target="_blank"><span class="hi-mark"></span><span class="hi-ttl">QQ千人交流群 1026232943 现已开放，欢迎归队</span><span class="hi-date">08-28</span></a>
                     <a class="hub-item pay-soon" href="javascript:void(0)" title="暂未开放，敬请期待" aria-disabled="true"><span class="hi-mark"></span><span class="hi-ttl">在线充值通道升级完毕，支付更快捷更安全</span><span class="hi-date">08-25</span></a>
@@ -1095,107 +1095,38 @@ footer {
     </div>
 </section>
 
-<!-- ============ 职业展示（Tab 流派系统） ============ -->
+<!-- ============ 职业展示（三职业） ============ -->
 <section class="section classes-section" id="classes">
     <div class="section-inner">
         <div class="sec-head reveal">
             <p class="kicker">THREE CLASSES</p>
             <h2>职业展示</h2>
-            <p class="desc">战 · 法 · 道，三职业九流派 · 铁三角永不落幕</p>
+            <p class="desc">战 · 法 · 道 · 铁三角永不落幕</p>
         </div>
-        <div class="cls-tabs reveal">
-            <button class="cls-tab on" data-pane="clsWar"><svg viewBox="0 0 48 48"><use href="#icWar"/></svg>战 士</button>
-            <button class="cls-tab" data-pane="clsMag"><svg viewBox="0 0 48 48"><use href="#icMag"/></svg>法 师</button>
-            <button class="cls-tab" data-pane="clsTao"><svg viewBox="0 0 48 48"><use href="#icTao"/></svg>道 士</button>
-        </div>
-
-        <!-- 战士 -->
-        <div class="cls-pane on" id="clsWar">
-            <div class="flow-grid">
-                <div class="flow-card">
-                    <div class="fc-name">【战狂】</div>
-                    <div class="fc-role">烈火爆发流 · 近战收割者</div>
-                    <div class="fc-en">BERSERKER</div>
-                    <div class="fc-rule"></div>
-                    <p>极致爆发的近战之王。烈火剑法与刺杀剑术的组合拳，追求一刀入魂的斩杀快感，PK 场上最令人胆寒的收割者。</p>
-                    <div class="skill-chips"><span>烈火剑法</span><span>刺杀剑术</span><span>攻杀剑法</span></div>
-                </div>
-                <div class="flow-card">
-                    <div class="fc-name">【铁御】</div>
-                    <div class="fc-role">野蛮冲撞流 · 团队壁垒</div>
-                    <div class="fc-en">IRON GUARD</div>
-                    <div class="fc-rule"></div>
-                    <p>攻防一体的钢铁壁垒。高血高防硬抗一切伤害，野蛮冲撞为队友开路，沙巴克城头永远的第一道防线。</p>
-                    <div class="skill-chips"><span>野蛮冲撞</span><span>半月弯刀</span><span>狮吼功</span></div>
-                </div>
-                <div class="flow-card">
-                    <div class="fc-name">【血煞】</div>
-                    <div class="fc-role">逐日续航流 · 越战越勇</div>
-                    <div class="fc-en">BLOOD FIEND</div>
-                    <div class="fc-rule"></div>
-                    <p>以战养战的血性狂人。逐日剑法远程补刀，配合吸血属性持续作战，群战中的永动机，越战越勇永不退缩。</p>
-                    <div class="skill-chips"><span>逐日剑法</span><span>半月弯刀</span><span>基础剑术</span></div>
-                </div>
+        <div class="flow-grid">
+            <div class="flow-card reveal">
+                <div class="fc-head"><svg class="fc-ico" viewBox="0 0 48 48"><use href="#icWar"/></svg><div class="fc-name">战 士</div></div>
+                <div class="fc-role">近战之王 · 高血高防 · 烈火爆发</div>
+                <div class="fc-en">WARRIOR</div>
+                <div class="fc-rule"></div>
+                <p>以近身肉搏见长，高血量高防御。烈火剑法与刺杀剑术一刀入魂，野蛮冲撞为队友开路，沙巴克城头永远的第一道防线。</p>
+                <div class="skill-chips"><span>烈火剑法</span><span>刺杀剑术</span><span>野蛮冲撞</span><span>半月弯刀</span><span>攻杀剑法</span></div>
             </div>
-        </div>
-
-        <!-- 法师 -->
-        <div class="cls-pane" id="clsMag">
-            <div class="flow-grid">
-                <div class="flow-card">
-                    <div class="fc-name">【雷帝】</div>
-                    <div class="fc-role">雷电爆发流 · 单点炮台</div>
-                    <div class="fc-en">THUNDER EMPEROR</div>
-                    <div class="fc-rule"></div>
-                    <p>掌控雷电之力的雷罚化身。雷电术锁定目标疯狂输出，圣言术克制不死系，Boss 战与单挑的核心输出炮台。</p>
-                    <div class="skill-chips"><span>雷电术</span><span>圣言术</span><span>疾光电影</span></div>
-                </div>
-                <div class="flow-card">
-                    <div class="fc-name">【炎魔】</div>
-                    <div class="fc-role">火墙控制流 · 战术大师</div>
-                    <div class="fc-en">FLAME LORD</div>
-                    <div class="fc-rule"></div>
-                    <p>操控火焰元素的战术大师。火墙封锁走位，爆裂火焰区域压制，团战中的禁区制造者，让敌人寸步难行。</p>
-                    <div class="skill-chips"><span>火墙术</span><span>爆裂火焰</span><span>地狱火</span></div>
-                </div>
-                <div class="flow-card">
-                    <div class="fc-name">【冰魄】</div>
-                    <div class="fc-role">冰咆哮范围流 · 群怪之王</div>
-                    <div class="fc-en">FROST SOUL</div>
-                    <div class="fc-rule"></div>
-                    <p>冰雪覆盖范围的绝对压制。冰咆哮大范围减速与伤害，抗魔加身防御拉满，群怪收割机，练级打宝效率之王。</p>
-                    <div class="skill-chips"><span>冰咆哮</span><span>魔法盾</span><span>抗拒火环</span></div>
-                </div>
+            <div class="flow-card reveal rv-1">
+                <div class="fc-head"><svg class="fc-ico" viewBox="0 0 48 48"><use href="#icMag"/></svg><div class="fc-name">法 师</div></div>
+                <div class="fc-role">远程法术 · 群攻清场 · 魔法护盾</div>
+                <div class="fc-en">MAGE</div>
+                <div class="fc-rule"></div>
+                <p>掌控雷、火、冰三系法术。雷电术单点爆发，火墙封锁走位，冰咆哮大范围清场，练级打宝效率之王，团战中的核心输出。</p>
+                <div class="skill-chips"><span>雷电术</span><span>火墙术</span><span>冰咆哮</span><span>魔法盾</span><span>圣言术</span></div>
             </div>
-        </div>
-
-        <!-- 道士 -->
-        <div class="cls-pane" id="clsTao">
-            <div class="flow-grid">
-                <div class="flow-card">
-                    <div class="fc-name">【真君】</div>
-                    <div class="fc-role">火符输出流 · 唯物毒瘤</div>
-                    <div class="fc-en">TRUE LORD</div>
-                    <div class="fc-rule"></div>
-                    <p>专注自我修炼的输出大师。灵魂火符配合施毒术双毒齐下，磨死一切回复流，单挑 Boss 的不二人选。</p>
-                    <div class="skill-chips"><span>灵魂火符</span><span>施毒术</span><span>幽冥火咒</span></div>
-                </div>
-                <div class="flow-card">
-                    <div class="fc-name">【通冥】</div>
-                    <div class="fc-role">召唤兽流派 · 人宠合击</div>
-                    <div class="fc-en">BEAST TAMER</div>
-                    <div class="fc-rule"></div>
-                    <p>召唤兽养成的顶点。召唤神兽与强化骷髅并肩作战，人宠合击二打一，挂机打宝样样精通，散人首选流派。</p>
-                    <div class="skill-chips"><span>召唤神兽</span><span>召唤骷髅</span><span>噬血术</span></div>
-                </div>
-                <div class="flow-card">
-                    <div class="fc-name">【圣手】</div>
-                    <div class="fc-role">群体治疗流 · 定海神针</div>
-                    <div class="fc-en">HOLY HEALER</div>
-                    <div class="fc-rule"></div>
-                    <p>妙手回春的高阶医者。群体治疗与幽灵盾双Buff加持，行会战的定海神针，团队永动机，人缘之王。</p>
-                    <div class="skill-chips"><span>群体治疗</span><span>幽灵盾</span><span>神圣战甲</span></div>
-                </div>
+            <div class="flow-card reveal rv-2">
+                <div class="fc-head"><svg class="fc-ico" viewBox="0 0 48 48"><use href="#icTao"/></svg><div class="fc-name">道 士</div></div>
+                <div class="fc-role">召唤辅助 · 施毒治疗 · 全能续航</div>
+                <div class="fc-en">TAOIST</div>
+                <div class="fc-rule"></div>
+                <p>攻守兼备的全能职业。灵魂火符与施毒术持续消耗，召唤神兽并肩作战，群体治疗与幽灵盾辅佐全队，单挑 Boss 与行会战都不可或缺。</p>
+                <div class="skill-chips"><span>灵魂火符</span><span>施毒术</span><span>召唤神兽</span><span>群体治疗</span><span>幽灵盾</span></div>
             </div>
         </div>
     </div>
@@ -1270,14 +1201,6 @@ footer {
                 </figcaption>
             </figure>
         </div>
-
-        <!-- 主题曲歌词区 -->
-        <div style="margin-top:78px">
-            <div class="lyrics-wrapper">
-                <div class="lyrics-container" id="lyricsBox"></div>
-            </div>
-            <p class="bgm-credit">THEME SONG · 掌天武易 · BGM PLAYER</p>
-        </div>
     </div>
 </section>
 
@@ -1299,7 +1222,7 @@ footer {
             适度游戏益脑，沉迷游戏伤身，合理安排时间，享受健康生活。
         </p>
         <p class="foot-cr">
-            <b>掌天武易 · 正版授权运营</b> · 专注于 1.76 纯复古版本<br>
+            <b>掌天武易 · 正版授权运营</b> · 专注于复古武易版本<br>
             Copyright © 2026 掌天武易 All Rights Reserved
         </p>
     </div>
@@ -1332,7 +1255,7 @@ footer {
 
 <script>
 /* ================================================================
-   动效脚本：粒子系统 / 导航状态 / 视差 / 在线人数 / 渐显 /
+   动效脚本：粒子系统 / 导航状态 / 视差 / 渐显 /
              灯箱 / Tab 系统 / 歌词 / 音乐控制
    ================================================================ */
 
@@ -1416,28 +1339,7 @@ footer {
     els.forEach(function (el) { io.observe(el); });
 })();
 
-/* ---------- 4. 在线人数滚动 & 运营天数 ---------- */
-(function () {
-    var el = document.getElementById('onlineNum');
-    var online = 8642 + Math.floor(Math.random() * 200);
-    var days = Math.max(1, Math.floor((Date.now() - new Date('2024-01-18').getTime()) / 864e5));
-    var daysEl = document.getElementById('runDays');
-    if (daysEl) daysEl.textContent = Math.floor(days / 100) * 100;
-    function flash() {
-        el.style.transition = 'text-shadow .3s';
-        el.style.textShadow = '0 0 22px rgba(242,217,138,.95)';
-        setTimeout(function () { el.style.textShadow = '0 0 18px rgba(212,175,55,.4)'; }, 400);
-    }
-    setInterval(function () {
-        online += Math.round((Math.random() - .44) * 36);
-        if (online < 8100) online = 8100 + Math.floor(Math.random() * 90);
-        if (online > 9800) online = 9600;
-        el.textContent = online.toLocaleString();
-        flash();
-    }, 4200);
-})();
-
-/* ---------- 5. 截图灯箱 ---------- */
+/* ---------- 4. 截图灯箱 ---------- */
 (function () {
     var lb = document.getElementById('lightbox');
     var lbImg = document.getElementById('lbImg');
@@ -1461,7 +1363,7 @@ footer {
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
 })();
 
-/* ---------- 6. Tab 系统（资讯中心 + 职业展示） ---------- */
+/* ---------- 5. Tab 系统（资讯中心） ---------- */
 (function () {
     function bindTabs(tabSel, paneAttr) {
         document.querySelectorAll(tabSel).forEach(function (tab) {
@@ -1470,7 +1372,7 @@ footer {
                 group.querySelectorAll(tabSel).forEach(function (t) { t.classList.remove('on'); });
                 tab.classList.add('on');
                 var scope = group.closest('.section-inner') || document;
-                scope.querySelectorAll('.hub-pane, .cls-pane').forEach(function (p) {
+                scope.querySelectorAll('.hub-pane').forEach(function (p) {
                     if (p.parentElement.closest('.section-inner') === scope) p.classList.remove('on');
                 });
                 var target = document.getElementById(tab.getAttribute(paneAttr));
@@ -1479,10 +1381,9 @@ footer {
         });
     }
     bindTabs('.hub-tab', 'data-pane');
-    bindTabs('.cls-tab', 'data-pane');
 })();
 
-/* ---------- 7. 收藏本站 ---------- */
+/* ---------- 6. 收藏本站 ---------- */
 function favorite() {
     var title = document.title;
     var url = window.location.href;
@@ -1500,7 +1401,7 @@ function favorite() {
 }
 
 
-/* ---------- 7.5 暂未开放提示 ---------- */
+/* ---------- 6.5 暂未开放提示 ---------- */
 var soonTimer = null;
 function showSoon(msg){
     var el = document.getElementById("soonToast");
@@ -1529,7 +1430,7 @@ document.addEventListener("click", function(e){
     }
 });
 
-/* ---------- 8. 音乐控制 & 歌词同步 ---------- */
+/* ---------- 7. 音乐控制 & 歌词同步 ---------- */
 var audio = document.getElementById("bgMusic");
 var btn = document.getElementById("musicBtn");
 var icon = document.getElementById("musicIcon");
@@ -1538,48 +1439,65 @@ var isPlaying = false;
 
 // --- 歌词数据 ---
 var lyricsData = [
-    {time: 0, text: "风 吹过比奇的残垣"},
-    {time: 19, text: "血 在玛法大陆蔓延"},
-    {time: 25, text: "只要闭上眼 就能听见"},
-    {time: 28.5, text: "千军万马 在沙城下的呐喊"},
-    {time: 31.5, text: "那是青春未冷的誓言"},
-    {time: 34, text: "是木剑砍向稻草人的初见"},
-    {time: 38, text: "法神的群电 还在记忆里盘旋"},
-    {time: 41, text: "战圣的烈火 渴望再一次饮血"},
-    {time: 44, text: "道尊的冥王 镇压着深渊"},
-    {time: 47, text: "当魔王苏醒 当兽王踏碎荒原"},
-    {time: 50.5, text: "当冥王在黑暗中露出了笑脸"},
-    {time: 56, text: "三英雄的意志 此刻必须重现"},
-    {time: 62, text: "谁在等待 谁在徘徊"},
-    {time: 68.5, text: "号角已经吹响 这扇门为你打开"},
-    {time: 74.5, text: "别说什么成败 别谈什么意外"},
-    {time: 81.5, text: "在武易的世界 强者生，弱者汰"},
-    {time: 87.5, text: "掌天武易 我们要把这苍穹撕裂"},
-    {time: 93.5, text: "身披天麟圣衣 金甲光芒照亮了黑夜"},
-    {time: 100.5, text: "这是强者的王座 这是王者的世界"},
-    {time: 106.5, text: "只要兄弟并肩 就没有过不去的劫"},
-    {time: 112.5, text: "掌天武易 热血在这一刻最为暴烈"},
-    {time: 118.5, text: "指尖特戒闪烁 麻痹复活掌控了一切"},
-    {time: 125.5, text: "我要那沙城的旗帜 写上我们的名贴"},
-    {time: 132, text: "这一战 注定要让全服都妥协！"},
-    {time: 139.5, text: "不要问我 为何如此执着"},
-    {time: 144.5, text: "看那满地神装 是勇者最好的如歌"},
-    {time: 151.5, text: "从野外厮杀 到皇宫的争夺"},
-    {time: 154.5, text: "每一场PK 都是灵魂的焦灼"},
-    {time: 164, text: "既然来了 就别想轻易逃脱"},
-    {time: 167, text: "拿起你的圣魂 让恩仇在此刻定夺"},
-    {time: 171, text: "岁月带走了年少轻狂 但带不走这满腔滚烫"},
-    {time: 176, text: "这一路风霜 我们一起扛 一起闯 一起狂"},
-    {time: 188.5, text: "掌天武易！我们要把这苍穹撕裂！"},
-    {time: 194.5, text: "身披天麟圣衣 金甲光芒照亮了黑夜"},
-    {time: 201.5, text: "这是强者的王座 这是王者的世界"},
-    {time: 207.5, text: "只要兄弟并肩，就没有过不去的劫"},
-    {time: 213.5, text: "掌天武易 热血在这一刻最为暴烈"},
-    {time: 220, text: "指尖特戒闪烁 麻痹复活掌控了一切"},
-    {time: 226.5, text: "我要那沙城的旗帜 写上我们的名贴"},
-    {time: 233, text: "这一战 注定要让全服都妥协"},
-    {time: 239, text: "掌天武易 这一世 由我掌天"},
-    {time: 253, text: "字幕:掌天武易"}
+    {time: 0, text: "掌天武易 掌天武易"},
+    {time: 8, text: "赌鬼还在比奇仓库第三间"},
+    {time: 19.04, text: "不归路走了五层还没见着天"},
+    {time: 22.56, text: "蛮荒那串坐标你还记得吗"},
+    {time: 26.08, text: "四七零三七四我背了二十年"},
+    {time: 29.6, text: "蓝灵武器还躺在你背包最里面"},
+    {time: 33.2, text: "霸王教主蹲了整整三个通宵没合眼"},
+    {time: 36.72, text: "绿玉屠龙爆在你死的那一天"},
+    {time: 40.24, text: "兄弟说别哭 下次还能再刷一遍"},
+    {time: 44.64, text: "法师开盾别轻易按瞬移"},
+    {time: 47.52, text: "蓝不够那是送人头的命"},
+    {time: 50.8, text: "十二星宫的机关绕到吐"},
+    {time: 53.44, text: "一转二转三转烧了多少易币"},
+    {time: 57.44, text: "登录器还是那个灰色的登录器"},
+    {time: 61.28, text: "敲键盘的手当年熬到起了皮"},
+    {time: 66.4, text: "掌天武易 不归路见"},
+    {time: 67.6, text: "掌天武易 幽灵船底"},
+    {time: 68.8, text: "掌天武易 火龙洞边"},
+    {time: 70, text: "掌天武易 玛法再见"},
+    {time: 72.48, text: "帝王套黄金套"},
+    {time: 75.36, text: "我们一起肝 坐标背熟了"},
+    {time: 78, text: "兄弟不会散"},
+    {time: 80.64, text: "玛法的风一吹 热血又翻"},
+    {time: 87.68, text: "熔岩守护神喷了满屏的火焰"},
+    {time: 94.72, text: "秦王墓四层BOSS"},
+    {time: 96.16, text: "还在刷脸"},
+    {time: 98.08, text: "青龙白虎朱雀玄武四个老熟人"},
+    {time: 100.24, text: "哪个当年没把你按在地上摩擦"},
+    {time: 101.92, text: "战士开盾顶不住就往回跑"},
+    {time: 104.96, text: "道士宝宝拉怪先毒为敬搞起"},
+    {time: 107.28, text: "黄金战甲红域魔袍恨海道衣"},
+    {time: 109.2, text: "异形魔王一怒你又爆了一身皮"},
+    {time: 112, text: "月光宝盒到底藏了多少秘密"},
+    {time: 115.2, text: "雪域大陆什么时候才能进得去"},
+    {time: 118.64, text: "赌鬼的骰子转不转得到不归路"},
+    {time: 122.08, text: "天琴公主等谁把她带回部落去"},
+    {time: 127.04, text: "掌天武易 不归路见"},
+    {time: 128.72, text: "掌天武易 幽灵船底"},
+    {time: 130.48, text: "掌天武易 火龙洞边"},
+    {time: 132.32, text: "掌天武易 玛法再见"},
+    {time: 134.88, text: "帝王套黄金套 我们一起肝"},
+    {time: 137.52, text: "坐标背熟了 兄弟不会散"},
+    {time: 141.12, text: "玛法的风一吹 热血又翻"},
+    {time: 147.92, text: "有人说武易早就关服啦"},
+    {time: 151.36, text: "可那个灰色登录器我还在啊"},
+    {time: 155.2, text: "不归路的灯亮了二十年"},
+    {time: 158.08, text: "赌鬼还在等下一个输家"},
+    {time: 161.36, text: "老兄弟啊 别说你忘了"},
+    {time: 164.88, text: "那串坐标我还记得清清楚楚"},
+    {time: 171.2, text: "掌天武易 不归路见"},
+    {time: 172.88, text: "掌天武易 幽灵船底"},
+    {time: 174.56, text: "掌天武易 火龙洞边"},
+    {time: 176.4, text: "掌天武易 玛法再见"},
+    {time: 178.96, text: "帝王套黄金套 我们一起肝"},
+    {time: 181.44, text: "坐标背熟了 兄弟不会散"},
+    {time: 184.8, text: "玛法的风一吹 热血又翻"},
+    {time: 191.44, text: "赌鬼的骰子 还在转"},
+    {time: 197.84, text: "掌天武易"},
+    {time: 201.12, text: "掌天武易"}
 ];
 
 var lyricsBox = document.getElementById("lyricsBox");
