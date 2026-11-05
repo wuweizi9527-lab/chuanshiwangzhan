@@ -51,6 +51,8 @@ a:hover { color: #ffcc00; text-decoration: underline; }
 /* 立绘 941x1672：按 330px 高换算 = 186px 宽，严格等比、不裁切 */
 .pic img {
     display: block;
+    position: relative;   /* z-index 兜底：老 IE 里公告文字溢出也盖不到立绘 */
+    z-index: 2;
     width: 186px;
     height: 330px;
 }
@@ -64,8 +66,10 @@ a:hover { color: #ffcc00; text-decoration: underline; }
 .list {
     width: 100%;
     border-collapse: collapse;
+    border-spacing: 0;
     table-layout: auto;
 }
+.list > tbody > tr > td { padding: 0; }
 .row {
     height: 30px;
     line-height: 30px;
@@ -96,30 +100,116 @@ a:hover { color: #ffcc00; text-decoration: underline; }
 }
 .soon-toast.show { display: block; }
 
-/* 跑马灯 */
+/* 跑马灯：尺寸完全恢复原版 30px 高 / 16px 字，不因歌词而压缩 */
 .t-mq {
     height: 30px;
     line-height: 30px;
     border-top: 1px solid #333333;
     text-align: center;
 }
-marquee {
-    width: 100%;
-    font-size: 16px;
+.t-mq td {
+    height: 30px;
     line-height: 30px;
+    padding: 0;
+    font-size: 0;
+}
+/* 公告无缝滚动：文字一开始就贴着歌词格右侧，连续左滚、没有空白等待 */
+.mq-box {
+    display: block;
+    position: relative;   /* 关键：老 IE 的 overflow:hidden 需父级定位才裁切子元素 */
+    zoom: 1;              /* 触发 hasLayout，IE6/7 的裁切才生效 */
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 16px;
     color: #ffffff;
+}
+.mq-track {
+    display: block;
+    margin-left: 0;       /* 用 margin 左移，留在普通流里，老 IE 裁切最可靠 */
+    white-space: nowrap;
+}
+.mq-seg {
+    display: inline-block;
+    white-space: nowrap;
+    padding-right: 48px;   /* 两份文案之间的间隔 */
+}
+
+/* 底部行内分栏：左侧一小格显示当前歌词，右侧公告跑马灯照常滚动（不挡立绘） */
+.bottom-row {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
+}
+.bottom-row td {
+    height: 30px;
+    line-height: 30px;
+    padding: 0;
+    font-size: 0;
+    vertical-align: top;
+}
+.bottom-row td.lrc-cell {
+    width: 116px;
+    background-color: #0a0800;
+    border-right: 1px solid #333333;
+    text-align: center;
+    vertical-align: middle;
+    overflow: hidden;
+}
+.bottom-row td.mq-cell { overflow: hidden; }   /* 老 IE 双保险 */
+/* 歌词：12px 金字，最多两行，始终待在公告左侧这一小格内 */
+.lrc-bar {
+    display: block;
+    position: relative;   /* 盖住溢出的公告文字，歌词始终可读 */
+    z-index: 3;
+    width: 116px;
+    overflow: hidden;
+    color: #ffcc00;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: center;
+}
+.lrc-bar span { display: block; line-height: 14px; }
+.lrc-bar.one span { line-height: 30px; }  /* 单行撑满 30px 格、垂直居中 */
+.lrc-bar.two  { padding-top: 1px; }    /* 两行 28px，上下各留 1px */
+.lrc-bar.idle { color: #7a6a3a; }      /* 未播放时的暗金占位 */
+/* 播放按钮浮在立绘左上角，不占文档流 */
+.music-btn {
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    width: 22px;
+    height: 22px;
+    line-height: 20px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: Arial, "宋体";
+    color: #7a6a3a;
+    background-color: #1a1000;
+    border: 1px solid #6b5520;
+    z-index: 10;
+}
+.music-btn.on {
+    color: #ffcc00;
+    border-color: #d4af37;
+    background-color: #3a2400;
 }
 </style>
 </head>
 <body oncontextmenu="return false;" onselectstart="return false;" scroll="no" style="position:relative;">
 
+<div class="music-btn" id="musicBtn" onclick="toggleMusic()" title="播放主题曲">♪</div>
 <table class="wrap">
   <tbody>
   <tr>
     <td class="pic"><img src="Link/222333.png" border="0" alt=""></td>
 
     <td class="info">
-      <table class="list">
+      <table class="list" cellspacing="0" cellpadding="0">
         <tbody>
         <tr>
           <td class="row"><img class="bullet" src="Link/3.gif" alt=""> <span class="style28">新区:<span class="STYLE43">掌天武易 长期养老</span></span></td>
@@ -134,7 +224,7 @@ marquee {
           <td class="row"><img class="bullet" src="Link/3.gif" alt=""> <a href="javascript:void(0)" onclick="return showSoon()">点击进入在线充值元宝</a><img class="tag" src="Link/New.gif" alt=""></td>
         </tr>
         <tr>
-          <td class="row"><img class="bullet" src="Link/3.gif" alt=""> QQ群:1026232943 <span class="STYLE51">防骗</span></td>
+          <td class="row"><img class="bullet" src="Link/3.gif" alt=""> <a href="https://qm.qq.com/q/EEXCCmedLW" target="blank">QQ群:1026232943</a> <span class="STYLE51">防骗</span></td>
         </tr>
         <tr>
           <td class="row"><img class="bullet" src="Link/3.gif" alt=""> 重回经典 燃烧激情 <img class="tag" src="Link/New.gif" alt=""></td>
@@ -153,7 +243,12 @@ marquee {
         </tr>
         <tr class="t-mq">
           <td align="center" valign="middle">
-            <marquee onmouseover="this.stop()" onmouseout="this.start()" scrollamount="3" scrolldelay="4"><span class="style29">【公告】:<span class="style28">QQ千人交流群：1026232943 绝对公平 永不关闭 绝对人气 绝对激情......</span></span></marquee>
+            <table class="bottom-row" cellspacing="0" cellpadding="0" border="0">
+              <tbody><tr>
+                <td class="lrc-cell" valign="middle"><div class="lrc-bar idle one" id="lrcBar"><span id="lrcText">♪ 主题曲</span></div></td>
+                <td class="mq-cell" align="center" valign="middle"><div class="mq-box" id="mqNotice" onmouseover="mqPause()" onmouseout="mqResume()"><div class="mq-track" id="mqTrack"><span class="mq-seg" id="mqSeg1"><span class="style29">【公告】:<span class="style28">QQ千人交流群：1026232943 绝对公平 永不关闭 绝对人气 绝对激情......</span></span></span><span class="mq-seg"><span class="style29">【公告】:<span class="style28">QQ千人交流群：1026232943 绝对公平 永不关闭 绝对人气 绝对激情......</span></span></span></div></div></td>
+              </tr></tbody>
+            </table>
           </td>
         </tr>
         </tbody>
@@ -162,6 +257,344 @@ marquee {
   </tr>
   </tbody>
 </table>
+<!-- IE8 及更早内核不认 <audio>：先尝试可暂停/续播的 WMP 控件，失败才用 bgsound 兜底自动播放 -->
+<!--[if lt IE 9]><bgsound id="bgSoundLegacy" src="掌天武易.mp3" loop="-1"><![endif]-->
+<audio id="bgMusic" src="掌天武易.mp3" loop autoplay preload="auto"></audio>
+<script type="text/javascript">
+var bgAudio = document.getElementById("bgMusic");
+var musicBtn = document.getElementById("musicBtn");
+var lrcBar = document.getElementById("lrcBar");
+var lrcTextNode = document.getElementById("lrcText");
+var isPlaying = false;
+var userPaused = false;   /* 用户按了暂停：任何自动重试都不得把音乐重新打开 */
+var legacyAudio = !(bgAudio && typeof bgAudio.play === "function");
+var legacyEl = document.getElementById("bgSoundLegacy");
+var LEGACY_SRC = "掌天武易.mp3";
+/* 老 IE 的 bgsound 没有 pause()：暂停 = 清空 src 并移除元素，恢复 = 插回同一个元素 */
+function legacySetPlaying(on){
+    if (!legacyEl) return;
+    try {
+        if (on){
+            legacyEl.src = LEGACY_SRC;
+            if (!legacyEl.parentNode) document.body.appendChild(legacyEl);
+        } else {
+            legacyEl.src = "";
+            if (legacyEl.parentNode) legacyEl.parentNode.removeChild(legacyEl);
+        }
+    } catch (e) {}
+}
+/* 老内核续播：bgsound 元素没有任何播放进度接口(currentTime/seek)，
+   暂停只能移除元素、恢复必然从头。改用系统自带的 Windows Media Player
+   ActiveX 播放同一首 mp3：controls.pause() / play() 会保留 currentPosition，
+   因此暂停后从原位置继续播放，歌词时间轴也自动对齐。
+   若登录器禁用 ActiveX 或系统无 WMP，会自动退回 bgsound（行为同旧版）。
+   不想用 ActiveX 时把下面开关改成 false 即可。 */
+var USE_WMP_RESUME = true;
+var wmp = null;
+function mediaAbsURL(){
+    var href = location.href;
+    return href.substring(0, href.lastIndexOf("/") + 1) + encodeURI(LEGACY_SRC);
+}
+function initWmp(){
+    var p = null;
+    if (!legacyAudio || !USE_WMP_RESUME || !window.ActiveXObject) return;
+    try {
+        p = new ActiveXObject("WMPlayer.OCX");
+        if (!p || !p.controls || !p.settings) return;
+        try { p.settings.volume = 100; } catch (e0) {}
+        try { p.settings.setMode("loop", true); } catch (e1) {}
+        try { p.settings.autoStart = true; } catch (e2) {}
+        p.URL = mediaAbsURL();
+        p.controls.play();
+        wmp = p;
+        legacySetPlaying(false);   /* 关掉 bgsound，避免两个声音叠在一起 */
+    } catch (e) {
+        try { if (p) { p.controls.stop(); p.URL = ""; } } catch (e3) {}
+        wmp = null;
+    }
+}
+/* WMP 若被宿主拦截或打不开媒体，自动退回 bgsound，保证一定有声音 */
+function fallbackToBgsound(){
+    if (!wmp) return;
+    try { wmp.controls.stop(); wmp.URL = ""; } catch (e) {}
+    wmp = null;
+    legacySetPlaying(true);
+    isPlaying = true;
+    userPaused = false;
+    musicStart = (new Date()).getTime();
+    lastLrcIdx = -1;
+    updateMusicUI();
+}
+/* ffprobe 实测时长 211.7335s；原写 211.73 会让老内核循环时每遍漂移 3.5ms */
+var LOOP_SEC = 211.7335;
+/* 若听感上歌词整体偏早，把此值调大（如 1.5）；偏晚则调成负数。单位：秒 */
+var LRC_OFFSET = 0;
+var musicStart = (new Date()).getTime();
+
+var lyricsData = [
+    {time: 0, text: "掌天武易 掌天武易"},
+    {time: 8, text: "赌鬼还在比奇仓库第三间"},
+    {time: 19.04, text: "不归路走了五层还没见着天"},
+    {time: 22.56, text: "蛮荒那串坐标你还记得吗"},
+    {time: 26.08, text: "四七零三七四我背了二十年"},
+    {time: 29.6, text: "蓝灵武器还躺在你背包最里面"},
+    {time: 33.2, text: "霸王教主蹲了整整三个通宵没合眼"},
+    {time: 36.72, text: "绿玉屠龙爆在你死的那一天"},
+    {time: 40.24, text: "兄弟说别哭 下次还能再刷一遍"},
+    {time: 44.64, text: "法师开盾别轻易按瞬移"},
+    {time: 47.52, text: "蓝不够那是送人头的命"},
+    {time: 50.8, text: "十二星宫的机关绕到吐"},
+    {time: 53.44, text: "一转二转三转烧了多少易币"},
+    {time: 57.44, text: "登录器还是那个灰色的登录器"},
+    {time: 61.28, text: "敲键盘的手当年熬到起了皮"},
+    {time: 66.4, text: "掌天武易 不归路见"},
+    {time: 67.6, text: "掌天武易 幽灵船底"},
+    {time: 68.8, text: "掌天武易 火龙洞边"},
+    {time: 70, text: "掌天武易 玛法再见"},
+    {time: 72.48, text: "帝王套黄金套"},
+    {time: 75.36, text: "我们一起肝 坐标背熟了"},
+    {time: 78, text: "兄弟不会散"},
+    {time: 80.64, text: "玛法的风一吹 热血又翻"},
+    {time: 87.68, text: "熔岩守护神喷了满屏的火焰"},
+    {time: 94.72, text: "秦王墓四层BOSS"},
+    {time: 96.16, text: "还在刷脸"},
+    {time: 98.08, text: "青龙白虎朱雀玄武四个老熟人"},
+    {time: 100.24, text: "哪个当年没把你按在地上摩擦"},
+    {time: 101.92, text: "战士开盾顶不住就往回跑"},
+    {time: 104.96, text: "道士宝宝拉怪先毒为敬搞起"},
+    {time: 107.28, text: "黄金战甲红域魔袍恨海道衣"},
+    {time: 109.2, text: "异形魔王一怒你又爆了一身皮"},
+    {time: 112, text: "月光宝盒到底藏了多少秘密"},
+    {time: 115.2, text: "雪域大陆什么时候才能进得去"},
+    {time: 118.64, text: "赌鬼的骰子转不转得到不归路"},
+    {time: 122.08, text: "天琴公主等谁把她带回部落去"},
+    {time: 127.04, text: "掌天武易 不归路见"},
+    {time: 128.72, text: "掌天武易 幽灵船底"},
+    {time: 130.48, text: "掌天武易 火龙洞边"},
+    {time: 132.32, text: "掌天武易 玛法再见"},
+    {time: 134.88, text: "帝王套黄金套 我们一起肝"},
+    {time: 137.52, text: "坐标背熟了 兄弟不会散"},
+    {time: 141.12, text: "玛法的风一吹 热血又翻"},
+    {time: 147.92, text: "有人说武易早就关服啦"},
+    {time: 151.36, text: "可那个灰色登录器我还在啊"},
+    {time: 155.2, text: "不归路的灯亮了二十年"},
+    {time: 158.08, text: "赌鬼还在等下一个输家"},
+    {time: 161.36, text: "老兄弟啊 别说你忘了"},
+    {time: 164.88, text: "那串坐标我还记得清清楚楚"},
+    {time: 171.2, text: "掌天武易 不归路见"},
+    {time: 172.88, text: "掌天武易 幽灵船底"},
+    {time: 174.56, text: "掌天武易 火龙洞边"},
+    {time: 176.4, text: "掌天武易 玛法再见"},
+    {time: 178.96, text: "帝王套黄金套 我们一起肝"},
+    {time: 181.44, text: "坐标背熟了 兄弟不会散"},
+    {time: 184.8, text: "玛法的风一吹 热血又翻"},
+    {time: 191.44, text: "赌鬼的骰子 还在转"},
+    {time: 197.84, text: "掌天武易"},
+    {time: 201.12, text: "掌天武易"}
+];
+
+var lastLrcIdx = -1;
+function setLrcText(txt){
+    /* 长句从中点折成均衡两行，避免末尾只剩一两个字；短句单行居中 */
+    var n = txt.length;
+    if (n > 9){   /* 116px 宽 / 12px 字约每行 9 字，超过就均衡折两行 */
+        var mid = Math.ceil(n / 2);
+        lrcTextNode.innerText = txt.substring(0, mid);
+        lrcTextNode.appendChild(document.createElement("br"));
+        lrcTextNode.appendChild(document.createTextNode(txt.substring(mid)));
+    } else {
+        lrcTextNode.innerText = txt;
+    }
+    lrcBar.className = "lrc-bar";
+    /* 实测是否折行，再决定单行/两行的垂直居中，避免长句被裁掉 */
+    var h = lrcTextNode.offsetHeight || 14;
+    lrcBar.className = "lrc-bar " + (h > 20 ? "two" : "one");
+}
+function hideLrc(){
+    lrcTextNode.innerText = "♪ 主题曲";
+    lrcBar.className = "lrc-bar idle one";
+}
+function syncLyrics(){
+    var t;
+    if (wmp){
+        /* WMP 的真实播放位置：暂停时不推进，恢复后天然续上 */
+        try {
+            t = wmp.controls.currentPosition - LRC_OFFSET;
+            if (t > LOOP_SEC) t = t % LOOP_SEC;
+            /* 少数系统 setMode("loop") 不生效，仅在播放真正结束(8)时重来一遍；
+               缓冲/停止(1)不动，避免播放中途被误判成从头播 */
+            var st = wmp.playState;
+            if (isPlaying && st === 8){
+                wmp.controls.currentPosition = 0;
+                wmp.controls.play();
+                t = -LRC_OFFSET;
+            }
+        } catch (e) {
+            t = ((new Date()).getTime() - musicStart) / 1000 - LRC_OFFSET;
+            if (t > LOOP_SEC) t = t % LOOP_SEC;
+        }
+    } else if (!legacyAudio && typeof bgAudio.currentTime === "number"){
+        t = bgAudio.currentTime - LRC_OFFSET;
+    } else {
+        t = ((new Date()).getTime() - musicStart) / 1000 - LRC_OFFSET;
+        if (t > LOOP_SEC) t = t % LOOP_SEC;
+    }
+    if (!isPlaying) t = -1;   /* 暂停 / 未播放：歌词格显示占位，公告照常滚动 */
+    if (t < 0){
+        if (lastLrcIdx === -2) return;
+        lastLrcIdx = -2;
+        hideLrc();
+        return;
+    }
+    var idx = 0;
+    for (var i = 0; i < lyricsData.length; i++){
+        if (lyricsData[i].time <= t) idx = i; else break;
+    }
+    if (idx === lastLrcIdx) return;
+    lastLrcIdx = idx;
+    setLrcText(lyricsData[idx].text);   /* 唱哪句显示哪句，静态不滚动 */
+}
+function updateMusicUI(){
+    if (isPlaying){
+        musicBtn.innerText = "♫";
+        musicBtn.className = "music-btn on";
+        musicBtn.title = "主题曲播放中 · 点击暂停";
+    } else {
+        musicBtn.innerText = "♪";
+        musicBtn.className = "music-btn";
+        musicBtn.title = "播放主题曲 · 点击开始";
+    }
+}
+function startMusic(){
+    if (userPaused || isPlaying || legacyAudio) return;
+    try {
+        var p = bgAudio.play();
+        if (p && p.then){
+            p.then(function(){ isPlaying = true; updateMusicUI(); })["catch"](function(){ updateMusicUI(); });
+        } else {
+            isPlaying = true; updateMusicUI();
+        }
+    } catch (e) { updateMusicUI(); }
+}
+function toggleMusic(){
+    /* 阻止冒泡到 document 的自动播放重试，否则刚暂停又会被立刻重新打开 */
+    if (window.event) { try { window.event.cancelBubble = true; } catch (e) {} }
+    if (legacyAudio){
+        if (wmp){
+            /* WMP 支持真正的暂停/续播：pause 保留位置，play 从原位置继续 */
+            try {
+                if (isPlaying){ wmp.controls.pause(); isPlaying = false; userPaused = true; }
+                else { wmp.controls.play(); isPlaying = true; userPaused = false; }
+            } catch (e) {
+                try { wmp.controls.stop(); wmp.URL = ""; } catch (e2) {}
+                wmp = null;   /* WMP 失效，退回 bgsound（该路径只能从头播） */
+                legacySetPlaying(true);
+                isPlaying = true;
+                userPaused = false;
+                musicStart = (new Date()).getTime();
+            }
+            lastLrcIdx = -1;
+            updateMusicUI();
+            syncLyrics();
+            return;
+        }
+        if (isPlaying){
+            legacySetPlaying(false);   /* 移除 bgsound = 停止播放 */
+            isPlaying = false;
+            userPaused = true;
+        } else {
+            legacySetPlaying(true);    /* 插回 bgsound，从头播放 */
+            isPlaying = true;
+            userPaused = false;
+            musicStart = (new Date()).getTime();
+        }
+        lastLrcIdx = -1;
+        updateMusicUI();
+        syncLyrics();
+        return;
+    }
+    if (isPlaying){
+        try { bgAudio.pause(); } catch (e) {}
+        isPlaying = false;
+        userPaused = true;
+        lastLrcIdx = -1;
+        updateMusicUI();
+        hideLrc();
+    } else {
+        userPaused = false;
+        lastLrcIdx = -1;
+        startMusic();
+    }
+}
+function onDocClick(e){
+    var t = e && e.target ? e.target : (window.event && window.event.srcElement);
+    if (t && (t.id === "musicBtn" || t === musicBtn)) return;
+    if (wmp && !isPlaying && !userPaused){
+        try { wmp.controls.play(); isPlaying = true; updateMusicUI(); } catch (e) {}
+        return;
+    }
+    startMusic();   /* 任意交互重试自动播放，幂等 */
+}
+/* 以音频真实状态为准，避免 play() 的 Promise 滞后导致按钮状态错位 */
+function onAudioState(){
+    isPlaying = (!userPaused) && (!bgAudio.paused);
+    updateMusicUI();
+    if (!isPlaying){ lastLrcIdx = -2; hideLrc(); }
+    else { lastLrcIdx = -1; }
+}
+/* 公告无缝连续左滚；歌词只占其左侧一小格，两者互不相干 */
+if (!legacyAudio && bgAudio.addEventListener){
+    bgAudio.addEventListener("playing", onAudioState, false);
+    bgAudio.addEventListener("pause", onAudioState, false);
+}
+if (legacyAudio) isPlaying = true;   /* bgsound 已自动播放 */
+initWmp();                            /* 老内核优先启用可续播的 WMP，失败自动回退 bgsound */
+if (wmp) setTimeout(function(){
+    /* 8 秒还没真正出声 = WMP 被拦截或打不开媒体，退回 bgsound */
+    try {
+        if (!wmp || userPaused) return;
+        if (wmp.playState === 3 || wmp.controls.currentPosition > 0) return;
+    } catch (e) {}
+    fallbackToBgsound();
+}, 8000);
+/* bgsound 要等音频下载到达才真正出声；以 onload 为计时起点可消除首遍数秒偏差 */
+window.onload = function(){ musicStart = (new Date()).getTime(); };
+updateMusicUI();
+syncLyrics();
+setInterval(syncLyrics, 400);
+startMusic();
+if (document.addEventListener){
+    document.addEventListener("click", onDocClick, false);
+    document.addEventListener("touchend", startMusic, false);
+} else if (document.attachEvent){
+    document.attachEvent("onclick", onDocClick);
+}
+</script>
+<script type="text/javascript">
+/* 公告无缝滚动：文案从歌词格右侧开始连续左滚，不再从窗口最右边慢慢飘进来 */
+var mqTrack = document.getElementById("mqTrack");
+var mqSeg1 = document.getElementById("mqSeg1");
+var mqBox = document.getElementById("mqNotice");
+/* 老 IE 里 width:100% 可能被超长 nowrap 内容顶开，用父格实测宽度钉死 */
+if (mqBox && mqBox.parentNode && mqBox.parentNode.clientWidth){
+    mqBox.style.width = mqBox.parentNode.clientWidth + "px";
+}
+var mqPaused = false;
+var mqPos = 0;
+var MQ_SPEED = 2;   /* 每次左移像素，调大 = 更快 */
+var MQ_TICK = 40;   /* 定时器间隔毫秒，调小 = 更快 */
+function mqPause(){ mqPaused = true; }
+function mqResume(){ mqPaused = false; }
+function mqStep(){
+    if (mqPaused || !mqTrack || !mqSeg1) return;
+    var w = mqSeg1.offsetWidth;
+    if (!w) return;
+    mqPos -= MQ_SPEED;
+    if (-mqPos >= w) mqPos += w;   /* 一份滚完立刻复位，第二份正好接上，无缝 */
+    mqTrack.style.marginLeft = mqPos + "px";
+}
+setInterval(mqStep, MQ_TICK);
+</script>
 <div class="soon-toast" id="soonToast">在线充值暂未开放 · 敬请期待</div>
 <script type="text/javascript">
 function showSoon(){
