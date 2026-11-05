@@ -257,7 +257,7 @@ a:hover { color: #ffcc00; text-decoration: underline; }
   </tr>
   </tbody>
 </table>
-<!-- IE8 及更早内核不认 <audio>，用 bgsound 兜底自动播放（条件注释仅老 IE 生效） -->
+<!-- IE8 及更早内核不认 <audio>：先尝试可暂停/续播的 WMP 控件，失败才用 bgsound 兜底自动播放 -->
 <!--[if lt IE 9]><bgsound id="bgSoundLegacy" src="掌天武易.mp3" loop="-1"><![endif]-->
 <audio id="bgMusic" src="掌天武易.mp3" loop autoplay preload="auto"></audio>
 <script type="text/javascript">
@@ -282,6 +282,48 @@ function legacySetPlaying(on){
             if (legacyEl.parentNode) legacyEl.parentNode.removeChild(legacyEl);
         }
     } catch (e) {}
+}
+/* 老内核续播：bgsound 元素没有任何播放进度接口(currentTime/seek)，
+   暂停只能移除元素、恢复必然从头。改用系统自带的 Windows Media Player
+   ActiveX 播放同一首 mp3：controls.pause() / play() 会保留 currentPosition，
+   因此暂停后从原位置继续播放，歌词时间轴也自动对齐。
+   若登录器禁用 ActiveX 或系统无 WMP，会自动退回 bgsound（行为同旧版）。
+   不想用 ActiveX 时把下面开关改成 false 即可。 */
+var USE_WMP_RESUME = true;
+var wmp = null;
+function mediaAbsURL(){
+    var href = location.href;
+    return href.substring(0, href.lastIndexOf("/") + 1) + encodeURI(LEGACY_SRC);
+}
+function initWmp(){
+    var p = null;
+    if (!legacyAudio || !USE_WMP_RESUME || !window.ActiveXObject) return;
+    try {
+        p = new ActiveXObject("WMPlayer.OCX");
+        if (!p || !p.controls || !p.settings) return;
+        try { p.settings.volume = 100; } catch (e0) {}
+        try { p.settings.setMode("loop", true); } catch (e1) {}
+        try { p.settings.autoStart = true; } catch (e2) {}
+        p.URL = mediaAbsURL();
+        p.controls.play();
+        wmp = p;
+        legacySetPlaying(false);   /* 关掉 bgsound，避免两个声音叠在一起 */
+    } catch (e) {
+        try { if (p) { p.controls.stop(); p.URL = ""; } } catch (e3) {}
+        wmp = null;
+    }
+}
+/* WMP 若被宿主拦截或打不开媒体，自动退回 bgsound，保证一定有声音 */
+function fallbackToBgsound(){
+    if (!wmp) return;
+    try { wmp.controls.stop(); wmp.URL = ""; } catch (e) {}
+    wmp = null;
+    legacySetPlaying(true);
+    isPlaying = true;
+    userPaused = false;
+    musicStart = (new Date()).getTime();
+    lastLrcIdx = -1;
+    updateMusicUI();
 }
 /* ffprobe 实测时长 211.7335s；原写 211.73 会让老内核循环时每遍漂移 3.5ms */
 var LOOP_SEC = 211.7335;
@@ -374,7 +416,24 @@ function hideLrc(){
 }
 function syncLyrics(){
     var t;
-    if (!legacyAudio && typeof bgAudio.currentTime === "number"){
+    if (wmp){
+        /* WMP 的真实播放位置：暂停时不推进，恢复后天然续上 */
+        try {
+            t = wmp.controls.currentPosition - LRC_OFFSET;
+            if (t > LOOP_SEC) t = t % LOOP_SEC;
+            /* 少数系统 setMode("loop") 不生效，仅在播放真正结束(8)时重来一遍；
+               缓冲/停止(1)不动，避免播放中途被误判成从头播 */
+            var st = wmp.playState;
+            if (isPlaying && st === 8){
+                wmp.controls.currentPosition = 0;
+                wmp.controls.play();
+                t = -LRC_OFFSET;
+            }
+        } catch (e) {
+            t = ((new Date()).getTime() - musicStart) / 1000 - LRC_OFFSET;
+            if (t > LOOP_SEC) t = t % LOOP_SEC;
+        }
+    } else if (!legacyAudio && typeof bgAudio.currentTime === "number"){
         t = bgAudio.currentTime - LRC_OFFSET;
     } else {
         t = ((new Date()).getTime() - musicStart) / 1000 - LRC_OFFSET;
@@ -421,6 +480,24 @@ function toggleMusic(){
     /* 阻止冒泡到 document 的自动播放重试，否则刚暂停又会被立刻重新打开 */
     if (window.event) { try { window.event.cancelBubble = true; } catch (e) {} }
     if (legacyAudio){
+        if (wmp){
+            /* WMP 支持真正的暂停/续播：pause 保留位置，play 从原位置继续 */
+            try {
+                if (isPlaying){ wmp.controls.pause(); isPlaying = false; userPaused = true; }
+                else { wmp.controls.play(); isPlaying = true; userPaused = false; }
+            } catch (e) {
+                try { wmp.controls.stop(); wmp.URL = ""; } catch (e2) {}
+                wmp = null;   /* WMP 失效，退回 bgsound（该路径只能从头播） */
+                legacySetPlaying(true);
+                isPlaying = true;
+                userPaused = false;
+                musicStart = (new Date()).getTime();
+            }
+            lastLrcIdx = -1;
+            updateMusicUI();
+            syncLyrics();
+            return;
+        }
         if (isPlaying){
             legacySetPlaying(false);   /* 移除 bgsound = 停止播放 */
             isPlaying = false;
@@ -452,6 +529,10 @@ function toggleMusic(){
 function onDocClick(e){
     var t = e && e.target ? e.target : (window.event && window.event.srcElement);
     if (t && (t.id === "musicBtn" || t === musicBtn)) return;
+    if (wmp && !isPlaying && !userPaused){
+        try { wmp.controls.play(); isPlaying = true; updateMusicUI(); } catch (e) {}
+        return;
+    }
     startMusic();   /* 任意交互重试自动播放，幂等 */
 }
 /* 以音频真实状态为准，避免 play() 的 Promise 滞后导致按钮状态错位 */
@@ -467,6 +548,15 @@ if (!legacyAudio && bgAudio.addEventListener){
     bgAudio.addEventListener("pause", onAudioState, false);
 }
 if (legacyAudio) isPlaying = true;   /* bgsound 已自动播放 */
+initWmp();                            /* 老内核优先启用可续播的 WMP，失败自动回退 bgsound */
+if (wmp) setTimeout(function(){
+    /* 8 秒还没真正出声 = WMP 被拦截或打不开媒体，退回 bgsound */
+    try {
+        if (!wmp || userPaused) return;
+        if (wmp.playState === 3 || wmp.controls.currentPosition > 0) return;
+    } catch (e) {}
+    fallbackToBgsound();
+}, 8000);
 /* bgsound 要等音频下载到达才真正出声；以 onload 为计时起点可消除首遍数秒偏差 */
 window.onload = function(){ musicStart = (new Date()).getTime(); };
 updateMusicUI();
