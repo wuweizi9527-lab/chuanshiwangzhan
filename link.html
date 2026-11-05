@@ -292,8 +292,10 @@ function legacySetPlaying(on){
    ActiveX 播放同一首 mp3：controls.pause() / play() 会保留 currentPosition，
    因此暂停后从原位置继续播放，歌词时间轴也自动对齐。
    若登录器禁用 ActiveX 或系统无 WMP，会自动退回 bgsound（行为同旧版）。
-   不想用 ActiveX 时把下面开关改成 false 即可。 */
-var USE_WMP_RESUME = true;
+   ★ 默认关闭：WMP 是独立 COM 对象，登录器刷新页面时不会随页面销毁，
+     旧播放器继续出声而新页面控制不到它，会出现「关不掉的残留声音」。
+     改回 true 可恢复续播，但刷新后可能再现该问题。 */
+var USE_WMP_RESUME = false;
 var wmp = null;
 function mediaAbsURL(){
     var href = location.href;
@@ -313,7 +315,7 @@ function initWmp(){
         try { p.settings.autoStart = false; } catch (e2) {}
         wmp = p;
     } catch (e) {
-        try { if (p) { p.controls.stop(); p.URL = ""; } } catch (e3) {}
+        try { if (p) { p.controls.stop(); p.URL = ""; p.close(); } } catch (e3) {}
         wmp = null;
     }
 }
@@ -341,7 +343,9 @@ function wmpWatch(){
 /* WMP 若被宿主拦截或打不开媒体，自动退回 bgsound，保证一定有声音 */
 function fallbackToBgsound(){
     if (!wmp) return;
-    try { wmp.controls.stop(); wmp.URL = ""; } catch (e) {}
+    try { wmp.controls.stop(); } catch (e0) {}
+    try { wmp.URL = ""; } catch (e1) {}
+    try { wmp.close(); } catch (e2) {}   /* 释放 COM 对象，避免残留播放器 */
     wmp = null;
     legacySetPlaying(true);
     isPlaying = true;
@@ -349,6 +353,21 @@ function fallbackToBgsound(){
     musicStart = (new Date()).getTime();
     lastLrcIdx = -1;
     updateMusicUI();
+}
+/* 登录器 30 秒后自动刷新：刷新前必须显式停掉并释放所有播放器。
+   老 IE 的 bgsound / WMP COM 对象未必随页面销毁，残留下来就会变成
+   「歌还在放、按钮却是未播放、再点会叠出第二路且关不掉」的幽灵声音。 */
+function stopAllMusic(){
+    isPlaying = false;
+    try { if (!legacyAudio && bgAudio) bgAudio.pause(); } catch (e) {}
+    try { legacySetPlaying(false); } catch (e1) {}   /* 清空 src 并移除 bgsound */
+    if (wmp){
+        try { wmp.controls.stop(); } catch (e2) {}
+        try { wmp.URL = ""; } catch (e3) {}
+        try { wmp.close(); } catch (e4) {}           /* 释放 COM 播放器对象 */
+        wmp = null;
+    }
+    return;   /* 不返回字符串，避免 IE 弹出「确定要离开此页吗」确认框 */
 }
 /* ffprobe 实测时长 211.7335s；原写 211.73 会让老内核循环时每遍漂移 3.5ms */
 var LOOP_SEC = 211.7335;
@@ -515,7 +534,9 @@ function toggleMusic(){
                     isPlaying = true; userPaused = false;
                 }
             } catch (e) {
-                try { wmp.controls.stop(); wmp.URL = ""; } catch (e2) {}
+                try { wmp.controls.stop(); } catch (e2) {}
+                try { wmp.URL = ""; } catch (e3) {}
+                try { wmp.close(); } catch (e4) {}
                 wmp = null;   /* WMP 失效，退回 bgsound（该路径只能从头播） */
                 legacySetPlaying(true);
                 isPlaying = true;
@@ -569,11 +590,14 @@ if (!legacyAudio && bgAudio.addEventListener){
     bgAudio.addEventListener("playing", onAudioState, false);
     bgAudio.addEventListener("pause", onAudioState, false);
 }
-initWmp();                            /* 只创建对象，不设 URL、不播放 */
+initWmp();                            /* 开关关闭时不创建任何播放器对象 */
 /* 纯手动：isPlaying 初始 false，页面加载不出声；点 ♪ 才开始 */
 updateMusicUI();
 syncLyrics();
 setInterval(syncLyrics, 400);
+/* 双保险：beforeunload / unload 都挂，登录器刷新时先停掉所有声音 */
+window.onbeforeunload = stopAllMusic;
+window.onunload = stopAllMusic;
 </script>
 <script type="text/javascript">
 /* 公告无缝滚动：文案从歌词格右侧开始连续左滚，不再从窗口最右边慢慢飘进来 */
