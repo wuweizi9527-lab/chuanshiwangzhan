@@ -257,26 +257,30 @@ a:hover { color: #ffcc00; text-decoration: underline; }
   </tr>
   </tbody>
 </table>
-<!-- IE8 及更早内核不认 <audio>：先尝试可暂停/续播的 WMP 控件，失败才用 bgsound 兜底自动播放 -->
-<!--[if lt IE 9]><bgsound id="bgSoundLegacy" src="掌天武易.mp3" loop="-1"><![endif]-->
-<audio id="bgMusic" src="掌天武易.mp3" loop autoplay preload="auto"></audio>
+<!-- 纯手动播放：页面加载后完全不出声，只有点 ♪ 按钮才开始 -->
+<!-- IE8 及更早内核不认 <audio>：预留无 src 的 bgsound，首次点播放时才注入地址 -->
+<!--[if lt IE 9]><bgsound id="bgSoundLegacy" loop="-1"><![endif]-->
+<audio id="bgMusic" src="掌天武易.mp3" loop preload="auto"></audio>
 <script type="text/javascript">
 var bgAudio = document.getElementById("bgMusic");
 var musicBtn = document.getElementById("musicBtn");
 var lrcBar = document.getElementById("lrcBar");
 var lrcTextNode = document.getElementById("lrcText");
 var isPlaying = false;
-var userPaused = false;   /* 用户按了暂停：任何自动重试都不得把音乐重新打开 */
+var userPaused = false;   /* 用户按了暂停；纯手动播放，加载时不触发任何播放 */
 var legacyAudio = !(bgAudio && typeof bgAudio.play === "function");
 var legacyEl = document.getElementById("bgSoundLegacy");
 var LEGACY_SRC = "掌天武易.mp3";
-/* 老 IE 的 bgsound 没有 pause()：暂停 = 清空 src 并移除元素，恢复 = 插回同一个元素 */
+/* 老 IE 的 bgsound 没有 pause()：暂停 = 清空 src 并移除元素，恢复 = 插回同一个元素。
+   初始元素没有 src，因此页面加载时不会出声（纯手动播放）。 */
 function legacySetPlaying(on){
     if (!legacyEl) return;
     try {
         if (on){
+            /* 强制重新插入：老 IE 只有新插入的 bgsound 才会可靠地重新加载播放 */
+            if (legacyEl.parentNode) legacyEl.parentNode.removeChild(legacyEl);
             legacyEl.src = LEGACY_SRC;
-            if (!legacyEl.parentNode) document.body.appendChild(legacyEl);
+            document.body.appendChild(legacyEl);
         } else {
             legacyEl.src = "";
             if (legacyEl.parentNode) legacyEl.parentNode.removeChild(legacyEl);
@@ -295,6 +299,9 @@ function mediaAbsURL(){
     var href = location.href;
     return href.substring(0, href.lastIndexOf("/") + 1) + encodeURI(LEGACY_SRC);
 }
+/* 纯手动：加载时只创建 WMP 对象，不设 URL、不 play，所以不会出声。
+   首次点 ♪ 时由 wmpStart() 注入地址并播放；之后 pause/play 仍可续播。 */
+var wmpStarted = false;
 function initWmp(){
     var p = null;
     if (!legacyAudio || !USE_WMP_RESUME || !window.ActiveXObject) return;
@@ -303,15 +310,33 @@ function initWmp(){
         if (!p || !p.controls || !p.settings) return;
         try { p.settings.volume = 100; } catch (e0) {}
         try { p.settings.setMode("loop", true); } catch (e1) {}
-        try { p.settings.autoStart = true; } catch (e2) {}
-        p.URL = mediaAbsURL();
-        p.controls.play();
+        try { p.settings.autoStart = false; } catch (e2) {}
         wmp = p;
-        legacySetPlaying(false);   /* 关掉 bgsound，避免两个声音叠在一起 */
     } catch (e) {
         try { if (p) { p.controls.stop(); p.URL = ""; } } catch (e3) {}
         wmp = null;
     }
+}
+function wmpStart(){
+    if (!wmp) return false;
+    try {
+        if (!wmp.URL) wmp.URL = mediaAbsURL();
+        legacySetPlaying(false);   /* 关掉 bgsound，避免两个声音叠在一起 */
+        wmp.controls.play();
+        if (!wmpStarted){
+            wmpStarted = true;
+            setTimeout(wmpWatch, 8000);
+        }
+        return true;
+    } catch (e) { return false; }
+}
+/* 手动播放后 8 秒仍没出声 = WMP 被拦截或打不开媒体，退回 bgsound */
+function wmpWatch(){
+    if (!wmp || !wmpStarted || userPaused || !isPlaying) return;
+    try {
+        if (wmp.playState === 3 || wmp.controls.currentPosition > 0) return;
+    } catch (e) {}
+    fallbackToBgsound();
 }
 /* WMP 若被宿主拦截或打不开媒体，自动退回 bgsound，保证一定有声音 */
 function fallbackToBgsound(){
@@ -477,14 +502,18 @@ function startMusic(){
     } catch (e) { updateMusicUI(); }
 }
 function toggleMusic(){
-    /* 阻止冒泡到 document 的自动播放重试，否则刚暂停又会被立刻重新打开 */
+    /* 阻止冒泡，避免点击按钮被页面其它处理器干扰 */
     if (window.event) { try { window.event.cancelBubble = true; } catch (e) {} }
     if (legacyAudio){
         if (wmp){
             /* WMP 支持真正的暂停/续播：pause 保留位置，play 从原位置继续 */
             try {
                 if (isPlaying){ wmp.controls.pause(); isPlaying = false; userPaused = true; }
-                else { wmp.controls.play(); isPlaying = true; userPaused = false; }
+                else {
+                    /* 首次点播放才注入媒体地址；之后 pause/play 保留 currentPosition 续播 */
+                    if (!wmpStart()) throw new Error("wmp start failed");
+                    isPlaying = true; userPaused = false;
+                }
             } catch (e) {
                 try { wmp.controls.stop(); wmp.URL = ""; } catch (e2) {}
                 wmp = null;   /* WMP 失效，退回 bgsound（该路径只能从头播） */
@@ -526,15 +555,8 @@ function toggleMusic(){
         startMusic();
     }
 }
-function onDocClick(e){
-    var t = e && e.target ? e.target : (window.event && window.event.srcElement);
-    if (t && (t.id === "musicBtn" || t === musicBtn)) return;
-    if (wmp && !isPlaying && !userPaused){
-        try { wmp.controls.play(); isPlaying = true; updateMusicUI(); } catch (e) {}
-        return;
-    }
-    startMusic();   /* 任意交互重试自动播放，幂等 */
-}
+/* 纯手动播放：不再监听 document 的 click / touchend，也没有任何自动重试。
+   只有点 ♪ 按钮才会调用 startMusic() / wmpStart()。 */
 /* 以音频真实状态为准，避免 play() 的 Promise 滞后导致按钮状态错位 */
 function onAudioState(){
     isPlaying = (!userPaused) && (!bgAudio.paused);
@@ -547,28 +569,11 @@ if (!legacyAudio && bgAudio.addEventListener){
     bgAudio.addEventListener("playing", onAudioState, false);
     bgAudio.addEventListener("pause", onAudioState, false);
 }
-if (legacyAudio) isPlaying = true;   /* bgsound 已自动播放 */
-initWmp();                            /* 老内核优先启用可续播的 WMP，失败自动回退 bgsound */
-if (wmp) setTimeout(function(){
-    /* 8 秒还没真正出声 = WMP 被拦截或打不开媒体，退回 bgsound */
-    try {
-        if (!wmp || userPaused) return;
-        if (wmp.playState === 3 || wmp.controls.currentPosition > 0) return;
-    } catch (e) {}
-    fallbackToBgsound();
-}, 8000);
-/* bgsound 要等音频下载到达才真正出声；以 onload 为计时起点可消除首遍数秒偏差 */
-window.onload = function(){ musicStart = (new Date()).getTime(); };
+initWmp();                            /* 只创建对象，不设 URL、不播放 */
+/* 纯手动：isPlaying 初始 false，页面加载不出声；点 ♪ 才开始 */
 updateMusicUI();
 syncLyrics();
 setInterval(syncLyrics, 400);
-startMusic();
-if (document.addEventListener){
-    document.addEventListener("click", onDocClick, false);
-    document.addEventListener("touchend", startMusic, false);
-} else if (document.attachEvent){
-    document.attachEvent("onclick", onDocClick);
-}
 </script>
 <script type="text/javascript">
 /* 公告无缝滚动：文案从歌词格右侧开始连续左滚，不再从窗口最右边慢慢飘进来 */
