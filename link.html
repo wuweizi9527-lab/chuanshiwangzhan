@@ -51,6 +51,8 @@ a:hover { color: #ffcc00; text-decoration: underline; }
 /* 立绘 941x1672：按 330px 高换算 = 186px 宽，严格等比、不裁切 */
 .pic img {
     display: block;
+    position: relative;   /* z-index 兜底：老 IE 里公告文字溢出也盖不到立绘 */
+    z-index: 2;
     width: 186px;
     height: 330px;
 }
@@ -114,6 +116,8 @@ a:hover { color: #ffcc00; text-decoration: underline; }
 /* 公告无缝滚动：文字一开始就贴着歌词格右侧，连续左滚、没有空白等待 */
 .mq-box {
     display: block;
+    position: relative;   /* 关键：老 IE 的 overflow:hidden 需父级定位才裁切子元素 */
+    zoom: 1;              /* 触发 hasLayout，IE6/7 的裁切才生效 */
     width: 100%;
     height: 30px;
     line-height: 30px;
@@ -124,8 +128,7 @@ a:hover { color: #ffcc00; text-decoration: underline; }
 }
 .mq-track {
     display: block;
-    position: relative;
-    left: 0;
+    margin-left: 0;       /* 用 margin 左移，留在普通流里，老 IE 裁切最可靠 */
     white-space: nowrap;
 }
 .mq-seg {
@@ -156,9 +159,12 @@ a:hover { color: #ffcc00; text-decoration: underline; }
     vertical-align: middle;
     overflow: hidden;
 }
+.bottom-row td.mq-cell { overflow: hidden; }   /* 老 IE 双保险 */
 /* 歌词：12px 金字，最多两行，始终待在公告左侧这一小格内 */
 .lrc-bar {
     display: block;
+    position: relative;   /* 盖住溢出的公告文字，歌词始终可读 */
+    z-index: 3;
     width: 116px;
     overflow: hidden;
     color: #ffcc00;
@@ -252,7 +258,7 @@ a:hover { color: #ffcc00; text-decoration: underline; }
   </tbody>
 </table>
 <!-- IE8 及更早内核不认 <audio>，用 bgsound 兜底自动播放（条件注释仅老 IE 生效） -->
-<!--[if lt IE 9]><bgsound src="掌天武易.mp3" loop="-1"><![endif]-->
+<!--[if lt IE 9]><bgsound id="bgSoundLegacy" src="掌天武易.mp3" loop="-1"><![endif]-->
 <audio id="bgMusic" src="掌天武易.mp3" loop autoplay preload="auto"></audio>
 <script type="text/javascript">
 var bgAudio = document.getElementById("bgMusic");
@@ -260,7 +266,23 @@ var musicBtn = document.getElementById("musicBtn");
 var lrcBar = document.getElementById("lrcBar");
 var lrcTextNode = document.getElementById("lrcText");
 var isPlaying = false;
+var userPaused = false;   /* 用户按了暂停：任何自动重试都不得把音乐重新打开 */
 var legacyAudio = !(bgAudio && typeof bgAudio.play === "function");
+var legacyEl = document.getElementById("bgSoundLegacy");
+var LEGACY_SRC = "掌天武易.mp3";
+/* 老 IE 的 bgsound 没有 pause()：暂停 = 清空 src 并移除元素，恢复 = 插回同一个元素 */
+function legacySetPlaying(on){
+    if (!legacyEl) return;
+    try {
+        if (on){
+            legacyEl.src = LEGACY_SRC;
+            if (!legacyEl.parentNode) document.body.appendChild(legacyEl);
+        } else {
+            legacyEl.src = "";
+            if (legacyEl.parentNode) legacyEl.parentNode.removeChild(legacyEl);
+        }
+    } catch (e) {}
+}
 /* ffprobe 实测时长 211.7335s；原写 211.73 会让老内核循环时每遍漂移 3.5ms */
 var LOOP_SEC = 211.7335;
 /* 若听感上歌词整体偏早，把此值调大（如 1.5）；偏晚则调成负数。单位：秒 */
@@ -358,7 +380,7 @@ function syncLyrics(){
         t = ((new Date()).getTime() - musicStart) / 1000 - LRC_OFFSET;
         if (t > LOOP_SEC) t = t % LOOP_SEC;
     }
-    if (!isPlaying && !legacyAudio) t = -1;   /* 暂停 / 未播放：歌词格显示占位，公告照常滚动 */
+    if (!isPlaying) t = -1;   /* 暂停 / 未播放：歌词格显示占位，公告照常滚动 */
     if (t < 0){
         if (lastLrcIdx === -2) return;
         lastLrcIdx = -2;
@@ -385,7 +407,7 @@ function updateMusicUI(){
     }
 }
 function startMusic(){
-    if (isPlaying || legacyAudio) return;
+    if (userPaused || isPlaying || legacyAudio) return;
     try {
         var p = bgAudio.play();
         if (p && p.then){
@@ -396,15 +418,34 @@ function startMusic(){
     } catch (e) { updateMusicUI(); }
 }
 function toggleMusic(){
+    /* 阻止冒泡到 document 的自动播放重试，否则刚暂停又会被立刻重新打开 */
+    if (window.event) { try { window.event.cancelBubble = true; } catch (e) {} }
     if (legacyAudio){
-        musicBtn.title = "主题曲自动播放中 · 当前内核不支持暂停";
+        if (isPlaying){
+            legacySetPlaying(false);   /* 移除 bgsound = 停止播放 */
+            isPlaying = false;
+            userPaused = true;
+        } else {
+            legacySetPlaying(true);    /* 插回 bgsound，从头播放 */
+            isPlaying = true;
+            userPaused = false;
+            musicStart = (new Date()).getTime();
+        }
+        lastLrcIdx = -1;
+        updateMusicUI();
+        syncLyrics();
         return;
     }
     if (isPlaying){
         try { bgAudio.pause(); } catch (e) {}
         isPlaying = false;
+        userPaused = true;
+        lastLrcIdx = -1;
         updateMusicUI();
+        hideLrc();
     } else {
+        userPaused = false;
+        lastLrcIdx = -1;
         startMusic();
     }
 }
@@ -415,7 +456,7 @@ function onDocClick(e){
 }
 /* 以音频真实状态为准，避免 play() 的 Promise 滞后导致按钮状态错位 */
 function onAudioState(){
-    isPlaying = !bgAudio.paused;
+    isPlaying = (!userPaused) && (!bgAudio.paused);
     updateMusicUI();
     if (!isPlaying){ lastLrcIdx = -2; hideLrc(); }
     else { lastLrcIdx = -1; }
@@ -443,6 +484,11 @@ if (document.addEventListener){
 /* 公告无缝滚动：文案从歌词格右侧开始连续左滚，不再从窗口最右边慢慢飘进来 */
 var mqTrack = document.getElementById("mqTrack");
 var mqSeg1 = document.getElementById("mqSeg1");
+var mqBox = document.getElementById("mqNotice");
+/* 老 IE 里 width:100% 可能被超长 nowrap 内容顶开，用父格实测宽度钉死 */
+if (mqBox && mqBox.parentNode && mqBox.parentNode.clientWidth){
+    mqBox.style.width = mqBox.parentNode.clientWidth + "px";
+}
 var mqPaused = false;
 var mqPos = 0;
 var MQ_SPEED = 2;   /* 每次左移像素，调大 = 更快 */
@@ -455,7 +501,7 @@ function mqStep(){
     if (!w) return;
     mqPos -= MQ_SPEED;
     if (-mqPos >= w) mqPos += w;   /* 一份滚完立刻复位，第二份正好接上，无缝 */
-    mqTrack.style.left = mqPos + "px";
+    mqTrack.style.marginLeft = mqPos + "px";
 }
 setInterval(mqStep, MQ_TICK);
 </script>
